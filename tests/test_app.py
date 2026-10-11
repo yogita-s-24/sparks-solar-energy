@@ -1,0 +1,337 @@
+import re
+import sqlite3
+
+import pytest
+
+from app import create_app
+from config import TestConfig
+from forms import clean_text, normalize_indian_phone
+
+VALID = {
+    "name": "Asha Patil",
+    "phone": "98765 43210",
+    "email": "asha@example.com",
+    "property_type": "residential",
+    "location": "Rahuri",
+    "monthly_bill": "2500",
+    "message": "RCC roof, about 600 sq ft.",
+    "source": "home",
+}
+
+
+@pytest.fixture
+def app(tmp_path):
+    class Cfg(TestConfig):
+        DATABASE = str(tmp_path / "test.sqlite3")
+
+    return create_app(Cfg)
+
+
+@pytest.fixture
+def client(app):
+    return app.test_client()
+
+
+def rows(app):
+    conn = sqlite3.connect(app.config["DATABASE"])
+    conn.row_factory = sqlite3.Row
+    try:
+        return conn.execute("SELECT * FROM enquiries ORDER BY id").fetchall()
+    except sqlite3.OperationalError:
+        return []
+    finally:
+        conn.close()
+
+
+# --------------------------------------------------------------------------
+# Pages
+# --------------------------------------------------------------------------
+@pytest.mark.parametrize("path", ["/", "/about", "/solutions", "/contact", "/privacy", "/contact/thank-you"])
+def test_pages_render(client, path):
+    res = client.get(path)
+    assert res.status_code == 200
+    html = res.get_data(as_text=True)
+    assert "<title>" in html and 'name="description"' in html
+    assert 'rel="canonical"' in html
+
+
+def test_home_has_key_sections_and_contact_links(client):
+    html = client.get("/").get_data(as_text=True)
+    for anchor in ('id="solutions"', 'id="benefits"', 'id="how-it-works"', 'id="estimator"', 'id="gallery"', 'id="faq"', 'id="enquiry"'):
+        assert anchor in html
+    assert 'href="tel:+919356806280"' in html
+    assert "https://wa.me/919356806280?text=" in html
+    assert "Demonstration gallery" in html
+    assert "data-calculator=" in html
+
+
+def test_structured_data_uses_business_details(client):
+    html = client.get("/").get_data(as_text=True)
+    assert '"@type": "LocalBusiness"' in html
+    assert '"telephone": "+919356806280"' in html
+    assert '"addressLocality": "Deolali Pravara"' in html
+
+
+def test_404(client):
+    res = client.get("/does-not-exist")
+    assert res.status_code == 404
+    assert "This page is in the shade" in res.get_data(as_text=True)
+
+
+def test_robots_and_sitemap(client):
+    robots = client.get("/robots.txt")
+    assert robots.status_code == 200 and "Sitemap:" in robots.get_data(as_text=True)
+    sitemap = client.get("/sitemap.xml")
+    assert sitemap.status_code == 200
+    body = sitemap.get_data(as_text=True)
+    assert "<urlset" in body and "/solutions" in body and "thank-you" not in body
+
+
+def test_security_headers(client):
+    res = client.get("/")
+    assert res.headers["X-Content-Type-Options"] == "nosniff"
+    assert "frame-ancestors 'none'" in res.headers["Content-Security-Policy"]
+
+
+def test_contact_preselects_property_type(client):
+    html = client.get("/contact?type=agricultural").get_data(as_text=True)
+    assert re.search(r'<option selected value="agricultural">|<option value="agricultural" selected>', html)
+
+
+def test_static_assets_exist(client):
+    for path in ("/static/css/output.css", "/static/js/main.js", "/static/js/animations.js",
+                 "/static/js/calculator.js", "/static/images/icons/sprite.svg", "/static/favicon/favicon.ico"):
+        assert client.get(path).status_code == 200, path
+
+
+# --------------------------------------------------------------------------
+# Validation helpers
+# --------------------------------------------------------------------------
+@pytest.mark.parametrize("raw,expected", [
+    ("9876543210", "+919876543210"),
+    ("+91 98765-43210", "+919876543210"),
+    ("919876543210", "+919876543210"),
+    ("09876543210", "+919876543210"),
+    ("(98765) 43210", "+919876543210"),
+    ("12345", None),
+    ("5876543210", None),
+    ("98765432101", None),
+    ("98765abcde", None),
+    ("", None),
+])
+def test_normalize_indian_phone(raw, expected):
+    assert normalize_indian_phone(raw) == expected
+
+
+def test_clean_text_strips_control_chars_and_whitespace():
+    assert clean_text("  Asha\x00   Patil \t") == "Asha Patil"
+    assert clean_text("line one\r\n\n\n\nline   two", multiline=True) == "line one\n\nline two"
+
+
+# --------------------------------------------------------------------------
+# Enquiry submission
+# --------------------------------------------------------------------------
+def test_valid_enquiry_is_saved_and_redirects(client, app):
+    res = client.post("/contact", data=VALID)
+    assert res.status_code == 302
+    assert "/contact/thank-you" in res.headers["Location"]
+    saved = rows(app)
+    assert len(saved) == 1
+    assert saved[0]["phone"] == "+919876543210"
+    assert saved[0]["monthly_bill"] == 2500
+    assert saved[0]["source"] == "home"
+
+
+@pytest.mark.parametrize("field,value,message", [
+    ("name", "", "Please tell us your name."),
+    ("phone", "12345", "valid 10-digit Indian mobile number"),
+    ("email", "not-an-email", "valid email address"),
+    ("property_type", "castle", "Please choose a property type."),
+    ("location", "", "Please tell us where the property is."),
+    ("monthly_bill", "-5", "realistic monthly bill"),
+])
+def test_invalid_enquiry_shows_errors(client, app, field, value, message):
+    data = dict(VALID, **{field: value})
+    res = client.post("/contact", data=data)
+    assert res.status_code == 422
+    assert message in res.get_data(as_text=True)
+    assert rows(app) == []
+
+
+def test_optional_fields_can_be_blank(client, app):
+    data = dict(VALID, email="", monthly_bill="", message="")
+    assert client.post("/contact", data=data).status_code == 302
+    saved = rows(app)[0]
+    assert saved["email"] is None and saved["monthly_bill"] is None and saved["message"] is None
+
+
+def test_user_content_is_escaped_on_error_page(client):
+    data = dict(VALID, name="<script>alert(1)</script>", phone="bad")
+    html = client.post("/contact", data=data).get_data(as_text=True)
+    assert "<script>alert(1)</script>" not in html
+    assert "&lt;script&gt;" in html
+
+
+def test_duplicate_submission_is_not_stored_twice(client, app):
+    client.post("/contact", data=VALID)
+    res = client.post("/contact", data=VALID)
+    assert res.status_code == 302
+    assert len(rows(app)) == 1
+
+
+def test_honeypot_submission_is_ignored(client, app):
+    res = client.post("/contact", data=dict(VALID, website="http://spam.example"))
+    assert res.status_code == 302
+    assert rows(app) == []
+
+
+def test_unknown_source_is_normalised(client, app):
+    client.post("/contact", data=dict(VALID, source="evil"))
+    assert rows(app)[0]["source"] == "contact"
+
+
+def test_storage_failure_shows_honest_error(client, app, monkeypatch):
+    import db
+
+    def broken(_data):
+        raise sqlite3.OperationalError("disk I/O error")
+
+    monkeypatch.setattr(db, "save_enquiry", broken)
+    res = client.post("/contact", data=VALID)
+    html = res.get_data(as_text=True)
+    assert res.status_code == 503
+    assert "could not save your enquiry" in html
+    assert "tel:+919356806280" in html
+
+
+def test_thank_you_greets_by_first_name(client):
+    client.post("/contact", data=VALID)
+    assert "Thank you, Asha!" in client.get("/contact/thank-you").get_data(as_text=True)
+
+
+def test_csrf_is_enforced_when_enabled(tmp_path):
+    class Cfg(TestConfig):
+        WTF_CSRF_ENABLED = True
+        DATABASE = str(tmp_path / "csrf.sqlite3")
+
+    client = create_app(Cfg).test_client()
+    res = client.post("/contact", data=VALID)
+    assert res.status_code == 400
+    assert "session expired" in res.get_data(as_text=True)
+
+
+# --------------------------------------------------------------------------
+# Email notifications
+# --------------------------------------------------------------------------
+class FakeSMTP:
+    sent = []
+    fail = False
+
+    def __init__(self, *args, **kwargs):
+        if FakeSMTP.fail:
+            raise OSError("connection refused")
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, *exc):
+        return False
+
+    def starttls(self, **kwargs):
+        pass
+
+    def login(self, user, password):
+        pass
+
+    def send_message(self, msg):
+        FakeSMTP.sent.append(msg)
+
+
+@pytest.fixture
+def mail_app(tmp_path, monkeypatch):
+    import notifications
+
+    FakeSMTP.sent, FakeSMTP.fail = [], False
+    monkeypatch.setattr(notifications.smtplib, "SMTP", FakeSMTP)
+
+    class Cfg(TestConfig):
+        DATABASE = str(tmp_path / "mail.sqlite3")
+        MAIL_SERVER = "smtp.example.com"
+        MAIL_USERNAME = "site@example.com"
+        MAIL_PASSWORD = "secret"
+        MAIL_TO = "owner@example.com"
+
+    return create_app(Cfg)
+
+
+def test_email_sent_when_configured(mail_app):
+    res = mail_app.test_client().post("/contact", data=VALID)
+    assert res.status_code == 302
+    assert len(FakeSMTP.sent) == 1
+    msg = FakeSMTP.sent[0]
+    assert msg["To"] == "owner@example.com" and "Asha Patil" in msg["Subject"]
+    assert msg["Reply-To"] == "asha@example.com"
+
+
+def test_email_not_resent_for_duplicate(mail_app):
+    client = mail_app.test_client()
+    client.post("/contact", data=VALID)
+    client.post("/contact", data=VALID)
+    assert len(FakeSMTP.sent) == 1
+
+
+def test_db_and_email_failure_reports_error(mail_app, monkeypatch):
+    import db
+
+    def broken(_data):
+        raise sqlite3.OperationalError("locked")
+
+    monkeypatch.setattr(db, "save_enquiry", broken)
+    FakeSMTP.fail = True
+    res = mail_app.test_client().post("/contact", data=VALID)
+    assert res.status_code == 503
+
+
+def test_email_alone_is_enough_when_db_fails(mail_app, monkeypatch):
+    import db
+
+    def broken(_data):
+        raise sqlite3.OperationalError("locked")
+
+    monkeypatch.setattr(db, "save_enquiry", broken)
+    res = mail_app.test_client().post("/contact", data=VALID)
+    assert res.status_code == 302 and len(FakeSMTP.sent) == 1
+
+
+# --------------------------------------------------------------------------
+# Pricing
+# --------------------------------------------------------------------------
+def test_solutions_page_shows_prices_and_components(client):
+    html = client.get("/solutions").get_data(as_text=True)
+    assert 'id="pricing"' in html
+    for price in ("₹1,02,000", "₹1,12,000", "₹2,30,000", "₹2,50,000", "₹50,000", "₹55,000"):
+        assert price in html, price
+    assert "+ ₹78,000 subsidy" in html and "All prices include GST and installation." in html
+    assert "pay ₹1,80,000 at installation" in html
+    assert "Subsidy available until 31 March 2027" in html
+    for amount in ("₹30,000", "₹60,000", "₹18,000 per kW"):
+        assert amount in html, amount
+    for brand in ("Waaree / Adani", "Polycab string inverter", "Apollo GI pipe structure", "Type II surge protection"):
+        assert brand in html, brand
+
+
+def test_home_pricing_preview_shows_starting_prices(client):
+    html = client.get("/").get_data(as_text=True)
+    assert "Know the price before you begin." in html
+    assert "₹1,02,000" in html and "₹2,30,000" in html and "₹50,000" in html
+    assert "/solutions#pricing" in html
+
+
+def test_subsidy_deadline_notice_hides_after_end_date(client, monkeypatch):
+    from datetime import date
+    import content
+
+    monkeypatch.setitem(content.SUBSIDY, "end_date", date(2000, 1, 1))
+    html = client.get("/solutions").get_data(as_text=True)
+    assert "Subsidy available until" not in html
+    assert "is still accepting applications" in html

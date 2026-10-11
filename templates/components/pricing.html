@@ -1,0 +1,123 @@
+{% from "components/macros.html" import icon, enquire_link, placeholder with context %}
+<section id="pricing" class="bg-cream py-20 sm:py-28" aria-labelledby="pricing-title">
+  <div class="container-site">
+    <div class="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
+      <div class="max-w-3xl" data-reveal>
+        <p class="eyebrow">Pricing</p>
+        <h2 id="pricing-title" class="section-title mt-5">Clear prices. Quality components.</h2>
+      </div>
+      <p class="section-lead max-w-md" data-reveal style="--d: 120ms">Complete systems, priced upfront. <strong class="font-semibold text-forest-900">All prices include GST and installation.</strong></p>
+    </div>
+
+    {# Packages #}
+    <div class="mt-14 grid gap-5 lg:grid-cols-3">
+      {% for pkg in pricing %}
+      {% set dark = not pkg.subsidy %}
+      <article class="group relative flex flex-col overflow-hidden rounded-[2rem] p-6 transition duration-500 hover:-translate-y-1 sm:p-8 {{ 'grain bg-forest-900 text-white shadow-soft' if dark else 'bg-white shadow-sm ring-1 ring-forest-900/5 hover:shadow-soft' }}"
+               data-reveal style="--d: {{ loop.index0 * 120 }}ms">
+        {% if dark %}<div class="pointer-events-none absolute -right-20 -top-20 h-60 w-60 rounded-full sun-orb opacity-50" aria-hidden="true"></div>{% endif %}
+        <div class="relative flex items-start gap-4">
+          <span class="grid h-14 w-14 shrink-0 place-items-center rounded-2xl transition duration-500 group-hover:-rotate-6 {{ 'bg-sun-400 text-forest-950' if dark else 'bg-forest-900 text-sun-400' }}">{{ icon(pkg.icon, "h-6 w-6") }}</span>
+          <div>
+            <h3 class="text-xl font-bold sm:text-2xl {{ '' if dark else 'text-forest-900' }}">{{ pkg.title }}</h3>
+            <p class="mt-1 text-sm leading-relaxed {{ 'text-white/65' if dark else 'text-charcoal/65' }}">{{ pkg.summary }}</p>
+          </div>
+        </div>
+
+        <dl class="relative mt-7 flex-1">
+          {% for tier, price in pkg.tiers %}
+          <div class="flex items-end justify-between gap-4 border-t py-5 {{ 'border-white/10' if dark else 'border-forest-900/10' }}">
+            <dt>
+              <span class="inline-block rounded-full px-3 py-1 text-xs font-bold uppercase tracking-[0.14em] {{ ('bg-sun-400 text-forest-950' if dark else 'bg-sun-100 text-forest-900') if tier == 'Premium' else ('bg-white/10 text-white/80' if dark else 'bg-forest-900/5 text-forest-900') }}">{{ tier }}</span>
+            </dt>
+            <dd class="text-right">
+              <span class="font-display text-3xl font-extrabold tracking-tight {{ '' if dark else 'text-forest-900' }}">₹{{ price | inr }}</span><span class="ml-0.5 text-base font-semibold {{ 'text-white/60' if dark else 'text-charcoal/50' }}">{{ pkg.unit }}</span>
+              {% if pkg.subsidy %}<span class="block text-sm font-semibold text-solar-600">+ ₹{{ pkg.subsidy | inr }} subsidy</span>{% endif %}
+            </dd>
+          </div>
+          {% endfor %}
+        </dl>
+
+        <p class="relative mt-2 flex items-start gap-2 text-sm {{ 'text-white/60' if dark else 'text-charcoal/60' }}">
+          {{ icon("info", "mt-0.5 h-4 w-4 shrink-0") }}
+          {% if pkg.subsidy %}{% set base = pkg.tiers[0][1] %}<span>Standard example: pay ₹{{ (base + pkg.subsidy) | inr }} at installation, ₹{{ pkg.subsidy | inr }} is credited back, final cost ₹{{ base | inr }}.</span>{% else %}Final capacity is confirmed after a site survey.{% endif %}
+        </p>
+        {{ enquire_link(pkg.slug, "Get a quote", "btn mt-6 w-full " ~ ("btn-sun" if dark else "btn-forest")) }}
+      </article>
+      {% endfor %}
+    </div>
+
+    {# How "+ subsidy" works #}
+    <div class="grain relative isolate mt-8 overflow-hidden rounded-[2rem] bg-forest-950 p-6 text-white sm:p-10" data-reveal>
+      <div class="pointer-events-none absolute -left-24 -top-24 -z-10 h-72 w-72 rounded-full bg-solar-500/15 blur-3xl" aria-hidden="true"></div>
+      <div class="pointer-events-none absolute -right-28 -top-28 -z-10 h-80 w-80 rounded-full sun-orb opacity-40" aria-hidden="true"></div>
+
+      <div class="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+        <div>
+          <p class="eyebrow eyebrow-light">{{ subsidy.scheme }}</p>
+          <h3 class="mt-4 font-display text-2xl font-extrabold sm:text-3xl">How "+ subsidy" works</h3>
+          <p class="mt-3 max-w-xl leading-relaxed text-white/65">For eligible residential systems, your final cost is the package price shown above.</p>
+        </div>
+        {% if subsidy_open %}
+        <p class="inline-flex shrink-0 items-center gap-2 self-start rounded-full bg-sun-400 px-4 py-2 font-display text-sm font-bold text-forest-950 shadow-glow">
+          {{ icon("calendar-check", "h-4 w-4") }} Subsidy available until {{ subsidy.end_date.strftime("%d %B %Y").lstrip("0") }}
+        </p>
+        {% endif %}
+      </div>
+
+      <ol class="mt-8 grid gap-4 sm:grid-cols-3">
+        {% for s in subsidy_steps %}
+        <li class="relative rounded-2xl border border-white/10 bg-white/[0.04] p-5">
+          <div class="flex items-center gap-3">
+            <span class="grid h-10 w-10 place-items-center rounded-xl bg-sun-400 text-forest-950">{{ icon(s.icon, "h-5 w-5") }}</span>
+            <span class="font-display text-xs font-bold tracking-[0.2em] text-sun-300">STEP {{ loop.index }}</span>
+          </div>
+          <p class="mt-4 font-display text-lg font-bold">{{ s.title }}</p>
+          <p class="mt-1 text-sm leading-relaxed text-white/65">{{ s.text }}</p>
+        </li>
+        {% endfor %}
+      </ol>
+
+      <h4 class="mt-10 font-display text-sm font-bold uppercase tracking-[0.18em] text-sun-300">Subsidy amounts</h4>
+      <dl class="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+        {% for label, amount, note in subsidy.rates %}
+        <div class="rounded-2xl p-5 {{ 'bg-sun-400 text-forest-950' if loop.index == 3 else 'border border-white/10 bg-white/[0.04]' }}">
+          <dt class="text-sm font-semibold {{ 'text-forest-950/75' if loop.index == 3 else 'text-white/65' }}">{{ label }}</dt>
+          <dd class="mt-1 font-display text-2xl font-extrabold tracking-tight">{{ amount }}</dd>
+          {% if note %}<dd class="mt-1 text-xs leading-snug {{ 'text-forest-950/70' if loop.index == 3 else 'text-white/50' }}">{{ note }}</dd>{% endif %}
+        </div>
+        {% endfor %}
+      </dl>
+
+      <p class="mt-8 border-t border-white/10 pt-5 text-xs leading-relaxed text-white/50">
+        {% if subsidy_open %}The current phase of {{ subsidy.scheme }} runs until {{ subsidy.end_date.strftime("%d %B %Y").lstrip("0") }}.{% else %}Please check whether {{ subsidy.scheme }} is still accepting applications.{% endif %}
+        Subsidy is paid only for systems that are eligible under the scheme rules. If a system is not eligible, no subsidy is credited back. Check current rules at
+        <a href="https://pmsuryaghar.gov.in" target="_blank" rel="noopener" class="underline underline-offset-2 hover:text-white">pmsuryaghar.gov.in</a>.
+      </p>
+    </div>
+
+    {# Components #}
+    <div class="mt-20 grid gap-10 lg:grid-cols-12 lg:gap-16">
+      <div class="lg:col-span-4" data-reveal>
+        <p class="eyebrow">What goes into your system</p>
+        <h3 class="mt-5 font-display text-3xl font-extrabold leading-tight text-forest-900 sm:text-4xl">Components we use</h3>
+        <p class="section-lead mt-4">Brand-name components in our on-grid systems, from the panels on your roof to the protection in your switchboard.</p>
+        <p class="mt-4 text-sm leading-relaxed text-charcoal/60">Hybrid systems use a hybrid inverter with battery storage in place of the grid-tied inverter. Exact specifications are listed in your quotation.</p>
+      </div>
+      <ol class="overflow-hidden rounded-[2rem] bg-white shadow-sm ring-1 ring-forest-900/5 lg:col-span-8" data-reveal="right">
+        {% for c in components %}
+        <li class="group flex items-start gap-4 border-t border-forest-900/[0.07] p-5 transition first:border-t-0 hover:bg-cream/70 sm:items-center sm:gap-5 sm:px-7">
+          <span class="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-solar-500/15 text-solar-600 transition duration-500 group-hover:bg-forest-900 group-hover:text-sun-400">{{ icon(c.icon, "h-5 w-5") }}</span>
+          <div class="flex-1 sm:flex sm:items-center sm:justify-between sm:gap-6">
+            <p class="font-display font-bold text-forest-900 sm:w-56 sm:shrink-0">{{ c.name }}</p>
+            <p class="mt-0.5 text-sm leading-relaxed text-charcoal/70 sm:mt-0 sm:flex-1">{{ c.spec }}</p>
+          </div>
+          <span class="hidden font-display text-xs font-bold tracking-[0.2em] text-forest-900/30 sm:block">{{ "%02d" | format(loop.index) }}</span>
+        </li>
+        {% endfor %}
+      </ol>
+    </div>
+
+    <div class="mt-8">{{ placeholder("Add what differs between the Standard and Premium packages (for example panel type, inverter or warranty) so customers can compare them.") }}</div>
+  </div>
+</section>

@@ -1,0 +1,561 @@
+{% extends "base.html" %}
+{% from "components/macros.html" import icon, section_heading, enquire_link %}
+
+{% block title %}{{ business.name }} | Rooftop Solar Installation in Deolali Pravara, Rahuri{% endblock %}
+{% block meta_description %}Residential, agricultural and commercial solar energy solutions from SPARKS SOLAR ENERGY, Deolali Pravara (Tal. Rahuri, Dist. Ahilya Nagar). Request a free solar consultation.{% endblock %}
+{% block head %}
+<link rel="preload" as="image" href="{{ url_for('static', filename='images/stock/hero-rooftop-sunset.webp') }}" fetchpriority="high">
+{% endblock %}
+
+{% block content %}
+{# ======================================================================
+   HERO
+   ====================================================================== #}
+<section class="relative isolate flex min-h-[100svh] items-end overflow-hidden bg-forest-950 pb-24 pt-28 sm:pb-28 lg:items-center lg:pb-20 lg:pt-32" aria-labelledby="hero-title">
+  <div class="absolute inset-x-0 -bottom-[10%] -top-[10%] -z-30" data-parallax="0.3">
+    <div class="h-full w-full -scale-x-100">
+      <img src="{{ url_for('static', filename='images/stock/hero-rooftop-sunset.webp') }}"
+           alt="Solar panels across a large rooftop glowing in warm evening sunlight"
+           class="hero-media h-full w-full object-cover object-[18%_30%]" width="2000" height="1354" fetchpriority="high" decoding="async">
+    </div>
+  </div>
+  {# readability overlays: dark only where the text sits #}
+  <div class="absolute inset-0 -z-20 bg-gradient-to-t from-forest-950 via-forest-950/75 to-forest-950/20 lg:bg-gradient-to-r lg:from-forest-950/95 lg:via-forest-950/65 lg:to-transparent" aria-hidden="true"></div>
+  <div class="absolute inset-x-0 bottom-0 -z-20 h-40 bg-gradient-to-t from-forest-950/80 to-transparent" aria-hidden="true"></div>
+  <div class="pointer-events-none absolute inset-x-0 top-0 -z-10 h-44 bg-gradient-to-b from-forest-950/80 to-transparent" aria-hidden="true"></div>
+
+  {# animated sunlight #}
+  <div class="pointer-events-none absolute -right-40 -top-40 -z-10 h-[46rem] w-[46rem] sun-rays opacity-70 sm:-right-20 lg:right-[2%] lg:top-[-14rem]" aria-hidden="true"></div>
+  <div class="pointer-events-none absolute -right-24 -top-24 -z-10 h-[24rem] w-[24rem] rounded-full sun-orb mix-blend-screen sm:h-[30rem] sm:w-[30rem] lg:right-[12%] lg:top-[-6rem]" aria-hidden="true"></div>
+
+  <div class="container-site relative">
+    <div class="grid items-center gap-12 lg:grid-cols-12">
+      <div class="lg:col-span-7">
+        <p class="fade-in-up glass inline-flex items-center gap-2.5 rounded-full px-4 py-2 font-display text-[0.68rem] font-bold uppercase tracking-[0.24em] text-sun-200 sm:text-xs" style="--d: 100ms">
+          <span class="relative flex h-2 w-2" aria-hidden="true">
+            <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-solar-400 opacity-75"></span>
+            <span class="relative inline-flex h-2 w-2 rounded-full bg-solar-400"></span>
+          </span>
+          Clean energy. Smarter tomorrow.
+        </p>
+
+        <h1 id="hero-title" class="mt-6 font-display text-[2.55rem] font-extrabold leading-[1.04] tracking-tight text-white min-[400px]:text-[2.9rem] sm:text-6xl lg:text-[4.6rem] xl:text-[5.1rem]">
+          {% set words = ["Turn", "Sunlight", "Into", "Your"] %}
+          {% for w in words %}<span class="reveal-line"><span style="--d: {{ 200 + loop.index0 * 90 }}ms">{{ w }}</span></span> {% endfor %}
+          <span class="reveal-line"><span class="bg-gradient-to-r from-sun-300 via-sun-400 to-solar-400 bg-clip-text text-transparent" style="--d: 560ms">Greatest</span></span>
+          <span class="reveal-line"><span class="bg-gradient-to-r from-sun-400 to-solar-400 bg-clip-text text-transparent" style="--d: 650ms">Investment.</span></span>
+        </h1>
+
+        <p class="fade-in-up mt-6 max-w-xl text-base leading-relaxed text-white/75 sm:text-lg" style="--d: 850ms">
+          Generate your own electricity from sunlight, rely less on conventional power and make better long-term energy choices for your home, farm or business.
+        </p>
+
+        <div class="fade-in-up mt-9 flex flex-col gap-3 min-[420px]:flex-row" style="--d: 1000ms">
+          <a href="{{ url_for('contact') }}#enquiry" data-enquire="" class="btn btn-sun">Get a Free Quote {{ icon("arrow-right", "btn-arrow") }}</a>
+          <a href="#solutions" class="btn btn-glass">Explore Solar Solutions</a>
+        </div>
+
+        <p class="fade-in-up mt-7 text-sm text-white/60" style="--d: 1150ms">
+          Prefer to talk? <a href="tel:{{ business.phone_tel }}" class="font-semibold text-white underline decoration-sun-400/60 decoration-2 underline-offset-4 transition hover:decoration-sun-400">Call {{ business.phone_display }}</a>
+        </p>
+      </div>
+
+      {# floating composition (tablet / desktop) #}
+      <div class="relative hidden h-[30rem] lg:col-span-5 lg:block" aria-hidden="true">
+        <div class="fade-in-up absolute bottom-0 right-0 w-[18rem] xl:w-[19rem]" style="--d: 1100ms">
+          <div class="animate-float-slow glass rounded-[1.75rem] p-3 shadow-2xl">
+            <img src="{{ url_for('static', filename='images/stock/residential-home.webp') }}" alt="" class="h-44 w-full rounded-[1.25rem] object-cover" width="1200" height="675" decoding="async">
+            <div class="flex items-center justify-between px-2 pb-1 pt-4">
+              <div>
+                <p class="font-display text-sm font-bold text-white">Homes · Farms · Businesses</p>
+                <p class="text-xs text-white/60">Solar planned around your needs</p>
+              </div>
+              <span class="grid h-10 w-10 place-items-center rounded-full bg-sun-400 text-forest-950">{{ icon("sun", "h-5 w-5") }}</span>
+            </div>
+          </div>
+        </div>
+        <div class="fade-in-up absolute left-0 top-12" style="--d: 1250ms">
+          <div class="animate-float glass flex items-center gap-3 rounded-2xl px-4 py-3 shadow-xl">
+            <span class="grid h-9 w-9 place-items-center rounded-xl bg-solar-500 text-forest-950">{{ icon("leaf", "h-4 w-4") }}</span>
+            <span class="font-display text-sm font-bold text-white">Clean Energy</span>
+          </div>
+        </div>
+        <div class="fade-in-up absolute right-6 top-0" style="--d: 1400ms">
+          <div class="animate-float glass flex items-center gap-3 rounded-2xl px-4 py-3 shadow-xl [animation-delay:-2.5s]">
+            <span class="grid h-9 w-9 place-items-center rounded-xl bg-sun-400 text-forest-950">{{ icon("indian-rupee", "h-4 w-4") }}</span>
+            <span class="font-display text-sm font-bold text-white">Smarter Savings</span>
+          </div>
+        </div>
+        <div class="fade-in-up absolute -left-4 top-40 xl:-left-10" style="--d: 1550ms">
+          <div class="animate-float-slow glass flex items-center gap-3 rounded-2xl px-4 py-3 shadow-xl [animation-delay:-4s]">
+            <span class="grid h-9 w-9 place-items-center rounded-xl bg-white text-forest-900">{{ icon("sprout", "h-4 w-4") }}</span>
+            <span class="font-display text-sm font-bold text-white">Sustainable Living</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="#why-solar" class="fade-in-up absolute bottom-14 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-2 text-[0.65rem] font-semibold uppercase tracking-[0.3em] text-white/60 transition hover:text-white sm:flex lg:bottom-16" style="--d: 1700ms" aria-label="Scroll to learn more">
+    <span class="flex h-10 w-6 justify-center rounded-full border-2 border-white/40 pt-2">
+      <span class="block h-2 w-1 animate-scroll-dot rounded-full bg-sun-400"></span>
+    </span>
+    Scroll
+  </a>
+</section>
+
+{# ======================================================================
+   VALUE PROPOSITION
+   ====================================================================== #}
+<section id="why-solar" class="relative z-10 -mt-10 rounded-t-[2.5rem] bg-cream pb-20 pt-20 sm:pb-28 lg:-mt-14 lg:rounded-t-[4rem] lg:pt-28" aria-labelledby="why-title">
+  <div class="container-site grid gap-12 lg:grid-cols-12 lg:gap-16">
+    <div class="lg:col-span-5" data-reveal>
+      <p class="eyebrow">Why solar, why now</p>
+      <h2 id="why-title" class="section-title mt-5">Sunlight is free. Putting it to work is a smart decision.</h2>
+      <p class="section-lead mt-6">Solar energy lets you generate electricity where you use it, on your roof, your farm or your business premises. Here is what that can mean for you.</p>
+      <a href="{{ url_for('solutions') }}" class="link-arrow mt-8 text-forest-900 hover:text-solar-600">Explore our solutions {{ icon("arrow-up-right", "h-4 w-4") }}</a>
+    </div>
+    <ol class="lg:col-span-7">
+      {% for v in value_points %}
+      <li class="group flex gap-5 border-t border-forest-900/10 py-8 first:border-t-0 first:pt-0 sm:gap-7 lg:first:pt-2" data-reveal style="--d: {{ loop.index0 * 120 }}ms">
+        <span class="icon-ring group-hover:-rotate-6 group-hover:bg-sun-400 group-hover:text-forest-950">{{ icon(v.icon, "h-6 w-6") }}</span>
+        <div>
+          <p class="font-display text-xs font-bold tracking-[0.2em] text-solar-600">0{{ loop.index }}</p>
+          <h3 class="mt-1 text-xl font-bold text-forest-900 sm:text-2xl">{{ v.title }}</h3>
+          <p class="mt-2 max-w-lg leading-relaxed text-charcoal/70">{{ v.text }}</p>
+        </div>
+      </li>
+      {% endfor %}
+    </ol>
+  </div>
+</section>
+
+{# marquee band #}
+<div class="relative overflow-hidden border-y border-forest-900/10 bg-forest-900 py-5 text-white" aria-hidden="true">
+  <div class="marquee flex w-max font-display text-lg font-bold uppercase tracking-[0.18em] sm:text-xl">
+    {% for _ in range(2) %}
+    {% for item in ["Residential Solar", "Agricultural Solar", "Commercial Solar", "On-Grid", "Off-Grid", "Hybrid Systems", "Solar Pumping", "Solar Water Heating", "AMC & Maintenance"] %}
+    <span class="flex items-center gap-10 whitespace-nowrap pr-10">{{ item }} <span class="text-sun-400">{{ icon("sun", "h-5 w-5") }}</span></span>
+    {% endfor %}
+    {% endfor %}
+  </div>
+</div>
+
+{# ======================================================================
+   SOLUTIONS
+   ====================================================================== #}
+<section id="solutions" class="bg-cream pb-12 pt-20 sm:pb-16 sm:pt-28" aria-labelledby="solutions-title">
+  <div class="container-site">
+    <div class="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
+      <div class="max-w-3xl" data-reveal>
+        <p class="eyebrow">Our solutions</p>
+        <h2 id="solutions-title" class="section-title mt-5">Solar Solutions for Every Ambition</h2>
+      </div>
+      <p class="section-lead max-w-md" data-reveal style="--d: 120ms">Every property uses energy differently. We look at your consumption, space and site before recommending anything.</p>
+    </div>
+
+    <div class="mt-14 grid gap-5 lg:grid-cols-12 lg:grid-rows-2">
+      {% for s in solutions %}
+      <article class="group relative isolate flex min-h-[27rem] flex-col justify-end overflow-hidden rounded-[2rem] bg-forest-900 {{ 'lg:col-span-7 lg:row-span-2 lg:min-h-[44rem]' if loop.first else 'lg:col-span-5 lg:min-h-[21.5rem]' }}"
+               data-reveal="{{ 'zoom' if loop.first else 'right' }}" style="--d: {{ loop.index0 * 140 }}ms">
+        <img src="{{ url_for('static', filename=s.image) }}" alt="{{ s.image_alt }}" loading="lazy" decoding="async"
+             class="absolute inset-0 -z-20 h-full w-full object-cover transition duration-[1400ms] ease-out group-hover:scale-110">
+        <div class="absolute inset-0 -z-10 bg-gradient-to-t from-forest-950 via-forest-950/55 to-forest-950/0 transition duration-700 group-hover:via-forest-950/65"></div>
+        <div class="absolute left-6 right-6 top-6 flex items-center justify-between sm:left-8 sm:right-8 sm:top-8">
+          <span class="glass grid h-12 w-12 place-items-center rounded-2xl text-sun-300">{{ icon(s.icon, "h-6 w-6") }}</span>
+          <span class="font-display text-sm font-bold tracking-[0.2em] text-white/70">{{ s.number }}</span>
+        </div>
+        <div class="p-6 sm:p-8 {{ 'lg:p-10' if loop.first else '' }}">
+          <h3 class="font-bold text-white {{ 'text-3xl sm:text-4xl lg:text-5xl' if loop.first else 'text-2xl sm:text-3xl' }}">{{ s.title }}</h3>
+          <p class="mt-3 max-w-md leading-relaxed text-white/75">{{ s.summary }}</p>
+          <div class="mt-6 flex flex-wrap items-center gap-x-6 gap-y-3">
+            {{ enquire_link(s.slug, "Enquire now", "btn btn-sun !min-h-[2.75rem] !px-5 !text-sm") }}
+            <a href="{{ url_for('solutions') }}#{{ s.slug }}" class="link-arrow text-sm text-white/80 hover:text-sun-300">Learn more {{ icon("arrow-up-right", "h-4 w-4") }}</a>
+          </div>
+        </div>
+      </article>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{# ======================================================================
+   PRICING PREVIEW
+   ====================================================================== #}
+<section class="bg-cream pb-20 sm:pb-28" aria-labelledby="pricing-preview-title">
+  <div class="container-site">
+    <div class="grain relative isolate overflow-hidden rounded-[2.5rem] bg-forest-950 p-6 text-white sm:p-10 lg:p-12" data-reveal="zoom">
+      <div class="pointer-events-none absolute -right-32 -top-32 -z-10 h-[30rem] w-[30rem] sun-rays opacity-60" aria-hidden="true"></div>
+      <div class="pointer-events-none absolute -right-12 -top-12 -z-10 h-64 w-64 rounded-full sun-orb opacity-70 mix-blend-screen" aria-hidden="true"></div>
+      <div class="grid items-center gap-10 lg:grid-cols-12">
+        <div class="lg:col-span-4">
+          <p class="eyebrow eyebrow-light">Upfront pricing</p>
+          <h2 id="pricing-preview-title" class="mt-5 font-display text-3xl font-extrabold leading-tight sm:text-4xl">Know the price before you begin.</h2>
+          <p class="mt-4 leading-relaxed text-white/70">Complete systems with brand-name components. All prices include GST and installation.</p>
+          {% if subsidy_open %}
+          <p class="mt-5 inline-flex items-center gap-2 rounded-full bg-sun-400/15 px-3.5 py-1.5 text-sm font-semibold text-sun-200 ring-1 ring-sun-400/30">{{ icon("calendar-check", "h-4 w-4") }} Up to ₹{{ pricing | map(attribute="subsidy") | max | inr }} subsidy · until {{ subsidy.end_date.strftime("%d %b %Y").lstrip("0") }}</p><br>
+          {% endif %}
+          <a href="{{ url_for('solutions') }}#pricing" class="link-arrow mt-6 text-sun-300 hover:text-sun-200">See full pricing &amp; components {{ icon("arrow-up-right", "h-4 w-4") }}</a>
+        </div>
+        <ul class="grid gap-3 sm:grid-cols-3 lg:col-span-8">
+          {% for pkg in pricing %}
+          {% set from_price = pkg.tiers | map(attribute=1) | min %}
+          <li class="glass group flex flex-col rounded-[1.5rem] p-5 transition duration-500 hover:-translate-y-1 hover:bg-white/15 sm:p-6">
+            <span class="grid h-11 w-11 place-items-center rounded-xl bg-sun-400 text-forest-950 transition duration-500 group-hover:-rotate-6">{{ icon(pkg.icon, "h-5 w-5") }}</span>
+            <p class="mt-5 font-display font-bold">{{ pkg.title }}</p>
+            <p class="mt-3 text-xs font-semibold uppercase tracking-[0.16em] text-white/50">From</p>
+            <p class="font-display text-[1.7rem] font-extrabold leading-tight tracking-tight sm:text-2xl lg:text-[1.75rem]">₹{{ from_price | inr }}<span class="text-base font-semibold text-white/60">{{ pkg.unit }}</span></p>
+            <p class="mt-1 text-sm font-semibold {{ 'text-solar-400' if pkg.subsidy else 'text-white/50' }}">{{ ("+ ₹" ~ (pkg.subsidy | inr) ~ " subsidy") if pkg.subsidy else "Standard package" }}</p>
+          </li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+{# ======================================================================
+   BENEFITS
+   ====================================================================== #}
+<section id="benefits" class="grain relative isolate overflow-hidden bg-forest-900 py-20 text-white sm:py-28" aria-labelledby="benefits-title">
+  <div class="pointer-events-none absolute -left-40 top-1/3 -z-10 h-[30rem] w-[30rem] rounded-full bg-solar-500/10 blur-3xl" aria-hidden="true"></div>
+  <div class="container-site grid gap-14 lg:grid-cols-12 lg:gap-16">
+    <div class="lg:col-span-6">
+      <div data-reveal>
+        <p class="eyebrow eyebrow-light">Why choose solar energy</p>
+        <h2 id="benefits-title" class="section-title mt-5 !text-white">Make the Sun Work for You.</h2>
+        <p class="section-lead mt-5 !text-white/70">Solar is not one-size-fits-all. Here is what a well-planned system can offer, depending on your usage, tariff and site.</p>
+      </div>
+
+      <div class="mt-10 border-t border-white/10" data-benefits>
+        {% for b in benefits %}
+        <div class="benefit-item relative border-b border-white/10 {{ 'is-active' if loop.first else '' }}" data-benefit data-reveal style="--d: {{ loop.index0 * 90 }}ms">
+          <span class="benefit-bar absolute left-0 top-0 h-full w-[3px] rounded-full bg-sun-400" aria-hidden="true"></span>
+          <h3>
+            <button type="button" class="flex w-full items-center gap-4 py-5 pl-5 text-left" id="benefit-btn-{{ loop.index }}"
+                    aria-expanded="{{ 'true' if loop.first else 'false' }}" aria-controls="benefit-panel-{{ loop.index }}">
+              <span class="benefit-icon grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-white/10 text-sun-300 transition duration-500">{{ icon(b.icon, "h-5 w-5") }}</span>
+              <span class="flex-1 font-display text-lg font-bold sm:text-xl">{{ b.title }}</span>
+              {{ icon("chevron-down", "faq-icon h-5 w-5 shrink-0 text-white/50") }}
+            </button>
+          </h3>
+          <div class="benefit-body" id="benefit-panel-{{ loop.index }}" role="region" aria-labelledby="benefit-btn-{{ loop.index }}">
+            <div><p class="pb-6 pl-5 pr-8 leading-relaxed text-white/70 sm:pl-[4.75rem]">{{ b.text }}</p></div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+
+    {# illustrative visual: no figures, only the shape of a solar day #}
+    <div class="lg:col-span-6">
+      <div class="relative lg:sticky lg:top-28" data-reveal="right">
+        <div class="relative overflow-hidden rounded-[2rem]">
+          <img src="{{ url_for('static', filename='images/stock/rural-home-rooftop.webp') }}" alt="Aerial view of a rural house with solar panels on its roof, surrounded by farmland" loading="lazy" decoding="async"
+               class="h-[22rem] w-full object-cover sm:h-[28rem]" width="1200" height="800">
+          <div class="absolute inset-0 bg-gradient-to-t from-forest-950/80 via-transparent to-transparent"></div>
+          <span class="absolute left-5 top-5 rounded-full bg-forest-950/60 px-3 py-1.5 text-[0.7rem] font-semibold uppercase tracking-[0.18em] text-white/80 backdrop-blur">Representative image</span>
+        </div>
+
+        <div class="glass relative -mt-28 mx-3 rounded-[1.75rem] bg-forest-950/70 p-5 shadow-2xl sm:mx-6 sm:p-7" data-observe>
+          <div class="flex items-center justify-between gap-4">
+            <p class="font-display text-sm font-bold uppercase tracking-[0.18em] text-sun-300">A day on a solar roof</p>
+            <span class="rounded-full bg-white/10 px-2.5 py-1 text-[0.65rem] font-semibold uppercase tracking-wider text-white/60">Illustrative</span>
+          </div>
+
+          <svg viewBox="0 0 320 170" class="mt-4 w-full" role="img" aria-label="Diagram of the sun travelling across the sky from sunrise to sunset" data-sun-arc>
+            <defs>
+              <linearGradient id="arcGrad" x1="0" x2="1">
+                <stop offset="0" stop-color="#63C74D"/><stop offset="0.5" stop-color="#FFD166"/><stop offset="1" stop-color="#63C74D"/>
+              </linearGradient>
+              <radialGradient id="sunGlow"><stop offset="0" stop-color="#FFD166" stop-opacity="0.9"/><stop offset="1" stop-color="#FFD166" stop-opacity="0"/></radialGradient>
+            </defs>
+            <path id="sunArc" d="M 20 150 A 140 140 0 0 1 300 150" fill="none" stroke="url(#arcGrad)" stroke-width="2" stroke-dasharray="4 7" opacity="0.7"/>
+            <line x1="8" y1="150" x2="312" y2="150" stroke="white" stroke-opacity="0.2"/>
+            <g>
+              <circle r="26" fill="url(#sunGlow)"/>
+              <circle r="10" fill="#FFD166"/>
+              <animateMotion dur="10s" repeatCount="indefinite" keyPoints="0;1;0" keyTimes="0;0.5;1" calcMode="spline" keySplines="0.45 0 0.55 1;0.45 0 0.55 1">
+                <mpath href="#sunArc"/>
+              </animateMotion>
+            </g>
+            <text x="20" y="166" fill="white" fill-opacity="0.55" font-size="10" text-anchor="middle">Sunrise</text>
+            <text x="160" y="166" fill="white" fill-opacity="0.55" font-size="10" text-anchor="middle">Midday</text>
+            <text x="300" y="166" fill="white" fill-opacity="0.55" font-size="10" text-anchor="middle">Sunset</text>
+          </svg>
+
+          <div class="mt-5">
+            <div class="flex h-24 items-end gap-1.5" aria-hidden="true">
+              {% for h in [0.08, 0.18, 0.34, 0.52, 0.7, 0.86, 0.96, 1.0, 0.94, 0.82, 0.66, 0.46, 0.28, 0.14, 0.06] %}
+              <span class="gen-bar block h-full flex-1 rounded-t-md bg-gradient-to-t from-solar-600 to-sun-400" style="--h: {{ h }}; --d: {{ loop.index0 * 50 }}ms"></span>
+              {% endfor %}
+            </div>
+            <p class="mt-3 text-sm leading-relaxed text-white/65">Solar generation follows daylight and is typically highest around midday. Shape shown for illustration only. Actual output depends on your system and site.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{# ======================================================================
+   HOW IT WORKS
+   ====================================================================== #}
+<section id="how-it-works" class="bg-cream py-20 sm:py-28" aria-labelledby="process-title">
+  <div class="container-site">
+    <div class="mx-auto max-w-3xl text-center" data-reveal>
+      <p class="eyebrow justify-center">How it works</p>
+      <h2 id="process-title" class="section-title mt-5">From first call to a working solar plan</h2>
+      <p class="section-lead mx-auto mt-5 max-w-2xl">Four clear steps. You can start with a simple enquiry. No technical knowledge needed.</p>
+    </div>
+
+    <div class="relative mt-16 lg:mt-20" data-timeline>
+      <div class="absolute left-[12.5%] right-[12.5%] top-7 hidden h-[3px] overflow-hidden rounded-full bg-forest-900/10 lg:block" aria-hidden="true">
+        <div class="timeline-fill-h h-full w-full bg-gradient-to-r from-solar-500 via-sun-400 to-solar-500"></div>
+      </div>
+      <div class="absolute bottom-10 left-7 top-7 w-[3px] overflow-hidden rounded-full bg-forest-900/10 lg:hidden" aria-hidden="true">
+        <div class="timeline-fill-v h-full w-full bg-gradient-to-b from-solar-500 via-sun-400 to-solar-500"></div>
+      </div>
+
+      <ol class="relative grid gap-10 lg:grid-cols-4 lg:gap-8">
+        {% for step in steps %}
+        <li class="flex gap-6 lg:flex-col lg:items-center lg:text-center">
+          <span class="step-node relative z-10 grid h-14 w-14 shrink-0 place-items-center rounded-full bg-forest-900 font-display text-lg font-extrabold text-white" style="--d: {{ 300 + loop.index0 * 420 }}ms">{{ loop.index }}</span>
+          <div class="pt-1 lg:pt-4" data-reveal style="--d: {{ 200 + loop.index0 * 160 }}ms">
+            <span class="mb-3 inline-grid h-10 w-10 place-items-center rounded-xl bg-white text-solar-600 shadow-sm lg:mx-auto">{{ icon(step.icon, "h-5 w-5") }}</span>
+            <h3 class="text-xl font-bold text-forest-900">{{ step.title }}</h3>
+            <p class="mt-2 leading-relaxed text-charcoal/70 lg:mx-auto lg:max-w-[16rem]">{{ step.text }}</p>
+          </div>
+        </li>
+        {% endfor %}
+      </ol>
+    </div>
+
+    <div class="mt-16 flex flex-col items-start gap-6 rounded-[2rem] bg-white p-6 shadow-soft sm:p-8 md:flex-row md:items-center md:justify-between" data-reveal>
+      <div class="flex items-start gap-4">
+        <span class="grid h-12 w-12 shrink-0 place-items-center rounded-2xl bg-sun-100 text-forest-900">{{ icon("lightbulb", "h-6 w-6") }}</span>
+        <div>
+          <p class="font-display text-lg font-bold text-forest-900">Starting is simple.</p>
+          <p class="mt-1 text-charcoal/70">A phone call or a short enquiry is all it takes. Keep a recent electricity bill handy.</p>
+        </div>
+      </div>
+      <div class="flex w-full shrink-0 flex-col gap-3 sm:w-auto sm:flex-row">
+        <a href="tel:{{ business.phone_tel }}" class="btn btn-outline whitespace-nowrap">{{ icon("phone", "h-4 w-4") }} Call us</a>
+        <a href="{{ url_for('contact') }}#enquiry" data-enquire="" class="btn btn-forest whitespace-nowrap">Start my enquiry {{ icon("arrow-right", "btn-arrow") }}</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+{# ======================================================================
+   ESTIMATOR
+   ====================================================================== #}
+<section id="estimator" class="bg-cream pb-20 sm:pb-28" aria-labelledby="estimator-title">
+  <div class="container-site">
+    <div class="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
+      <div class="max-w-3xl" data-reveal>
+        <p class="eyebrow">Solar savings estimator</p>
+        <h2 id="estimator-title" class="section-title mt-5">See what your bill could mean.</h2>
+      </div>
+      <p class="section-lead max-w-md" data-reveal style="--d: 120ms">A quick, illustrative view based on your monthly bill. It is a starting point for a conversation, not a quotation.</p>
+    </div>
+
+    <div class="mt-12 grid overflow-hidden rounded-[2rem] bg-white shadow-soft ring-1 ring-forest-900/5 lg:grid-cols-12" data-calculator='{{ calculator | tojson }}' data-reveal>
+      <form class="space-y-8 p-6 sm:p-10 lg:col-span-7" data-calc-form aria-label="Solar savings estimator">
+        <div>
+          <label for="calc-bill" class="field-label">Average monthly electricity bill</label>
+          <div class="flex items-center gap-3">
+            <div class="relative w-full max-w-[14rem]">
+              <span class="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 font-display text-2xl font-bold text-charcoal/40">₹</span>
+              <input id="calc-bill" type="number" inputmode="numeric" min="{{ calculator.min_bill }}" max="{{ calculator.max_bill }}" step="50" value="{{ calculator.default_bill }}"
+                     class="field-input !py-3.5 pl-10 font-display text-2xl font-bold" data-calc-bill aria-describedby="calc-bill-help">
+            </div>
+            <span class="text-sm text-charcoal/50">per month</span>
+          </div>
+          <input type="range" min="{{ calculator.min_bill }}" max="{{ calculator.slider_max }}" step="100" value="{{ calculator.default_bill }}" class="range mt-6" data-calc-range aria-label="Monthly bill slider">
+          <div class="mt-2 flex justify-between text-xs text-charcoal/50"><span>₹{{ calculator.min_bill | inr }}</span><span>₹{{ calculator.slider_max | inr }}+</span></div>
+          <p id="calc-bill-help" class="mt-2 hidden text-sm font-medium text-red-700" data-calc-error></p>
+        </div>
+
+        <fieldset>
+          <legend class="field-label">Property type</legend>
+          <div class="grid grid-cols-3 gap-2 sm:gap-3">
+            {% for key, pt in calculator.property_types.items() %}
+            <label class="segment">
+              <input type="radio" name="calc-type" value="{{ key }}" {% if loop.first %}checked{% endif %} data-calc-type>
+              <span>{{ icon({"residential": "house", "agricultural": "tractor", "commercial": "building-2"}[key], "hidden h-4 w-4 sm:block") }}{{ pt.label }}</span>
+            </label>
+            {% endfor %}
+          </div>
+        </fieldset>
+
+        <div>
+          <label for="calc-kwh" class="field-label">Monthly consumption in units (kWh) <span class="font-normal text-charcoal/50">(optional)</span></label>
+          <input id="calc-kwh" type="number" inputmode="numeric" min="0" step="1" placeholder="e.g. 250" class="field-input max-w-[14rem]" data-calc-kwh>
+          <p class="mt-2 text-sm text-charcoal/55">Shown on your bill as units consumed. Used only to work out your current cost per unit.</p>
+        </div>
+
+        <p class="flex gap-2 rounded-2xl bg-cream p-4 text-sm leading-relaxed text-charcoal/70">
+          {{ icon("info", "mt-0.5 h-4 w-4 shrink-0 text-solar-600") }}
+          <span data-calc-assumption>Assumption used: a suitably sized system might offset roughly 40–80% of a typical residential bill. This is an illustrative assumption, not a promise.</span>
+        </p>
+      </form>
+
+      <div class="relative isolate flex flex-col overflow-hidden bg-forest-900 p-6 text-white sm:p-10 lg:col-span-5" aria-live="polite">
+        <div class="pointer-events-none absolute -right-24 -top-24 -z-10 h-72 w-72 rounded-full sun-orb opacity-70" aria-hidden="true"></div>
+
+        <p class="text-sm font-medium uppercase tracking-[0.16em] text-white/60">Estimated annual electricity spend</p>
+        <p class="mt-2 font-display text-4xl font-extrabold sm:text-5xl"><span data-out="annual">₹—</span></p>
+        <p class="mt-1 text-sm text-white/50">Based on your monthly bill × 12</p>
+
+        <div class="my-8 h-px bg-white/10"></div>
+
+        <p class="text-sm font-medium uppercase tracking-[0.16em] text-sun-300">Illustrative potential savings</p>
+        <p class="mt-2 font-display text-3xl font-extrabold text-sun-400 sm:text-4xl lg:text-[1.9rem] xl:text-4xl"><span data-out="range">₹— – ₹—</span></p>
+        <p class="mt-1 text-sm text-white/50">per year, if the assumption above holds</p>
+
+        <div class="mt-6" aria-hidden="true">
+          <div class="relative h-3 overflow-hidden rounded-full bg-white/10">
+            <div class="absolute inset-y-0 rounded-full bg-gradient-to-r from-solar-500 to-sun-400 transition-all duration-700" data-out="bar" style="left: 40%; width: 40%"></div>
+          </div>
+          <div class="mt-2 flex justify-between text-[0.7rem] uppercase tracking-wider text-white/40"><span>₹0</span><span>Your annual spend</span></div>
+        </div>
+
+        <p class="mt-6 hidden rounded-2xl bg-white/5 p-4 text-sm text-white/75" data-out="rate"></p>
+
+        <p class="mt-6 text-xs leading-relaxed text-white/50">
+          Illustrative only, not a quotation. Actual savings depend on location, tariff, system size, roof conditions, usage patterns and applicable policies. A proper assessment is needed to size a system or estimate returns.
+        </p>
+        <noscript><p class="mt-4 text-sm text-sun-300">Enable JavaScript to use the estimator, or simply call us.</p></noscript>
+
+        <a href="{{ url_for('contact') }}#enquiry" data-enquire="residential" data-calc-cta class="btn btn-sun mt-8 w-full">Discuss My Solar Requirements {{ icon("arrow-right", "btn-arrow") }}</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+{# ======================================================================
+   GALLERY
+   ====================================================================== #}
+<section id="gallery" class="grain relative bg-forest-950 py-20 text-white sm:py-28" aria-labelledby="gallery-title">
+  <div class="container-site">
+    <div class="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
+      <div class="max-w-2xl" data-reveal>
+        <p class="eyebrow eyebrow-light">Gallery</p>
+        <h2 id="gallery-title" class="section-title mt-5 !text-white">{{ "Solar Installation Inspiration" if gallery_is_demo else "Our Installations" }}</h2>
+        {% if gallery_is_demo %}
+        <p class="mt-5 inline-flex items-start gap-2 rounded-2xl border border-sun-400/30 bg-sun-400/10 px-4 py-3 text-sm leading-relaxed text-sun-100">
+          {{ icon("image", "mt-0.5 h-4 w-4 shrink-0 text-sun-400") }}
+          <span><strong class="font-semibold text-sun-300">Demonstration gallery.</strong> These are representative stock photographs, not projects completed by {{ business.name }}.</span>
+        </p>
+        {% endif %}
+      </div>
+      <div class="flex flex-wrap gap-2" role="group" aria-label="Filter gallery" data-reveal style="--d: 120ms">
+        {% for key, label in gallery_filters %}
+        <button type="button" class="filter-btn rounded-full border border-white/20 px-4 py-2 text-sm font-semibold text-white/80 transition hover:border-white/60 hover:text-white" data-filter="{{ key }}" aria-pressed="{{ 'true' if loop.first else 'false' }}">{{ label }}</button>
+        {% endfor %}
+      </div>
+    </div>
+
+    <div class="mt-12 grid auto-rows-[10.5rem] grid-flow-dense grid-cols-2 gap-3 sm:auto-rows-[14rem] sm:gap-4 lg:auto-rows-[15rem] lg:grid-cols-4" data-gallery>
+      {% for g in gallery %}
+      <figure class="gallery-item group relative overflow-hidden rounded-2xl bg-forest-900 sm:rounded-3xl {{ 'col-span-2' if g.size == 'wide' else '' }} {{ 'row-span-2' if g.size == 'tall' else '' }}"
+              data-category="{{ g.category }}" data-reveal="zoom" style="--d: {{ (loop.index0 % 4) * 90 }}ms">
+        <img src="{{ url_for('static', filename=g.src) }}" alt="{{ g.alt }}" loading="lazy" decoding="async"
+             class="h-full w-full object-cover transition duration-[1200ms] ease-out group-hover:scale-110">
+        <div class="absolute inset-0 bg-gradient-to-t from-forest-950/90 via-forest-950/10 to-transparent opacity-80 transition duration-500 group-hover:opacity-100"></div>
+        {% if g.demo %}<span class="absolute left-3 top-3 rounded-full bg-forest-950/70 px-2.5 py-1 text-[0.62rem] font-bold uppercase tracking-wider text-white/80 backdrop-blur">Demo</span>{% endif %}
+        <figcaption class="absolute inset-x-0 bottom-0 p-4 transition duration-500 sm:translate-y-2 sm:p-5 sm:group-hover:translate-y-0">
+          <span class="text-[0.65rem] font-bold uppercase tracking-[0.18em] text-sun-300">{{ g.category }}</span>
+          <span class="mt-1 block font-display text-sm font-bold leading-snug text-white sm:text-base">{{ g.caption }}</span>
+        </figcaption>
+      </figure>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{# ======================================================================
+   FAQ
+   ====================================================================== #}
+<section id="faq" class="bg-cream py-20 sm:py-28" aria-labelledby="faq-title">
+  <div class="container-site grid gap-12 lg:grid-cols-12 lg:gap-16">
+    <div class="lg:col-span-4">
+      <div class="lg:sticky lg:top-28" data-reveal>
+        <p class="eyebrow">FAQ</p>
+        <h2 id="faq-title" class="section-title mt-5">Questions, answered.</h2>
+        <p class="section-lead mt-5">Straight answers to what people ask us most. Do not see yours? Just ask.</p>
+        <div class="mt-8 rounded-[1.75rem] bg-forest-900 p-6 text-white">
+          <p class="font-display text-lg font-bold">Talk to us directly</p>
+          <p class="mt-1 text-sm text-white/65">We are happy to explain your options.</p>
+          <div class="mt-5 flex flex-col gap-3">
+            <a href="tel:{{ business.phone_tel }}" class="btn btn-sun">{{ icon("phone", "h-4 w-4") }} {{ business.phone_display }}</a>
+            <a href="{{ whatsapp_url }}" target="_blank" rel="noopener" class="btn btn-glass">{{ icon("message-circle", "h-4 w-4") }} WhatsApp</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="lg:col-span-8" data-faq-list>
+      {% for f in faqs %}
+      <div class="faq-item border-b border-forest-900/10 first:border-t" data-faq data-reveal style="--d: {{ loop.index0 * 60 }}ms">
+        <h3>
+          <button type="button" class="flex w-full items-center justify-between gap-6 py-6 text-left font-display text-lg font-bold text-forest-900 transition hover:text-solar-600 sm:text-xl"
+                  id="faq-btn-{{ loop.index }}" aria-expanded="false" aria-controls="faq-panel-{{ loop.index }}">
+            {{ f.q }}
+            <span class="faq-icon grid h-10 w-10 shrink-0 place-items-center rounded-full border border-forest-900/15 text-forest-900">{{ icon("plus", "h-5 w-5") }}</span>
+          </button>
+        </h3>
+        <div class="faq-panel" id="faq-panel-{{ loop.index }}" role="region" aria-labelledby="faq-btn-{{ loop.index }}">
+          <div>
+            <p class="pb-6 pr-4 leading-relaxed text-charcoal/75 sm:pr-16">{{ f.a }}</p>
+            {% if f.links %}
+            <p class="-mt-2 flex flex-wrap gap-x-5 gap-y-2 pb-6 text-sm">
+              {% for label, url in f.links %}
+              {% if url.startswith("http") %}<a href="{{ url }}" target="_blank" rel="noopener" class="link-arrow text-solar-600 hover:text-forest-900">{{ label }} {{ icon("external-link", "h-3.5 w-3.5") }}</a>
+              {% else %}<a href="{{ url }}" class="link-arrow text-solar-600 hover:text-forest-900">{{ label }} {{ icon("arrow-right", "h-3.5 w-3.5") }}</a>{% endif %}
+              {% endfor %}
+            </p>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{# ======================================================================
+   FINAL CTA
+   ====================================================================== #}
+<section class="grain relative isolate overflow-hidden bg-forest-900 py-24 text-white sm:py-32" aria-labelledby="cta-title">
+  <div class="absolute inset-x-0 -bottom-[10%] -top-[10%] -z-20 opacity-25" data-parallax="0.15">
+    <img src="{{ url_for('static', filename='images/stock/panel-texture.webp') }}" alt="" loading="lazy" decoding="async" class="h-full w-full object-cover mix-blend-luminosity">
+  </div>
+  <div class="absolute inset-0 -z-10 bg-gradient-to-br from-forest-950/90 via-forest-900/80 to-forest-900/40" aria-hidden="true"></div>
+  <div class="pointer-events-none absolute -right-48 -top-48 -z-10 h-[44rem] w-[44rem] sun-rays" aria-hidden="true"></div>
+  <div class="pointer-events-none absolute -right-20 -top-20 -z-10 h-96 w-96 rounded-full sun-orb mix-blend-screen" aria-hidden="true"></div>
+
+  <div class="container-site">
+    <div class="max-w-4xl" data-reveal>
+      <p class="eyebrow eyebrow-light">Free consultation</p>
+      <h2 id="cta-title" class="mt-6 font-display text-[2.4rem] font-extrabold leading-[1.04] sm:text-6xl lg:text-7xl">
+        Your Roof Has More <span class="bg-gradient-to-r from-sun-300 to-solar-400 bg-clip-text text-transparent">Potential</span> Than You Think.
+      </h2>
+      <p class="mt-6 max-w-xl text-lg text-white/75">Let's explore a solar solution designed around your energy needs.</p>
+      <div class="mt-10 flex flex-col gap-3 min-[460px]:flex-row">
+        <a href="{{ url_for('contact') }}#enquiry" data-enquire="" class="btn btn-sun">Request a Free Consultation {{ icon("arrow-right", "btn-arrow") }}</a>
+        <a href="tel:{{ business.phone_tel }}" class="btn btn-glass">{{ icon("phone", "h-4 w-4") }} Call {{ business.phone_display }}</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+{# ======================================================================
+   ENQUIRY
+   ====================================================================== #}
+{% include "components/enquiry_section.html" %}
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/calculator.js') }}" defer></script>
+{% endblock %}

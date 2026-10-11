@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% from "components/macros.html" import icon %}
+
+{% block title %}Thank You | {{ business.name }}{% endblock %}
+{% block meta_description %}Your enquiry has been received by SPARKS SOLAR ENERGY.{% endblock %}
+{% block robots %}<meta name="robots" content="noindex, nofollow">{% endblock %}
+
+{% block content %}
+<section class="grain relative isolate flex min-h-[100svh] items-center overflow-hidden bg-forest-950 py-32 text-white">
+  <div class="pointer-events-none absolute left-1/2 top-1/2 -z-10 h-[50rem] w-[50rem] -translate-x-1/2 -translate-y-1/2 sun-rays opacity-60" aria-hidden="true"></div>
+  <div class="pointer-events-none absolute left-1/2 top-1/2 -z-10 h-96 w-96 -translate-x-1/2 -translate-y-1/2 rounded-full sun-orb opacity-40" aria-hidden="true"></div>
+  <div class="container-site text-center">
+    <div class="fade-in-up mx-auto grid h-24 w-24 place-items-center rounded-full bg-solar-500 text-forest-950 shadow-[0_0_0_12px_rgba(99,199,77,0.15)]">
+      <svg viewBox="0 0 24 24" class="h-12 w-12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path class="check-draw" d="M5 12.5l4.5 4.5L19 7.5"/></svg>
+    </div>
+    <h1 class="fade-in-up mt-10 font-display text-4xl font-extrabold sm:text-6xl" style="--d: 150ms">Thank you{% if name %}, {{ name }}{% endif %}!</h1>
+    <p class="fade-in-up mx-auto mt-5 max-w-xl text-lg text-white/75" style="--d: 300ms">Your enquiry has been received. Our team will contact you on the phone number you provided to discuss your solar requirements.</p>
+
+    <ol class="fade-in-up mx-auto mt-12 grid max-w-3xl gap-4 text-left sm:grid-cols-3" style="--d: 450ms">
+      <li class="glass rounded-2xl p-5"><p class="font-display text-xs font-bold tracking-[0.2em] text-sun-300">NEXT</p><p class="mt-2 font-semibold">We review your details</p></li>
+      <li class="glass rounded-2xl p-5"><p class="font-display text-xs font-bold tracking-[0.2em] text-sun-300">THEN</p><p class="mt-2 font-semibold">We call to understand your needs</p></li>
+      <li class="glass rounded-2xl p-5"><p class="font-display text-xs font-bold tracking-[0.2em] text-sun-300">KEEP HANDY</p><p class="mt-2 font-semibold">A recent electricity bill</p></li>
+    </ol>
+
+    <div class="fade-in-up mt-12 flex flex-col justify-center gap-3 sm:flex-row" style="--d: 600ms">
+      <a href="{{ url_for('index') }}" class="btn btn-sun">Back to home {{ icon("arrow-right", "btn-arrow") }}</a>
+      <a href="tel:{{ business.phone_tel }}" class="btn btn-glass">{{ icon("phone", "h-4 w-4") }} Call {{ business.phone_display }}</a>
+    </div>
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,21 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+
+# Secrets and local data
+.env
+instance/*
+!instance/.gitkeep
+*.sqlite3
+enquiries.csv
+
+# Node (only needed to rebuild CSS/icons)
+node_modules/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/

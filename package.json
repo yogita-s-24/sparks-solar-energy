@@ -1,0 +1,15 @@
+{
+  "name": "sparks-solar-energy",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Tailwind CSS build for the SPARKS SOLAR ENERGY Flask website",
+  "scripts": {
+    "build:css": "tailwindcss -i ./static/src/input.css -o ./static/css/output.css --minify",
+    "watch:css": "tailwindcss -i ./static/src/input.css -o ./static/css/output.css --watch",
+    "build:icons": "node scripts/build-icons.js"
+  },
+  "devDependencies": {
+    "lucide-static": "0.468.0",
+    "tailwindcss": "3.4.17"
+  }
+}

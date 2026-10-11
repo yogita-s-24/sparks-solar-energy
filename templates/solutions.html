@@ -1,0 +1,136 @@
+{% extends "base.html" %}
+{% from "components/macros.html" import icon, enquire_link %}
+{% from "components/page_hero.html" import page_hero %}
+
+{% block title %}Solar Solutions &amp; Prices: Residential, Agricultural, Commercial | {{ business.name }}{% endblock %}
+{% block meta_description %}Residential rooftop solar, agricultural solar and solar pumping, and commercial solar systems. 3 kW on-grid from ₹1,02,000 + subsidy, including GST and installation. SPARKS SOLAR ENERGY, Deolali Pravara.{% endblock %}
+
+{% block content %}
+{% call page_hero("Solar solutions", "Solar Solutions for Every Ambition", "Rooftop solar for homes, solar for farms and pumps, and systems for shops, offices and industries, each planned around how you actually use energy.", "images/stock/commercial-sunset.webp", crumb="Solutions") %}
+  <div class="flex flex-col gap-3 min-[420px]:flex-row">
+    <a href="#enquiry" data-enquire="" class="btn btn-sun">Get a Free Quote {{ icon("arrow-right", "btn-arrow") }}</a>
+    <a href="#pricing" class="btn btn-glass">{{ icon("badge-indian-rupee", "h-4 w-4") }} See prices</a>
+  </div>
+{% endcall %}
+
+{# Jump links #}
+<div class="bg-cream">
+  <div class="container-site">
+    <nav class="flex gap-2 overflow-x-auto pb-2 pt-2 [scrollbar-width:none]" aria-label="Solutions on this page">
+      {% for s in solutions %}
+      <a href="#{{ s.slug }}" class="inline-flex shrink-0 items-center gap-2 rounded-full border border-forest-900/15 bg-white px-4 py-2.5 text-sm font-semibold text-forest-900 transition hover:border-forest-900 hover:bg-forest-900 hover:text-white">{{ icon(s.icon, "h-4 w-4") }} {{ s.title }}</a>
+      {% endfor %}
+      <a href="#pricing" class="inline-flex shrink-0 items-center gap-2 rounded-full border border-forest-900/15 bg-white px-4 py-2.5 text-sm font-semibold text-forest-900 transition hover:border-forest-900 hover:bg-forest-900 hover:text-white">{{ icon("badge-indian-rupee", "h-4 w-4") }} Pricing</a>
+      <a href="#services" class="inline-flex shrink-0 items-center gap-2 rounded-full border border-forest-900/15 bg-white px-4 py-2.5 text-sm font-semibold text-forest-900 transition hover:border-forest-900 hover:bg-forest-900 hover:text-white">{{ icon("wrench", "h-4 w-4") }} More services</a>
+    </nav>
+  </div>
+</div>
+
+{# Detailed solutions, alternating #}
+<div class="bg-cream pb-8 pt-12 sm:pt-16">
+  {% for s in solutions %}
+  <section id="{{ s.slug }}" class="py-12 sm:py-16" aria-labelledby="{{ s.slug }}-title">
+    <div class="container-site grid items-center gap-10 lg:grid-cols-12 lg:gap-16">
+      <div class="relative lg:col-span-6 {{ 'lg:order-2' if loop.index is even else '' }}" data-reveal="{{ 'right' if loop.index is even else 'left' }}">
+        <div class="group relative overflow-hidden rounded-[2rem]">
+          <img src="{{ url_for('static', filename=s.image) }}" alt="{{ s.image_alt }}" loading="{{ 'eager' if loop.first else 'lazy' }}" decoding="async"
+               class="h-[20rem] w-full object-cover transition duration-[1400ms] group-hover:scale-105 sm:h-[28rem] lg:h-[32rem]">
+          <div class="absolute inset-0 bg-gradient-to-t from-forest-950/50 to-transparent"></div>
+          <span class="absolute bottom-5 left-5 rounded-full bg-forest-950/60 px-3 py-1.5 text-[0.68rem] font-semibold uppercase tracking-[0.16em] text-white/80 backdrop-blur">Representative image</span>
+        </div>
+        <span class="absolute -top-5 {{ 'left-6' if loop.index is even else 'right-6' }} grid h-16 w-16 place-items-center rounded-2xl bg-sun-400 text-forest-950 shadow-glow">{{ icon(s.icon, "h-7 w-7") }}</span>
+      </div>
+      <div class="lg:col-span-6" data-reveal style="--d: 120ms">
+        <p class="font-display text-sm font-bold tracking-[0.24em] text-solar-600">{{ s.number }}</p>
+        <h2 id="{{ s.slug }}-title" class="section-title mt-3">{{ s.title }}</h2>
+        <p class="section-lead mt-5">{{ s.summary }}</p>
+        <h3 class="mt-8 font-display text-sm font-bold uppercase tracking-[0.18em] text-forest-900">What we look at</h3>
+        <ul class="mt-4 space-y-3">
+          {% for p in s.points %}
+          <li class="flex gap-3 text-charcoal/80">
+            <span class="mt-0.5 grid h-6 w-6 shrink-0 place-items-center rounded-full bg-solar-500/15 text-solar-600">{{ icon("check", "h-3.5 w-3.5") }}</span>
+            <span>{{ p }}</span>
+          </li>
+          {% endfor %}
+        </ul>
+        <div class="mt-9 flex flex-wrap gap-3">
+          {{ enquire_link(s.slug, "Enquire about " ~ s.title.lower(), "btn btn-forest") }}
+          <a href="{{ url_for('index') }}#estimator" class="btn btn-outline">{{ icon("calculator", "h-4 w-4") }} Try the estimator</a>
+        </div>
+      </div>
+    </div>
+  </section>
+  {% endfor %}
+</div>
+
+{# System types #}
+<section id="system-types" class="grain relative isolate overflow-hidden bg-forest-900 py-20 text-white sm:py-28" aria-labelledby="types-title">
+  <div class="pointer-events-none absolute -right-40 -top-40 -z-10 h-[36rem] w-[36rem] sun-rays opacity-60" aria-hidden="true"></div>
+  <div class="container-site">
+    <div class="max-w-3xl" data-reveal>
+      <p class="eyebrow eyebrow-light">System types</p>
+      <h2 id="types-title" class="section-title mt-5 !text-white">On-grid, off-grid or hybrid?</h2>
+      <p class="section-lead mt-5 !text-white/70">The right type depends on grid availability, backup needs and budget. We explain the trade-offs before you decide.</p>
+    </div>
+    <div class="mt-14 grid gap-px overflow-hidden rounded-[2rem] bg-white/10 md:grid-cols-3">
+      {% for t in system_types %}
+      <article class="group relative bg-forest-900 p-7 transition duration-500 hover:bg-forest-800 sm:p-9" data-reveal style="--d: {{ loop.index0 * 120 }}ms">
+        <span class="grid h-14 w-14 place-items-center rounded-2xl bg-white/10 text-sun-400 transition duration-500 group-hover:-rotate-6 group-hover:bg-sun-400 group-hover:text-forest-950">{{ icon(t.icon, "h-6 w-6") }}</span>
+        <h3 class="mt-7 text-2xl font-bold">{{ t.title }}</h3>
+        <p class="mt-3 leading-relaxed text-white/70">{{ t.text }}</p>
+      </article>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{% include "components/pricing.html" %}
+
+{# Additional services #}
+<section id="services" class="bg-cream py-20 sm:py-28" aria-labelledby="services-title">
+  <div class="container-site grid gap-12 lg:grid-cols-12 lg:gap-16">
+    <div class="lg:col-span-5" data-reveal>
+      <p class="eyebrow">More services</p>
+      <h2 id="services-title" class="section-title mt-5">Beyond the panels.</h2>
+      <p class="section-lead mt-5">Alongside solar power systems, we offer solar water heating, solar pumping and maintenance services.</p>
+      <div class="mt-8 overflow-hidden rounded-[2rem]">
+        <img src="{{ url_for('static', filename='images/stock/installer-panel.webp') }}" alt="Technician fitting a solar panel on a roof" loading="lazy" decoding="async" class="h-64 w-full object-cover sm:h-72">
+      </div>
+    </div>
+    <div class="space-y-4 lg:col-span-7">
+      {% for svc in services %}
+      <article class="group flex gap-5 rounded-[1.75rem] bg-white p-6 shadow-sm ring-1 ring-forest-900/5 transition duration-500 hover:-translate-y-1 hover:shadow-soft sm:p-8" data-reveal="right" style="--d: {{ loop.index0 * 120 }}ms">
+        <span class="icon-ring group-hover:bg-sun-400 group-hover:text-forest-950">{{ icon(svc.icon, "h-6 w-6") }}</span>
+        <div>
+          <h3 class="text-xl font-bold text-forest-900 sm:text-2xl">{{ svc.title }}</h3>
+          <p class="mt-2 leading-relaxed text-charcoal/70">{{ svc.text }}</p>
+        </div>
+      </article>
+      {% endfor %}
+      <div class="flex flex-col gap-3 pt-4 sm:flex-row" data-reveal>
+        <a href="#enquiry" data-enquire="" class="btn btn-forest">Ask about a service {{ icon("arrow-right", "btn-arrow") }}</a>
+        <a href="tel:{{ business.phone_tel }}" class="btn btn-outline">{{ icon("phone", "h-4 w-4") }} {{ business.phone_display }}</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+{# Process strip #}
+<section class="border-y border-forest-900/10 bg-white py-16 sm:py-20" aria-labelledby="steps-title">
+  <div class="container-site">
+    <h2 id="steps-title" class="font-display text-2xl font-extrabold text-forest-900 sm:text-3xl" data-reveal>How we work with you</h2>
+    <ol class="mt-10 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+      {% for step in steps %}
+      <li class="relative border-t-2 border-forest-900/10 pt-6" data-reveal style="--d: {{ loop.index0 * 120 }}ms">
+        <span class="absolute -top-[2px] left-0 h-[2px] w-12 bg-sun-400"></span>
+        <p class="font-display text-sm font-bold tracking-[0.2em] text-solar-600">STEP {{ loop.index }}</p>
+        <h3 class="mt-2 text-lg font-bold text-forest-900">{{ step.title }}</h3>
+        <p class="mt-2 text-sm leading-relaxed text-charcoal/70">{{ step.text }}</p>
+      </li>
+      {% endfor %}
+    </ol>
+  </div>
+</section>
+
+{% include "components/enquiry_section.html" %}
+{% endblock %}

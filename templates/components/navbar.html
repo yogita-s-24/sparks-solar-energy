@@ -1,0 +1,62 @@
+{% from "components/macros.html" import icon, brand %}
+{% set nav_items = [
+  ("Home", url_for("index"), "index"),
+  ("About Us", url_for("about"), "about"),
+  ("Solutions", url_for("solutions"), "solutions"),
+  ("Benefits", url_for("index") ~ "#benefits", None),
+  ("Contact", url_for("contact"), "contact"),
+] %}
+<header id="site-nav" class="site-nav fixed inset-x-0 top-0 z-50">
+  <nav class="nav-bar container-site flex h-[4.5rem] items-center justify-between gap-4 lg:h-20" aria-label="Main navigation">
+    <a href="{{ url_for('index') }}" class="relative -my-1 shrink-0" aria-label="{{ business.name }} home">{{ brand() }}</a>
+
+    <ul class="hidden items-center gap-9 lg:flex">
+      {% for label, href, endpoint in nav_items %}
+      <li>
+        <a href="{{ href }}" class="nav-link text-[0.95rem] font-medium text-white/80 transition-colors hover:text-white"
+           {% if endpoint and request.endpoint == endpoint %}aria-current="page"{% endif %}>{{ label }}</a>
+      </li>
+      {% endfor %}
+    </ul>
+
+    <div class="flex items-center gap-2">
+      <a href="tel:{{ business.phone_tel }}" class="hidden h-11 w-11 place-items-center rounded-full text-white/80 ring-1 ring-white/20 transition hover:bg-white/10 hover:text-white md:grid lg:hidden xl:grid" aria-label="Call {{ business.phone_display }}">
+        {{ icon("phone", "h-[1.1rem] w-[1.1rem]") }}
+      </a>
+      <a href="{{ url_for('contact') }}#enquiry" data-enquire="" class="btn btn-sun hidden !min-h-[2.75rem] !px-5 !text-sm sm:inline-flex">
+        Get Free Consultation {{ icon("arrow-right", "btn-arrow") }}
+      </a>
+      <button type="button" class="menu-toggle relative grid h-11 w-11 place-items-center rounded-full text-white ring-1 ring-white/25 transition hover:bg-white/10 lg:hidden"
+              aria-expanded="false" aria-controls="mobile-menu" aria-label="Open menu" data-menu-toggle>
+        <span class="flex w-5 flex-col gap-[5px]" aria-hidden="true">
+          <span class="bar bar-1 block h-[2px] w-5 rounded bg-current"></span>
+          <span class="bar bar-2 block h-[2px] w-5 rounded bg-current"></span>
+          <span class="bar bar-3 block h-[2px] w-5 rounded bg-current"></span>
+        </span>
+      </button>
+    </div>
+  </nav>
+
+</header>
+
+{# Kept outside <header>: its backdrop-filter would otherwise clip this fixed overlay #}
+<div id="mobile-menu" class="mobile-menu fixed inset-0 z-[45] flex flex-col overflow-y-auto bg-forest-950 lg:hidden" data-mobile-menu>
+  <div class="pointer-events-none absolute -right-24 -top-24 h-80 w-80 rounded-full sun-orb opacity-60" aria-hidden="true"></div>
+  <div class="container-site relative flex flex-1 flex-col pb-10 pt-28">
+    <ul class="space-y-1">
+      {% for label, href, endpoint in nav_items %}
+      <li class="menu-item" style="--i: {{ loop.index0 }}">
+        <a href="{{ href }}" data-menu-link class="flex items-center justify-between border-b border-white/10 py-4 font-display text-3xl font-bold text-white"
+           {% if endpoint and request.endpoint == endpoint %}aria-current="page"{% endif %}>
+          {{ label }} {{ icon("arrow-up-right", "h-6 w-6 text-sun-400") }}
+        </a>
+      </li>
+      {% endfor %}
+    </ul>
+    <div class="menu-item mt-10 space-y-3" style="--i: 6">
+      <a href="{{ url_for('contact') }}#enquiry" data-enquire="" data-menu-link class="btn btn-sun w-full">Get Free Consultation {{ icon("arrow-right", "btn-arrow") }}</a>
+      <a href="tel:{{ business.phone_tel }}" class="btn btn-glass w-full">{{ icon("phone", "h-4 w-4") }} Call {{ business.phone_display }}</a>
+    </div>
+    <p class="menu-item mt-auto pt-10 text-sm text-white/50" style="--i: 7">{{ full_address }}</p>
+  </div>
+</div>

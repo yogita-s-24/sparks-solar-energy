@@ -1,0 +1,27 @@
+{% from "components/macros.html" import icon %}
+{% macro page_hero(eyebrow, title, lead, image, image_alt="", crumb=None) -%}
+<section class="relative isolate overflow-hidden bg-forest-950 pb-24 pt-36 sm:pb-32 sm:pt-44" aria-labelledby="page-title">
+  <div class="absolute inset-x-0 -bottom-[10%] -top-[10%] -z-30" data-parallax="0.25">
+    <img src="{{ url_for('static', filename=image) }}" alt="{{ image_alt }}" class="hero-media h-full w-full object-cover" fetchpriority="high" decoding="async">
+  </div>
+  <div class="absolute inset-0 -z-20 bg-gradient-to-r from-forest-950/95 via-forest-950/80 to-forest-950/40" aria-hidden="true"></div>
+  <div class="pointer-events-none absolute inset-x-0 top-0 -z-10 h-44 bg-gradient-to-b from-forest-950/80 to-transparent" aria-hidden="true"></div>
+  <div class="pointer-events-none absolute -right-32 -top-32 -z-10 h-[34rem] w-[34rem] sun-rays opacity-70" aria-hidden="true"></div>
+  <div class="pointer-events-none absolute -right-16 -top-16 -z-10 h-72 w-72 rounded-full sun-orb mix-blend-screen" aria-hidden="true"></div>
+
+  <div class="container-site">
+    <nav aria-label="Breadcrumb" class="fade-in-up text-sm text-white/55" style="--d: 50ms">
+      <a href="{{ url_for('index') }}" class="transition hover:text-white">Home</a>
+      <span class="mx-2" aria-hidden="true">/</span>
+      <span class="text-white/85" aria-current="page">{{ crumb or title }}</span>
+    </nav>
+    <p class="eyebrow eyebrow-light fade-in-up mt-8" style="--d: 120ms">{{ eyebrow }}</p>
+    <h1 id="page-title" class="mt-5 max-w-4xl font-display text-[2.4rem] font-extrabold leading-[1.05] text-white sm:text-6xl lg:text-7xl">
+      {% for w in title.split(" ") %}<span class="reveal-line"><span style="--d: {{ 180 + loop.index0 * 70 }}ms">{{ w }}</span></span> {% endfor %}
+    </h1>
+    <p class="fade-in-up mt-6 max-w-2xl text-base leading-relaxed text-white/75 sm:text-lg" style="--d: 600ms">{{ lead }}</p>
+    {% if caller %}<div class="fade-in-up mt-9" style="--d: 750ms">{{ caller() }}</div>{% endif %}
+  </div>
+</section>
+<div class="relative z-10 -mt-10 h-10 rounded-t-[2.5rem] bg-cream lg:-mt-14 lg:h-14 lg:rounded-t-[4rem]" aria-hidden="true"></div>
+{%- endmacro %}

@@ -1,0 +1,32 @@
+{# Lucide icon from the generated sprite (static/images/icons/sprite.svg) #}
+{% macro icon(name, class="h-5 w-5", label=None) -%}
+<svg class="{{ class }}" {% if label %}role="img" aria-label="{{ label }}"{% else %}aria-hidden="true" focusable="false"{% endif %}><use href="{{ url_for('static', filename='images/icons/sprite.svg') }}#{{ name }}"></use></svg>
+{%- endmacro %}
+
+{# Full SPARKS SOLAR ENERGY logo (black background removed). #}
+{% macro brand(class="brand-logo h-14 lg:h-16") -%}
+<img src="{{ url_for('static', filename='images/brand/sparks-logo-nav.webp') }}" alt="SPARKS SOLAR ENERGY" width="286" height="240"
+     class="{{ class }} w-auto transition-[height,transform] duration-500 hover:scale-[1.03]">
+{%- endmacro %}
+
+{% macro section_heading(eyebrow, title, lead=None, light=False, center=False) -%}
+<div class="{{ 'mx-auto text-center' if center else '' }} max-w-3xl" data-reveal>
+  <p class="eyebrow {{ 'eyebrow-light' if light else '' }} {{ 'justify-center' if center else '' }}">{{ eyebrow }}</p>
+  <h2 class="section-title mt-5 {{ '!text-white' if light else '' }}">{{ title }}</h2>
+  {% if lead %}<p class="section-lead mt-5 {{ '!text-white/70' if light else '' }} {{ 'mx-auto' if center else '' }} max-w-2xl">{{ lead }}</p>{% endif %}
+</div>
+{%- endmacro %}
+
+{# Link that pre-selects a property type in the nearest enquiry form #}
+{% macro enquire_link(type, text, class="") -%}
+<a href="{{ url_for('contact', type=type) }}#enquiry" data-enquire="{{ type }}" class="{{ class }}">{{ text }}</a>
+{%- endmacro %}
+
+{# Visible only while SHOW_PLACEHOLDERS is on: marks details still to be confirmed #}
+{% macro placeholder(text) -%}
+{% if show_placeholders %}
+<div class="rounded-2xl border-2 border-dashed border-sun-500/70 bg-sun-100/70 px-5 py-4 text-sm text-forest-900">
+  <p class="flex items-start gap-2"><strong class="shrink-0 uppercase tracking-wider text-[0.7rem] mt-0.5 rounded bg-sun-400 px-1.5 py-0.5">To confirm</strong><span>{{ text }}</span></p>
+</div>
+{% endif %}
+{%- endmacro %}

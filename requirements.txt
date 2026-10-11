@@ -1,0 +1,12 @@
+# Runtime (tested with Python 3.14 on Windows)
+Flask==3.1.3
+Flask-WTF==1.3.0
+WTForms==3.2.2
+python-dotenv==1.2.4
+
+# Production servers: waitress (Windows or Linux) or gunicorn (Linux only)
+waitress==3.0.2
+gunicorn==26.2.0; sys_platform != "win32"
+
+# Tests
+pytest==9.1.1

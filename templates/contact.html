@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% from "components/macros.html" import icon, placeholder with context %}
+{% from "components/page_hero.html" import page_hero %}
+
+{% block title %}Contact Us | Free Solar Consultation | {{ business.name }}{% endblock %}
+{% block meta_description %}Contact SPARKS SOLAR ENERGY, Deolali Pravara, Tal. Rahuri, Dist. Ahilya Nagar. Call {{ business.phone_display }}, WhatsApp us or send an enquiry for a free solar consultation.{% endblock %}
+
+{% block content %}
+{% call page_hero("Contact", "Let's Plan Your Solar Journey.", "Call, WhatsApp or send the form below. Tell us about your property and electricity use, and we will take it from there.", "images/stock/solar-field-sky.webp", crumb="Contact") %}
+  <div class="flex flex-col gap-3 min-[420px]:flex-row">
+    <a href="tel:{{ business.phone_tel }}" class="btn btn-sun">{{ icon("phone", "h-4 w-4") }} Call {{ business.phone_display }}</a>
+    <a href="{{ whatsapp_url }}" target="_blank" rel="noopener" class="btn btn-glass">{{ icon("message-circle", "h-4 w-4") }} WhatsApp us</a>
+  </div>
+{% endcall %}
+
+{% include "components/enquiry_section.html" %}
+
+<section class="bg-cream pb-20 sm:pb-28" aria-labelledby="visit-title">
+  <div class="container-site">
+    <div class="grid overflow-hidden rounded-[2rem] bg-forest-900 text-white lg:grid-cols-2" data-reveal>
+      <div class="p-8 sm:p-12">
+        <p class="eyebrow eyebrow-light">Visit us</p>
+        <h2 id="visit-title" class="mt-5 font-display text-3xl font-extrabold sm:text-4xl">Find us in Deolali Pravara.</h2>
+        <address class="mt-5 not-italic text-lg leading-relaxed text-white/75">{{ full_address }}</address>
+        <a href="{{ business.maps_url }}" target="_blank" rel="noopener" class="btn btn-sun mt-8">{{ icon("map-pin", "h-4 w-4") }} Open in Google Maps</a>
+        <div class="mt-8 text-forest-900">{{ placeholder("Add the exact shop address (the flyer shows a shop in Society Complex), PIN code and office hours once confirmed.") }}</div>
+      </div>
+      <div class="relative min-h-[16rem]">
+        <img src="{{ url_for('static', filename='images/stock/rural-home-rooftop.webp') }}" alt="Rural home with rooftop solar panels surrounded by farmland" loading="lazy" decoding="async" class="absolute inset-0 h-full w-full object-cover">
+        <div class="absolute inset-0 bg-gradient-to-r from-forest-900 to-transparent lg:from-forest-900/60"></div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
