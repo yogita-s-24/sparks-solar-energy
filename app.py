@@ -3,15 +3,17 @@ import logging
 import os
 import sqlite3
 from datetime import datetime
-from urllib.parse import quote
+from urllib.parse import quote, urlsplit
 
 from flask import Flask, Response, redirect, render_template, request, session, url_for
 from flask_wtf.csrf import CSRFError, CSRFProtect
 
 import content
 import db
+import i18n
 from config import Config
 from forms import PROPERTY_LABELS, EnquiryForm
+from i18n import gettext as _
 from notifications import mail_configured, send_enquiry_email
 
 csrf = CSRFProtect()
@@ -61,6 +63,8 @@ def create_app(config_object=Config):
         response.headers.setdefault("X-Frame-Options", "DENY")
         response.headers.setdefault("Permissions-Policy", "camera=(), microphone=(), geolocation=()")
         response.headers.setdefault("Content-Security-Policy", CSP)
+        # Pages are rendered in the language stored in the "lang" cookie.
+        response.vary.add("Cookie")
         return response
 
     return app
@@ -79,39 +83,69 @@ def register_template_helpers(app):
             except OSError:
                 pass
 
+    app.jinja_env.globals["_"] = _
+    app.jinja_env.filters["date_long"] = i18n.format_date
+    app.jinja_env.filters["date_short"] = lambda value: i18n.format_date(value, short=True)
+
     @app.context_processor
     def inject_globals():
-        whatsapp_url = f"https://wa.me/{business['whatsapp_number']}?text={quote(business['whatsapp_message'])}"
+        whatsapp_url = f"https://wa.me/{business['whatsapp_number']}?text={quote(_(business['whatsapp_message']))}"
         addr = business["address"]
-        address_parts = [addr["street"], addr["locality"], addr["taluka"], addr["district"],
-                         f"{addr['region']} {addr['postal_code']}".strip(), addr["country"]]
+        address_parts = [addr["street"], _(addr["locality"]), _(addr["taluka"]), _(addr["district"]),
+                         f"{_(addr['region'])} {addr['postal_code']}".strip(), _(addr["country"])]
         return {
+            "lang": i18n.get_lang(),
+            "languages": i18n.LANGUAGES,
             "business": business,
             "whatsapp_url": whatsapp_url,
             "full_address": ", ".join(p for p in address_parts if p),
             "current_year": datetime.now().year,
             "site_url": app.config["SITE_URL"],
-            "show_placeholders": app.config["SHOW_PLACEHOLDERS"],
             "solutions_nav": content.SOLUTIONS,
             "subsidy": content.SUBSIDY,
             # Deadline notices disappear automatically once the scheme's end date passes.
             "subsidy_open": datetime.now().date() <= content.SUBSIDY["end_date"],
         }
 
-    @app.template_filter("inr")
-    def inr(value):
-        """Format a number with Indian digit grouping, e.g. 1,23,456."""
-        s = str(int(value))
-        if len(s) <= 3:
-            return s
-        head, tail = s[:-3], s[-3:]
-        groups = []
-        while len(head) > 2:
-            groups.insert(0, head[-2:])
-            head = head[:-2]
-        if head:
-            groups.insert(0, head)
-        return ",".join(groups) + "," + tail
+    app.jinja_env.filters["inr"] = inr
+
+
+def inr(value):
+    """Format a number with Indian digit grouping, e.g. 1,23,456."""
+    s = str(int(value))
+    if len(s) <= 3:
+        return s
+    head, tail = s[:-3], s[-3:]
+    groups = []
+    while len(head) > 2:
+        groups.insert(0, head[-2:])
+        head = head[:-2]
+    if head:
+        groups.insert(0, head)
+    return ",".join(groups) + "," + tail
+
+
+def calculator_settings(calc):
+    """Estimator assumptions plus its messages in the current language, for calculator.js."""
+    def pct(n):
+        return round(n * 100)
+
+    assumption = ("Assumption used: a suitably sized system might offset roughly {low}–{high}% of a typical "
+                  "{type} bill. This is an illustrative assumption, not a promise.")
+    return {
+        **calc,
+        "text": {
+            "assumptions": {
+                key: _(assumption, low=pct(pt["offset_low"]), high=pct(pt["offset_high"]), type=_(pt["label"]).lower())
+                for key, pt in calc["property_types"].items()
+            },
+            "invalid_bill": _("Please enter a monthly bill between ₹{min} and ₹{max}.",
+                              min=inr(calc["min_bill"]), max=inr(calc["max_bill"])),
+            # {rate} and {units} are filled in by calculator.js
+            "rate": _("From your figures, you currently pay about ₹{rate} per unit and use roughly {units} units a year. "
+                      "Useful information for planning a system size."),
+        },
+    }
 
 
 def enquiry_form_for(source):
@@ -139,6 +173,7 @@ def register_routes(app):
             gallery_is_demo=any(item["demo"] for item in content.GALLERY),
             pricing=content.PRICING,
             calculator=app.config["CALCULATOR"],
+            calculator_js=calculator_settings(app.config["CALCULATOR"]),
         )
 
     @app.route("/about")
@@ -192,6 +227,20 @@ def register_routes(app):
     @app.route("/privacy")
     def privacy():
         return render_template("privacy.html")
+
+    @app.route("/lang/<code>")
+    def set_language(code):
+        """Remember the chosen language and return to the page the visitor was on."""
+        target = request.args.get("next", "")
+        parts = urlsplit(target)
+        # Only same-site paths, never an external redirect.
+        if parts.scheme or parts.netloc or not target.startswith("/") or target.startswith("//") or "\\" in target:
+            target = url_for("index")
+        response = redirect(target)
+        if code in i18n.LANGUAGES:
+            response.set_cookie(i18n.COOKIE_NAME, code, max_age=i18n.COOKIE_MAX_AGE, samesite="Lax",
+                                secure=app.config["SESSION_COOKIE_SECURE"])
+        return response
 
     @app.route("/robots.txt")
     def robots():

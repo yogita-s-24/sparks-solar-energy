@@ -2,27 +2,27 @@
 <section id="enquiry" class="relative bg-cream py-20 sm:py-28" aria-labelledby="enquiry-title">
   <div class="container-site grid gap-12 lg:grid-cols-12 lg:gap-16">
     <div class="lg:col-span-5" data-reveal>
-      <p class="eyebrow">Free solar consultation</p>
-      <h2 id="enquiry-title" class="section-title mt-5">Tell us about your property.</h2>
-      <p class="section-lead mt-5">Share a few details and our team will get in touch to discuss your requirements. Prefer to talk now? Call or WhatsApp us.</p>
+      <p class="eyebrow">{{ _("Free solar consultation") }}</p>
+      <h2 id="enquiry-title" class="section-title mt-5">{{ _("Tell us about your property.") }}</h2>
+      <p class="section-lead mt-5">{{ _("Share a few details and our team will get in touch to discuss your requirements. Prefer to talk now? Call or WhatsApp us.") }}</p>
 
       <ul class="mt-10 space-y-3">
         <li>
           <a href="tel:{{ business.phone_tel }}" class="group flex items-center gap-4 rounded-2xl bg-white p-4 shadow-sm ring-1 ring-forest-900/5 transition hover:-translate-y-0.5 hover:shadow-soft">
             <span class="grid h-12 w-12 shrink-0 place-items-center rounded-xl bg-forest-900 text-sun-400 transition group-hover:bg-sun-400 group-hover:text-forest-950">{{ icon("phone", "h-5 w-5") }}</span>
-            <span><span class="block text-sm text-charcoal/60">Call us</span><span class="font-display text-lg font-bold text-forest-900">{{ business.phone_display }}</span></span>
+            <span><span class="block text-sm text-charcoal/60">{{ _("Call us") }}</span><span class="font-display text-lg font-bold text-forest-900">{{ business.phone_display }}</span></span>
           </a>
         </li>
         <li>
           <a href="{{ whatsapp_url }}" target="_blank" rel="noopener" class="group flex items-center gap-4 rounded-2xl bg-white p-4 shadow-sm ring-1 ring-forest-900/5 transition hover:-translate-y-0.5 hover:shadow-soft">
             <span class="grid h-12 w-12 shrink-0 place-items-center rounded-xl bg-[#25D366] text-forest-950">{{ icon("message-circle", "h-5 w-5") }}</span>
-            <span><span class="block text-sm text-charcoal/60">WhatsApp</span><span class="font-display text-lg font-bold text-forest-900">Send us a message</span></span>
+            <span><span class="block text-sm text-charcoal/60">{{ _("WhatsApp") }}</span><span class="font-display text-lg font-bold text-forest-900">{{ _("Send us a message") }}</span></span>
           </a>
         </li>
         <li>
           <a href="{{ business.maps_url }}" target="_blank" rel="noopener" class="group flex items-center gap-4 rounded-2xl bg-white p-4 shadow-sm ring-1 ring-forest-900/5 transition hover:-translate-y-0.5 hover:shadow-soft">
             <span class="grid h-12 w-12 shrink-0 place-items-center rounded-xl bg-sun-100 text-forest-900">{{ icon("map-pin", "h-5 w-5") }}</span>
-            <span><span class="block text-sm text-charcoal/60">Visit us</span><span class="block font-semibold leading-snug text-forest-900">{{ full_address }}</span></span>
+            <span><span class="block text-sm text-charcoal/60">{{ _("Visit us") }}</span><span class="block font-semibold leading-snug text-forest-900">{{ full_address }}</span></span>
           </a>
         </li>
       </ul>
@@ -33,7 +33,7 @@
         {% if alert %}
         <div class="mb-6 flex items-start gap-3 rounded-2xl border border-red-200 bg-red-50 p-4 text-sm text-red-800" role="alert">
           {{ icon("circle-alert", "mt-0.5 h-5 w-5 shrink-0") }}
-          <span>{{ alert }}</span>
+          <span>{{ _(alert) }}</span>
         </div>
         {% endif %}
         {% include "components/enquiry_form.html" %}

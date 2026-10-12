@@ -1,5 +1,5 @@
 /* Illustrative solar savings estimator.
-   Assumptions come from CALCULATOR in config.py (rendered into data-calculator).
+   Assumptions and translated messages come from calculator_settings() in app.py (rendered into data-calculator).
    Results are indicative only and never a quotation. */
 (() => {
   const root = document.querySelector("[data-calculator]");
@@ -89,7 +89,7 @@
     const bill = Number(billInput.value);
     const valid = billInput.value !== "" && Number.isFinite(bill) && bill >= cfg.min_bill && bill <= cfg.max_bill;
     if (!valid) {
-      if (strict) showError(`Please enter a monthly bill between ₹${fmt.format(cfg.min_bill)} and ₹${fmt.format(cfg.max_bill)}.`);
+      if (strict) showError(cfg.text.invalid_bill);
       return;
     }
     showError("");
@@ -106,16 +106,12 @@
 
     out.bar.style.left = `${pct(type.offset_low)}%`;
     out.bar.style.width = `${pct(type.offset_high - type.offset_low)}%`;
-    assumptionEl.textContent =
-      `Assumption used: a suitably sized system might offset roughly ${pct(type.offset_low)}–${pct(type.offset_high)}% ` +
-      `of a typical ${type.label.toLowerCase()} bill. This is an illustrative assumption, not a promise.`;
+    assumptionEl.textContent = cfg.text.assumptions[typeKey];
 
     const kwh = Number(kwhInput.value);
     if (kwhInput.value !== "" && Number.isFinite(kwh) && kwh > 0) {
       const rate = bill / kwh;
-      out.rate.textContent =
-        `From your figures, you currently pay about ₹${rate.toFixed(2)} per unit and use roughly ` +
-        `${fmt.format(kwh * 12)} units a year. Useful information for planning a system size.`;
+      out.rate.textContent = cfg.text.rate.replace("{rate}", rate.toFixed(2)).replace("{units}", fmt.format(kwh * 12));
       out.rate.classList.remove("hidden");
     } else {
       out.rate.classList.add("hidden");

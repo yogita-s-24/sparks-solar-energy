@@ -13,9 +13,6 @@ images on the website. Replace them with genuine project photos when available
 | agricultural-array.webp | photo-1566093097221-ac2335b09e70 |
 | commercial-rooftop.webp | photo-1617269778723-73a40cf299bd |
 | rural-home-rooftop.webp | photo-1649441246954-388fb49cced9 |
-| installers-roof.webp | photo-1660330589243-4c640d878052 |
-| installer-panel.webp | photo-1660330589257-813305a4a383 |
-| installers-team.webp | photo-1660330589505-9a433a742a7b |
 | neighbourhood-rainbow.webp | photo-1761472823286-9f6093ed6663 |
 | aerial-commercial.webp | photo-1552197892-f2ad2f75e7c8 |
 | aerial-field.webp | photo-1497440001374-f26997328c1b |

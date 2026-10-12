@@ -1,19 +1,19 @@
 {% from "components/macros.html" import icon %}
 <!doctype html>
-<html lang="en-IN">
+<html lang="{{ 'mr' if lang == 'mr' else 'en-IN' }}">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>{% block title %}{{ business.name }} | Solar Energy Solutions in Deolali Pravara{% endblock %}</title>
+  <title>{% block title %}{{ business.name }} | {{ _("Solar Energy Solutions in Deolali Pravara") }}{% endblock %}</title>
   {% set page_title = self.title() | trim %}
-  <meta name="description" content="{% block meta_description %}{{ business.description }}{% endblock %}">
+  <meta name="description" content="{% block meta_description %}{{ _(business.description) }}{% endblock %}">
   {% block robots %}<meta name="robots" content="index, follow">{% endblock %}
   <link rel="canonical" href="{{ site_url }}{{ request.path }}">
   <meta name="theme-color" content="#103D2B">
 
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="{{ business.name }}">
-  <meta property="og:locale" content="en_IN">
+  <meta property="og:locale" content="{{ 'mr_IN' if lang == 'mr' else 'en_IN' }}">
   <meta property="og:title" content="{{ page_title }}">
   <meta property="og:description" content="{{ self.meta_description() | trim }}">
   <meta property="og:url" content="{{ site_url }}{{ request.path }}">
@@ -29,7 +29,7 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Manrope:wght@500;600;700;800&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Manrope:wght@500;600;700;800&family=Mukta:wght@400;500;600;700;800&display=swap">
   <link rel="stylesheet" href="{{ url_for('static', filename='css/output.css') }}">
   {% block head %}{% endblock %}
 
@@ -58,7 +58,7 @@
   </script>
 </head>
 <body class="min-h-screen overflow-x-hidden">
-  <a href="#main" class="sr-only z-[100] rounded-full bg-sun-400 px-5 py-3 font-semibold text-forest-950 focus:not-sr-only focus:fixed focus:left-4 focus:top-4">Skip to content</a>
+  <a href="#main" class="sr-only z-[100] rounded-full bg-sun-400 px-5 py-3 font-semibold text-forest-950 focus:not-sr-only focus:fixed focus:left-4 focus:top-4">{{ _("Skip to content") }}</a>
 
   {% include "components/navbar.html" %}
 
@@ -70,10 +70,10 @@
 
   <a href="{{ whatsapp_url }}" target="_blank" rel="noopener"
      class="group fixed bottom-[max(1rem,env(safe-area-inset-bottom))] right-4 z-40 flex h-14 items-center gap-2 rounded-full bg-[#25D366] pl-4 pr-4 text-forest-950 shadow-[0_14px_40px_-12px_rgba(37,211,102,0.8)] transition duration-300 hover:-translate-y-1 hover:pr-5 sm:right-6 sm:bottom-6"
-     aria-label="Chat with SPARKS SOLAR ENERGY on WhatsApp">
+     aria-label="{{ _('Chat with SPARKS SOLAR ENERGY on WhatsApp') }}">
     <span class="absolute inset-0 -z-10 animate-ping rounded-full bg-[#25D366]/40 [animation-duration:3s]" aria-hidden="true"></span>
     {{ icon("message-circle", "h-6 w-6") }}
-    <span class="hidden max-w-0 overflow-hidden whitespace-nowrap text-sm font-semibold transition-all duration-300 group-hover:max-w-[8rem] sm:inline">WhatsApp us</span>
+    <span class="hidden max-w-0 overflow-hidden whitespace-nowrap text-sm font-semibold transition-all duration-300 group-hover:max-w-[8rem] sm:inline">{{ _("WhatsApp us") }}</span>
   </a>
 
   <script src="{{ url_for('static', filename='js/animations.js') }}" defer></script>

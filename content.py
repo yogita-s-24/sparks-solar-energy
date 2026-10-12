@@ -188,9 +188,9 @@ SUBSIDY = {
     "scheme": "PM Surya Ghar: Muft Bijli Yojana",
     "end_date": date(2027, 3, 31),
     "rates": [
-        ("1 kW system", "₹30,000", ""),
-        ("2 kW system", "₹60,000", ""),
-        ("3 kW and above", "₹78,000", "Maximum for residential households"),
+        ("Up to 2 kW", "₹30,000 per kW", "₹60,000 for a 2 kW system"),
+        ("Additional capacity up to 3 kW", "₹18,000 per kW", "₹78,000 for a 3 kW system"),
+        ("Systems larger than 3 kW", "₹78,000", "Maximum cap for residential households"),
         ("Housing societies (GHS / RWA)", "₹18,000 per kW", "Common facilities, up to 500 kW"),
     ],
 }
@@ -268,7 +268,7 @@ FAQS = [
 GALLERY = [
     {"src": "images/stock/neighbourhood-rainbow.webp", "alt": "Homes with rooftop solar panels under a rainbow", "category": "residential", "caption": "Rooftop solar on homes", "size": "wide"},
     {"src": "images/stock/aerial-commercial.webp", "alt": "Aerial view of solar panels covering a large commercial roof", "category": "commercial", "caption": "Large commercial rooftop", "size": "tall"},
-    {"src": "images/stock/installers-team.webp", "alt": "Two installers fitting black solar panels on a house roof", "category": "residential", "caption": "Residential panel installation", "size": "tall"},
+    {"src": "images/stock/rural-home-rooftop.webp", "alt": "Aerial view of a rural house with solar panels on its roof, surrounded by farmland", "category": "residential", "caption": "Rooftop solar on a rural home", "size": "tall"},
     {"src": "images/stock/aerial-field.webp", "alt": "Aerial view of solar panels arranged on green grassland", "category": "agricultural", "caption": "Ground-mounted array on open land", "size": "normal"},
     {"src": "images/stock/commercial-sunset.webp", "alt": "Solar panels in front of a commercial building at sunset", "category": "commercial", "caption": "Commercial site at sunset", "size": "wide"},
     {"src": "images/stock/panel-grass.webp", "alt": "Long ground-mounted solar panel row on a grass field under blue sky", "category": "agricultural", "caption": "Ground-mounted solar on farmland", "size": "wide"},

@@ -1,8 +1,8 @@
 {% extends "base.html" %}
 {% from "components/macros.html" import icon %}
 
-{% block title %}Page Not Found | {{ business.name }}{% endblock %}
-{% block meta_description %}The page you were looking for could not be found.{% endblock %}
+{% block title %}{{ _("Page Not Found") }} | {{ business.name }}{% endblock %}
+{% block meta_description %}{{ _("The page you were looking for could not be found.") }}{% endblock %}
 {% block robots %}<meta name="robots" content="noindex">{% endblock %}
 
 {% block content %}
@@ -11,12 +11,12 @@
   <div class="pointer-events-none absolute -right-20 -top-20 -z-10 h-96 w-96 rounded-full sun-orb" aria-hidden="true"></div>
   <div class="container-site">
     <p class="fade-in-up font-display text-[7rem] font-extrabold leading-none text-transparent [-webkit-text-stroke:2px_rgba(255,209,102,0.7)] sm:text-[11rem]">404</p>
-    <h1 class="fade-in-up mt-4 max-w-2xl font-display text-4xl font-extrabold sm:text-6xl" style="--d: 150ms">This page is in the shade.</h1>
-    <p class="fade-in-up mt-5 max-w-xl text-lg text-white/70" style="--d: 300ms">The page you were looking for doesn't exist or may have moved. Let's get you back into the sunshine.</p>
+    <h1 class="fade-in-up mt-4 max-w-2xl font-display text-4xl font-extrabold sm:text-6xl" style="--d: 150ms">{{ _("This page is in the shade.") }}</h1>
+    <p class="fade-in-up mt-5 max-w-xl text-lg text-white/70" style="--d: 300ms">{{ _("The page you were looking for doesn't exist or may have moved. Let's get you back into the sunshine.") }}</p>
     <div class="fade-in-up mt-10 flex flex-col gap-3 sm:flex-row" style="--d: 450ms">
-      <a href="{{ url_for('index') }}" class="btn btn-sun">Go to home {{ icon("arrow-right", "btn-arrow") }}</a>
-      <a href="{{ url_for('solutions') }}" class="btn btn-glass">View solutions</a>
-      <a href="{{ url_for('contact') }}" class="btn btn-glass">Contact us</a>
+      <a href="{{ url_for('index') }}" class="btn btn-sun">{{ _("Go to home") }} {{ icon("arrow-right", "btn-arrow") }}</a>
+      <a href="{{ url_for('solutions') }}" class="btn btn-glass">{{ _("View solutions") }}</a>
+      <a href="{{ url_for('contact') }}" class="btn btn-glass">{{ _("Contact us") }}</a>
     </div>
   </div>
 </section>

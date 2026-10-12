@@ -126,7 +126,9 @@ An enquiry counts as emailed only when the SMTP server accepts it. Failures are 
 | Estimator assumptions (illustrative offset ranges) | `config.py` → `CALCULATOR` |
 | Solutions, benefits, steps, FAQs, services, team | `content.py` |
 | Package prices, subsidy steps, component brands | `content.py` → `PRICING`, `SUBSIDY_STEPS`, `COMPONENTS` (also update the cost FAQ) |
-| "To confirm" placeholder boxes | `SHOW_PLACEHOLDERS=false` in `.env` hides them |
+| Marathi wording | `translations_mr.py` |
+
+**English and Marathi.** Marathi is the default (`DEFAULT_LANG` in `i18n.py`). The ENG / मराठी buttons in the navbar call `/lang/en` or `/lang/mr`, which store the choice in a `lang` cookie and return to the same page. Templates wrap text in `_("English text")`. With Marathi selected, it is looked up in `translations_mr.py` (keyed by the exact English text); anything missing falls back to English. When you change English text in a template, `content.py`, `config.py` or `forms.py`, update or add its Marathi entry too. `pytest` fails and lists any English text that has no Marathi translation.
 
 **Replacing demonstration photos.** Put real project photos (WebP or JPG, about 1200px wide) in `static/images/projects/`. In `content.py` → `GALLERY`, point `src` at them, write accurate `alt` text and set `"demo": False`. When no item is marked demo, the section title changes to "Our Installations" and the demonstration notice disappears. Other stock images are listed in `static/images/stock/CREDITS.md`.
 
@@ -134,7 +136,7 @@ An enquiry counts as emailed only when the SMTP server accepts it. Failures are 
 
 Before going live:
 
-1. Set a strong `SECRET_KEY`, `SITE_URL=https://your-domain`, `SESSION_COOKIE_SECURE=true`, `SHOW_PLACEHOLDERS=false`, and remove `FLASK_DEBUG`.
+1. Set a strong `SECRET_KEY`, `SITE_URL=https://your-domain`, `SESSION_COOKIE_SECURE=true`, and remove `FLASK_DEBUG`.
 2. Run `npm run build:css` if you changed any templates or styles.
 3. Serve over HTTPS. Make sure the `instance/` folder is writable and persistent (it holds the enquiry database).
 

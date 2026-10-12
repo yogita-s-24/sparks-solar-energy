@@ -10,8 +10,8 @@
   <div class="pointer-events-none absolute -right-16 -top-16 -z-10 h-72 w-72 rounded-full sun-orb mix-blend-screen" aria-hidden="true"></div>
 
   <div class="container-site">
-    <nav aria-label="Breadcrumb" class="fade-in-up text-sm text-white/55" style="--d: 50ms">
-      <a href="{{ url_for('index') }}" class="transition hover:text-white">Home</a>
+    <nav aria-label="{{ _('Breadcrumb') }}" class="fade-in-up text-sm text-white/55" style="--d: 50ms">
+      <a href="{{ url_for('index') }}" class="transition hover:text-white">{{ _("Home") }}</a>
       <span class="mx-2" aria-hidden="true">/</span>
       <span class="text-white/85" aria-current="page">{{ crumb or title }}</span>
     </nav>

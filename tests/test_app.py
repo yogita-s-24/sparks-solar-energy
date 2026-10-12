@@ -29,7 +29,10 @@ def app(tmp_path):
 
 @pytest.fixture
 def client(app):
-    return app.test_client()
+    # Most tests check English text; Marathi is the site default (see mr_client).
+    c = app.test_client()
+    c.set_cookie("lang", "en")
+    return c
 
 
 def rows(app):
@@ -215,6 +218,7 @@ def test_csrf_is_enforced_when_enabled(tmp_path):
         DATABASE = str(tmp_path / "csrf.sqlite3")
 
     client = create_app(Cfg).test_client()
+    client.set_cookie("lang", "en")
     res = client.post("/contact", data=VALID)
     assert res.status_code == 400
     assert "session expired" in res.get_data(as_text=True)
@@ -314,8 +318,9 @@ def test_solutions_page_shows_prices_and_components(client):
     assert "+ ₹78,000 subsidy" in html and "All prices include GST and installation." in html
     assert "pay ₹1,80,000 at installation" in html
     assert "Subsidy available until 31 March 2027" in html
-    for amount in ("₹30,000", "₹60,000", "₹18,000 per kW"):
+    for amount in ("₹30,000 per kW", "₹60,000", "₹18,000 per kW"):
         assert amount in html, amount
+    assert "additional 10% subsidy per kW" in html and "National Portal for Rooftop Solar" in html
     for brand in ("Waaree / Adani", "Polycab string inverter", "Apollo GI pipe structure", "Type II surge protection"):
         assert brand in html, brand
 
@@ -335,3 +340,106 @@ def test_subsidy_deadline_notice_hides_after_end_date(client, monkeypatch):
     html = client.get("/solutions").get_data(as_text=True)
     assert "Subsidy available until" not in html
     assert "is still accepting applications" in html
+
+
+# --------------------------------------------------------------------------
+# English / Marathi
+# --------------------------------------------------------------------------
+MARATHI_PAGES = ["/", "/about", "/solutions", "/contact", "/privacy", "/contact/thank-you", "/missing-page"]
+
+
+@pytest.fixture
+def mr_client(client):
+    client.set_cookie("lang", "mr")
+    return client
+
+
+def test_language_switch_sets_cookie_and_returns_to_page(client):
+    res = client.get("/lang/mr?next=/solutions?type=commercial")
+    assert res.status_code == 302 and res.headers["Location"] == "/solutions?type=commercial"
+    assert "lang=mr" in res.headers["Set-Cookie"]
+    html = client.get("/solutions").get_data(as_text=True)
+    assert '<html lang="mr">' in html and "सोलर सोल्युशन्स" in html
+
+    client.get("/lang/en?next=/solutions")
+    html = client.get("/solutions").get_data(as_text=True)
+    assert '<html lang="en-IN">' in html and "On-grid, off-grid or hybrid?" in html
+
+
+@pytest.mark.parametrize("target", ["https://evil.example", "//evil.example", "/\\evil.example", "javascript:alert(1)", ""])
+def test_language_switch_never_redirects_off_site(client, target):
+    res = client.get("/lang/mr", query_string={"next": target})
+    assert res.headers["Location"] == "/"
+
+
+def test_marathi_is_the_default_for_new_visitors(app):
+    html = app.test_client().get("/").get_data(as_text=True)
+    assert '<html lang="mr">' in html and "सूर्यप्रकाशाला" in html
+
+
+def test_unknown_language_is_ignored(client):
+    res = client.get("/lang/xx?next=/about")
+    assert res.headers["Location"] == "/about" and "Set-Cookie" not in res.headers
+    client.set_cookie("lang", "xx")
+    assert '<html lang="mr">' in client.get("/").get_data(as_text=True)
+
+
+def test_navbar_offers_both_languages(client):
+    html = client.get("/about").get_data(as_text=True)
+    assert 'href="/lang/en?next=/about"' in html and 'href="/lang/mr?next=/about"' in html
+    assert "ENG" in html and "मराठी" in html
+
+
+@pytest.mark.parametrize("path", MARATHI_PAGES)
+def test_marathi_pages_have_no_missing_translations(mr_client, path):
+    import i18n
+
+    i18n.MISSING.clear()
+    res = mr_client.get(path)
+    assert res.status_code in (200, 404)
+    html = res.get_data(as_text=True)
+    assert '<html lang="mr">' in html and "मुख्यपृष्ठ" in html
+    assert not i18n.MISSING, sorted(i18n.MISSING)
+
+
+def test_marathi_content_and_estimator_text(mr_client):
+    html = mr_client.get("/").get_data(as_text=True)
+    assert "सूर्यप्रकाशाला" in html and "नेहमीचे प्रश्न" in html
+    assert "रूफटॉप सोलर प्रणाली कशी काम करते?" in html
+    assert "निवासी वीजबिलाचा साधारण 40–80%" in html
+    assert "Turn Sunlight" not in html and "Questions, answered." not in html
+    html = mr_client.get("/solutions").get_data(as_text=True)
+    assert "अनुदान 31 मार्च 2027 पर्यंत उपलब्ध" in html and "+ ₹78,000 अनुदान" in html
+
+
+def test_marathi_form_errors_and_choices(mr_client, app):
+    html = mr_client.post("/contact", data={**VALID, "phone": "12345", "name": ""}).get_data(as_text=True)
+    assert "कृपया तुमचे नाव सांगा." in html
+    assert "कृपया योग्य 10 अंकी भारतीय मोबाइल नंबर टाका" in html
+    assert "कृपया ठळक केलेली माहिती तपासा" in html
+    assert "निवासी (घर)" in html
+    assert rows(app) == []
+
+
+def test_every_template_string_has_a_marathi_translation():
+    from pathlib import Path
+
+    from translations_mr import MR
+
+    root = Path(__file__).resolve().parent.parent
+    call = re.compile(r"""\b_\(\s*(?:"([^"]*)"|'([^']*)')""")
+    keys = set()
+    for path in (root / "templates").rglob("*.html"):
+        for m in call.finditer(path.read_text(encoding="utf-8")):
+            keys.add(m.group(1) if m.group(1) is not None else m.group(2))
+    keys.update(re.findall(r'alert = "([^"]+)"', (root / "app.py").read_text(encoding="utf-8")))
+    missing = sorted(k for k in keys if k not in MR)
+    assert not missing, missing
+
+
+def test_marathi_translations_keep_placeholders():
+    from translations_mr import MR
+
+    field = re.compile(r"\{(\w*)\}")
+    wrong = [en for en, mr in MR.items() if sorted(field.findall(en)) != sorted(field.findall(mr))]
+    assert not wrong, wrong

@@ -100,9 +100,6 @@ class Config:
     MAIL_TO = os.environ.get("MAIL_TO", "")
     MAIL_TIMEOUT = 10
 
-    # Shows clearly marked "to be confirmed" boxes for missing business details.
-    SHOW_PLACEHOLDERS = env_bool("SHOW_PLACEHOLDERS", True)
-
     WTF_CSRF_TIME_LIMIT = 60 * 60 * 6
     SESSION_COOKIE_HTTPONLY = True
     SESSION_COOKIE_SAMESITE = "Lax"

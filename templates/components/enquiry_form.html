@@ -1,7 +1,7 @@
 {% from "components/macros.html" import icon %}
 {% macro field_errors(field) -%}
   {% if field.errors %}
-  <p class="field-error" id="{{ field.id }}-error">{{ icon("circle-alert", "h-4 w-4 shrink-0") }} {{ field.errors[0] }}</p>
+  <p class="field-error" id="{{ field.id }}-error">{{ icon("circle-alert", "h-4 w-4 shrink-0") }} {{ _(field.errors[0]) }}</p>
   {% endif %}
 {%- endmacro %}
 
@@ -16,58 +16,58 @@
   </div>
 
   <div>
-    <label class="field-label" for="{{ form.name.id }}">Your name <span class="text-red-600" aria-hidden="true">*</span></label>
-    {{ form.name(class="field-input" ~ (" has-error" if form.name.errors else ""), autocomplete="name", required=True, maxlength=80, placeholder="Full name", **form.aria(form.name)) }}
+    <label class="field-label" for="{{ form.name.id }}">{{ _("Your name") }} <span class="text-red-600" aria-hidden="true">*</span></label>
+    {{ form.name(class="field-input" ~ (" has-error" if form.name.errors else ""), autocomplete="name", required=True, maxlength=80, placeholder=_("Full name"), **form.aria(form.name)) }}
     {{ field_errors(form.name) }}
   </div>
 
   <div>
-    <label class="field-label" for="{{ form.phone.id }}">Phone number <span class="text-red-600" aria-hidden="true">*</span></label>
-    {{ form.phone(class="field-input" ~ (" has-error" if form.phone.errors else ""), type="tel", inputmode="tel", autocomplete="tel", required=True, maxlength=20, placeholder="10-digit mobile number", **form.aria(form.phone)) }}
+    <label class="field-label" for="{{ form.phone.id }}">{{ _("Phone number") }} <span class="text-red-600" aria-hidden="true">*</span></label>
+    {{ form.phone(class="field-input" ~ (" has-error" if form.phone.errors else ""), type="tel", inputmode="tel", autocomplete="tel", required=True, maxlength=20, placeholder=_("10-digit mobile number"), **form.aria(form.phone)) }}
     {{ field_errors(form.phone) }}
   </div>
 
   <div>
-    <label class="field-label" for="{{ form.email.id }}">Email <span class="font-normal text-charcoal/50">(optional)</span></label>
+    <label class="field-label" for="{{ form.email.id }}">{{ _("Email") }} <span class="font-normal text-charcoal/50">{{ _("(optional)") }}</span></label>
     {{ form.email(class="field-input" ~ (" has-error" if form.email.errors else ""), type="email", inputmode="email", autocomplete="email", maxlength=120, placeholder="you@example.com", **form.aria(form.email)) }}
     {{ field_errors(form.email) }}
   </div>
 
   <div>
-    <label class="field-label" for="{{ form.property_type.id }}">Property type <span class="text-red-600" aria-hidden="true">*</span></label>
+    <label class="field-label" for="{{ form.property_type.id }}">{{ _("Property type") }} <span class="text-red-600" aria-hidden="true">*</span></label>
     {{ form.property_type(class="field-input" ~ (" has-error" if form.property_type.errors else ""), required=True, **form.aria(form.property_type)) }}
     {{ field_errors(form.property_type) }}
   </div>
 
   <div>
-    <label class="field-label" for="{{ form.location.id }}">Location <span class="text-red-600" aria-hidden="true">*</span></label>
-    {{ form.location(class="field-input" ~ (" has-error" if form.location.errors else ""), autocomplete="address-level2", required=True, maxlength=120, placeholder="Village / town", **form.aria(form.location)) }}
+    <label class="field-label" for="{{ form.location.id }}">{{ _("Location") }} <span class="text-red-600" aria-hidden="true">*</span></label>
+    {{ form.location(class="field-input" ~ (" has-error" if form.location.errors else ""), autocomplete="address-level2", required=True, maxlength=120, placeholder=_("Village / town"), **form.aria(form.location)) }}
     {{ field_errors(form.location) }}
   </div>
 
   <div>
-    <label class="field-label" for="{{ form.monthly_bill.id }}">Monthly electricity bill <span class="font-normal text-charcoal/50">(optional)</span></label>
+    <label class="field-label" for="{{ form.monthly_bill.id }}">{{ _("Monthly electricity bill") }} <span class="font-normal text-charcoal/50">{{ _("(optional)") }}</span></label>
     <div class="relative">
       <span class="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 font-semibold text-charcoal/50">₹</span>
-      {{ form.monthly_bill(class="field-input pl-9" ~ (" has-error" if form.monthly_bill.errors else ""), type="number", inputmode="numeric", min=0, step=1, placeholder="e.g. 2500", **form.aria(form.monthly_bill)) }}
+      {{ form.monthly_bill(class="field-input pl-9" ~ (" has-error" if form.monthly_bill.errors else ""), type="number", inputmode="numeric", min=0, step=1, placeholder=_("e.g. 2500"), **form.aria(form.monthly_bill)) }}
     </div>
     {{ field_errors(form.monthly_bill) }}
   </div>
 
   <div class="sm:col-span-2">
-    <label class="field-label" for="{{ form.message.id }}">Your requirements <span class="font-normal text-charcoal/50">(optional)</span></label>
-    {{ form.message(class="field-input min-h-[7.5rem] resize-y" ~ (" has-error" if form.message.errors else ""), rows=4, maxlength=1500, placeholder="E.g. roof type, approximate roof area, pump capacity, or any questions you have", **form.aria(form.message)) }}
+    <label class="field-label" for="{{ form.message.id }}">{{ _("Your requirements") }} <span class="font-normal text-charcoal/50">{{ _("(optional)") }}</span></label>
+    {{ form.message(class="field-input min-h-[7.5rem] resize-y" ~ (" has-error" if form.message.errors else ""), rows=4, maxlength=1500, placeholder=_("E.g. roof type, approximate roof area, pump capacity, or any questions you have"), **form.aria(form.message)) }}
     {{ field_errors(form.message) }}
   </div>
 
   <div class="flex flex-col gap-4 sm:col-span-2 sm:flex-row sm:items-center sm:justify-between">
     <p class="max-w-sm text-xs leading-relaxed text-charcoal/60">
-      We use your details only to respond to this enquiry. See our <a href="{{ url_for('privacy') }}" class="underline underline-offset-2 hover:text-forest-900">privacy note</a>.
+      {{ _("We use your details only to respond to this enquiry.") }} <a href="{{ url_for('privacy') }}" class="underline underline-offset-2 hover:text-forest-900">{{ _("Read our privacy note") }}</a>.
     </p>
     <button type="submit" class="btn btn-forest w-full shrink-0 sm:w-auto" data-submit>
       <svg class="spinner h-4 w-4" aria-hidden="true"><use href="{{ url_for('static', filename='images/icons/sprite.svg') }}#loader-circle"></use></svg>
-      <span class="btn-label-idle">Submit enquiry</span>
-      <span class="btn-label-loading">Sending…</span>
+      <span class="btn-label-idle">{{ _("Submit enquiry") }}</span>
+      <span class="btn-label-loading">{{ _("Sending…") }}</span>
       {{ icon("arrow-right", "btn-arrow btn-label-idle") }}
     </button>
   </div>

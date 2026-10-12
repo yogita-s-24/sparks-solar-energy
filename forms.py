@@ -6,6 +6,8 @@ from flask_wtf import FlaskForm
 from wtforms import HiddenField, IntegerField, SelectField, StringField, TextAreaField
 from wtforms.validators import DataRequired, Length, NumberRange, Optional, ValidationError
 
+from i18n import gettext
+
 PROPERTY_TYPES = [
     ("", "Select property type"),
     ("residential", "Residential (home)"),
@@ -90,6 +92,10 @@ class EnquiryForm(FlaskForm):
     source = HiddenField(filters=[clean_text])
     # Honeypot: humans never see or fill this field.
     website = StringField("Leave this field empty", filters=[clean_text])
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.property_type.choices = [(value, gettext(label)) for value, label in PROPERTY_TYPES]
 
     @staticmethod
     def aria(field):

@@ -7,37 +7,37 @@
 
   <div class="container-site relative grid gap-12 py-16 sm:grid-cols-2 lg:grid-cols-12 lg:gap-8 lg:py-20">
     <div class="sm:col-span-2 lg:col-span-4">
-      <a href="{{ url_for('index') }}" class="inline-block" aria-label="{{ business.name }} home">{{ brand("h-20 sm:h-24") }}</a>
+      <a href="{{ url_for('index') }}" class="inline-block" aria-label="{{ _('{name} home', name=business.name) }}">{{ brand("h-20 sm:h-24") }}</a>
       <p class="mt-6 max-w-sm text-[0.95rem] leading-relaxed">
-        {{ business.description }}
+        {{ _(business.description) }}
       </p>
-      <p class="mt-5 font-display text-sm font-semibold text-sun-300">{{ business.tagline }}</p>
+      <p class="mt-5 font-display text-sm font-semibold text-sun-300">{{ _(business.tagline) }}</p>
     </div>
 
     <div class="lg:col-span-2">
-      <h2 class="font-display text-sm font-bold uppercase tracking-[0.2em] text-white">Explore</h2>
+      <h2 class="font-display text-sm font-bold uppercase tracking-[0.2em] text-white">{{ _("Explore") }}</h2>
       <ul class="mt-5 space-y-3 text-[0.95rem]">
-        <li><a class="transition hover:text-sun-300" href="{{ url_for('index') }}">Home</a></li>
-        <li><a class="transition hover:text-sun-300" href="{{ url_for('about') }}">About Us</a></li>
-        <li><a class="transition hover:text-sun-300" href="{{ url_for('solutions') }}">Solutions</a></li>
-        <li><a class="transition hover:text-sun-300" href="{{ url_for('index') }}#benefits">Benefits</a></li>
-        <li><a class="transition hover:text-sun-300" href="{{ url_for('index') }}#estimator">Solar Estimator</a></li>
-        <li><a class="transition hover:text-sun-300" href="{{ url_for('contact') }}">Contact</a></li>
+        <li><a class="transition hover:text-sun-300" href="{{ url_for('index') }}">{{ _("Home") }}</a></li>
+        <li><a class="transition hover:text-sun-300" href="{{ url_for('about') }}">{{ _("About Us") }}</a></li>
+        <li><a class="transition hover:text-sun-300" href="{{ url_for('solutions') }}">{{ _("Solutions") }}</a></li>
+        <li><a class="transition hover:text-sun-300" href="{{ url_for('index') }}#benefits">{{ _("Benefits") }}</a></li>
+        <li><a class="transition hover:text-sun-300" href="{{ url_for('index') }}#estimator">{{ _("Solar Estimator") }}</a></li>
+        <li><a class="transition hover:text-sun-300" href="{{ url_for('contact') }}">{{ _("Contact") }}</a></li>
       </ul>
     </div>
 
     <div class="lg:col-span-2">
-      <h2 class="font-display text-sm font-bold uppercase tracking-[0.2em] text-white">Solutions</h2>
+      <h2 class="font-display text-sm font-bold uppercase tracking-[0.2em] text-white">{{ _("Solutions") }}</h2>
       <ul class="mt-5 space-y-3 text-[0.95rem]">
         {% for s in solutions_nav %}
-        <li><a class="transition hover:text-sun-300" href="{{ url_for('solutions') }}#{{ s.slug }}">{{ s.title }}</a></li>
+        <li><a class="transition hover:text-sun-300" href="{{ url_for('solutions') }}#{{ s.slug }}">{{ _(s.title) }}</a></li>
         {% endfor %}
-        <li><a class="transition hover:text-sun-300" href="{{ url_for('solutions') }}#services">Water Heating &amp; AMC</a></li>
+        <li><a class="transition hover:text-sun-300" href="{{ url_for('solutions') }}#services">{{ _("Water Heating & AMC") }}</a></li>
       </ul>
     </div>
 
     <div class="sm:col-span-2 lg:col-span-4">
-      <h2 class="font-display text-sm font-bold uppercase tracking-[0.2em] text-white">Get in touch</h2>
+      <h2 class="font-display text-sm font-bold uppercase tracking-[0.2em] text-white">{{ _("Get in touch") }}</h2>
       <ul class="mt-5 space-y-4 text-[0.95rem]">
         <li>
           <a href="tel:{{ business.phone_tel }}" class="group flex items-center gap-3 font-display text-xl font-bold text-white transition hover:text-sun-300">
@@ -51,11 +51,11 @@
         </li>
         <li class="flex flex-wrap gap-3 pt-1">
           <a href="{{ whatsapp_url }}" target="_blank" rel="noopener" class="inline-flex items-center gap-2 rounded-full bg-[#25D366] px-4 py-2.5 text-sm font-semibold text-forest-950 transition hover:-translate-y-0.5">
-            {{ icon("message-circle", "h-4 w-4") }} WhatsApp enquiry
+            {{ icon("message-circle", "h-4 w-4") }} {{ _("WhatsApp enquiry") }}
           </a>
           {% if business.email %}
           <a href="mailto:{{ business.email }}" class="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-white/20">
-            {{ icon("mail", "h-4 w-4") }} Email us
+            {{ icon("mail", "h-4 w-4") }} {{ _("Email us") }}
           </a>
           {% endif %}
           {% if business.instagram_url %}
@@ -70,11 +70,7 @@
 
   <div class="relative border-t border-white/10">
     <div class="container-site flex flex-col gap-3 pb-24 pt-6 text-sm text-white/50 sm:flex-row sm:items-center sm:justify-between sm:pb-6 sm:pr-24">
-      <p>&copy; {{ current_year }} {{ business.name }}. All rights reserved.</p>
-      <p class="flex flex-wrap gap-x-5 gap-y-2">
-        <a class="transition hover:text-white" href="{{ url_for('privacy') }}">Privacy</a>
-        <span>Demonstration photos: <a class="underline decoration-white/30 underline-offset-2 transition hover:text-white" href="https://unsplash.com/license" target="_blank" rel="noopener">Unsplash</a></span>
-      </p>
+      <p>&copy; {{ current_year }} {{ business.name }}. {{ _("All rights reserved.") }}</p>
     </div>
   </div>
 </footer>

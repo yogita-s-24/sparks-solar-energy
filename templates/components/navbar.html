@@ -1,14 +1,23 @@
 {% from "components/macros.html" import icon, brand %}
 {% set nav_items = [
-  ("Home", url_for("index"), "index"),
-  ("About Us", url_for("about"), "about"),
-  ("Solutions", url_for("solutions"), "solutions"),
-  ("Benefits", url_for("index") ~ "#benefits", None),
-  ("Contact", url_for("contact"), "contact"),
+  (_("Home"), url_for("index"), "index"),
+  (_("About Us"), url_for("about"), "about"),
+  (_("Solutions"), url_for("solutions"), "solutions"),
+  (_("Benefits"), url_for("index") ~ "#benefits", None),
+  (_("Contact"), url_for("contact"), "contact"),
 ] %}
+{% set here = request.full_path.rstrip("?") if request.query_string else request.path %}
+{% macro language_switch(class="") -%}
+<div class="lang-switch {{ class }}" role="group" aria-label="{{ _('Choose language') }}">
+  {% for code, label in languages.items() %}
+  <a href="{{ url_for('set_language', code=code, next=here) }}" lang="{{ code }}" hreflang="{{ code }}"
+     class="lang-option {{ 'is-active' if code == lang else '' }}" {% if code == lang %}aria-current="true"{% endif %}>{{ "ENG" if code == "en" else label }}</a>
+  {% endfor %}
+</div>
+{%- endmacro %}
 <header id="site-nav" class="site-nav fixed inset-x-0 top-0 z-50">
-  <nav class="nav-bar container-site flex h-[4.5rem] items-center justify-between gap-4 lg:h-20" aria-label="Main navigation">
-    <a href="{{ url_for('index') }}" class="relative -my-1 shrink-0" aria-label="{{ business.name }} home">{{ brand() }}</a>
+  <nav class="nav-bar container-site flex h-[4.5rem] items-center justify-between gap-4 lg:h-20" aria-label="{{ _('Main navigation') }}">
+    <a href="{{ url_for('index') }}" class="relative -my-1 shrink-0" aria-label="{{ _('{name} home', name=business.name) }}">{{ brand() }}</a>
 
     <ul class="hidden items-center gap-9 lg:flex">
       {% for label, href, endpoint in nav_items %}
@@ -20,14 +29,16 @@
     </ul>
 
     <div class="flex items-center gap-2">
-      <a href="tel:{{ business.phone_tel }}" class="hidden h-11 w-11 place-items-center rounded-full text-white/80 ring-1 ring-white/20 transition hover:bg-white/10 hover:text-white md:grid lg:hidden xl:grid" aria-label="Call {{ business.phone_display }}">
+      {{ language_switch() }}
+      <a href="tel:{{ business.phone_tel }}" class="hidden h-11 w-11 place-items-center rounded-full text-white/80 ring-1 ring-white/20 transition hover:bg-white/10 hover:text-white md:grid lg:hidden xl:grid" aria-label="{{ _('Call') }} {{ business.phone_display }}">
         {{ icon("phone", "h-[1.1rem] w-[1.1rem]") }}
       </a>
       <a href="{{ url_for('contact') }}#enquiry" data-enquire="" class="btn btn-sun hidden !min-h-[2.75rem] !px-5 !text-sm sm:inline-flex">
-        Get Free Consultation {{ icon("arrow-right", "btn-arrow") }}
+        {{ _("Get Free Consultation") }} {{ icon("arrow-right", "btn-arrow") }}
       </a>
       <button type="button" class="menu-toggle relative grid h-11 w-11 place-items-center rounded-full text-white ring-1 ring-white/25 transition hover:bg-white/10 lg:hidden"
-              aria-expanded="false" aria-controls="mobile-menu" aria-label="Open menu" data-menu-toggle>
+              aria-expanded="false" aria-controls="mobile-menu" aria-label="{{ _('Open menu') }}" data-menu-toggle
+              data-label-open="{{ _('Open menu') }}" data-label-close="{{ _('Close menu') }}">
         <span class="flex w-5 flex-col gap-[5px]" aria-hidden="true">
           <span class="bar bar-1 block h-[2px] w-5 rounded bg-current"></span>
           <span class="bar bar-2 block h-[2px] w-5 rounded bg-current"></span>
@@ -54,8 +65,8 @@
       {% endfor %}
     </ul>
     <div class="menu-item mt-10 space-y-3" style="--i: 6">
-      <a href="{{ url_for('contact') }}#enquiry" data-enquire="" data-menu-link class="btn btn-sun w-full">Get Free Consultation {{ icon("arrow-right", "btn-arrow") }}</a>
-      <a href="tel:{{ business.phone_tel }}" class="btn btn-glass w-full">{{ icon("phone", "h-4 w-4") }} Call {{ business.phone_display }}</a>
+      <a href="{{ url_for('contact') }}#enquiry" data-enquire="" data-menu-link class="btn btn-sun w-full">{{ _("Get Free Consultation") }} {{ icon("arrow-right", "btn-arrow") }}</a>
+      <a href="tel:{{ business.phone_tel }}" class="btn btn-glass w-full">{{ icon("phone", "h-4 w-4") }} {{ _("Call") }} {{ business.phone_display }}</a>
     </div>
     <p class="menu-item mt-auto pt-10 text-sm text-white/50" style="--i: 7">{{ full_address }}</p>
   </div>

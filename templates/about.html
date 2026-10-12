@@ -1,13 +1,13 @@
 {% extends "base.html" %}
-{% from "components/macros.html" import icon, placeholder with context %}
+{% from "components/macros.html" import icon %}
 {% from "components/page_hero.html" import page_hero %}
 
-{% block title %}About Us | {{ business.name }}, Deolali Pravara{% endblock %}
-{% block meta_description %}SPARKS SOLAR ENERGY is a solar energy business in Deolali Pravara, Tal. Rahuri, Dist. Ahilya Nagar, helping homes, farms and businesses plan solar power.{% endblock %}
+{% block title %}{{ _("About Us") }} | {{ business.name }}, {{ _("Deolali Pravara") }}{% endblock %}
+{% block meta_description %}{{ _("SPARKS SOLAR ENERGY is a solar energy business in Deolali Pravara, Tal. Rahuri, Dist. Ahilya Nagar, helping homes, farms and businesses plan solar power.") }}{% endblock %}
 
 {% block content %}
-{% call page_hero("About us", "Solar Energy, Planned Locally.", business.name ~ " is a solar energy business based in Deolali Pravara, Rahuri taluka, helping homeowners, farmers and businesses make the switch to solar with confidence.", "images/stock/installers-roof.webp", crumb="About Us") %}
-  <a href="{{ url_for('contact') }}#enquiry" class="btn btn-sun">Talk to our team {{ icon("arrow-right", "btn-arrow") }}</a>
+{% call page_hero(_("About us"), _("Solar Energy, Planned Locally."), _("{name} is a solar energy business based in Deolali Pravara, Rahuri taluka, helping homeowners, farmers and businesses make the switch to solar with confidence.", name=business.name), "images/stock/commercial-rooftop.webp", _("Rows of solar panels on a flat commercial rooftop with a city skyline"), crumb=_("About Us")) %}
+  <a href="{{ url_for('contact') }}#enquiry" class="btn btn-sun">{{ _("Talk to our team") }} {{ icon("arrow-right", "btn-arrow") }}</a>
 {% endcall %}
 
 <section class="bg-cream pb-20 pt-10 sm:pb-28" aria-labelledby="story-title">
@@ -15,19 +15,16 @@
     <div class="lg:col-span-5" data-reveal="left">
       <div class="grain relative isolate overflow-hidden rounded-[2rem] bg-forest-950 p-8 sm:p-12">
         <div class="pointer-events-none absolute -right-20 -top-20 -z-10 h-72 w-72 rounded-full sun-orb opacity-60" aria-hidden="true"></div>
-        <img src="{{ url_for('static', filename='images/brand/sparks-logo-transparent.webp') }}" alt="SPARKS SOLAR ENERGY logo" width="800" height="678" loading="lazy" decoding="async" class="mx-auto w-full max-w-sm">
+        <img src="{{ url_for('static', filename='images/brand/sparks-logo-transparent.webp') }}" alt="{{ _('SPARKS SOLAR ENERGY logo') }}" width="800" height="678" loading="lazy" decoding="async" class="mx-auto w-full max-w-sm">
       </div>
     </div>
     <div class="lg:col-span-7" data-reveal style="--d: 120ms">
-      <p class="eyebrow">Who we are</p>
-      <h2 id="story-title" class="section-title mt-5">Clean energy, close to home.</h2>
+      <p class="eyebrow">{{ _("Who we are") }}</p>
+      <h2 id="story-title" class="section-title mt-5">{{ _("Clean energy, close to home.") }}</h2>
       <div class="mt-6 space-y-5 text-lg leading-relaxed text-charcoal/75">
-        <p>We work with homeowners, farmers, shop owners, offices and industries who want to generate their own electricity from the sun.</p>
-        <p>Our approach is straightforward: understand how you use electricity, look at your roof or site, and recommend a solar system that fits your needs and budget. We explain your options in plain language, whether that is an on-grid, off-grid or hybrid system, a solar pump, or a solar water heater.</p>
-        <p class="font-display text-xl font-bold text-forest-900">{{ business.tagline }}</p>
-      </div>
-      <div class="mt-8 space-y-3">
-        {{ placeholder("Add verified details such as the year the business was established, registrations, certifications or empanelments, and the confirmed service area. Do not publish these until they are verified.") }}
+        <p>{{ _("We work with homeowners, farmers, shop owners, offices and industries who want to generate their own electricity from the sun.") }}</p>
+        <p>{{ _("Our approach is straightforward: understand how you use electricity, look at your roof or site, and recommend a solar system that fits your needs and budget. We explain your options in plain language, whether that is an on-grid, off-grid or hybrid system, a solar pump, or a solar water heater.") }}</p>
+        <p class="font-display text-xl font-bold text-forest-900">{{ _(business.tagline) }}</p>
       </div>
     </div>
   </div>
@@ -37,15 +34,15 @@
   <div class="pointer-events-none absolute -left-40 bottom-0 -z-10 h-[30rem] w-[30rem] rounded-full bg-solar-500/10 blur-3xl" aria-hidden="true"></div>
   <div class="container-site">
     <div class="max-w-3xl" data-reveal>
-      <p class="eyebrow eyebrow-light">Our commitments</p>
-      <h2 id="commit-title" class="section-title mt-5 !text-white">What you can expect from us.</h2>
+      <p class="eyebrow eyebrow-light">{{ _("Our commitments") }}</p>
+      <h2 id="commit-title" class="section-title mt-5 !text-white">{{ _("What you can expect from us.") }}</h2>
     </div>
     <div class="mt-14 grid gap-5 md:grid-cols-3">
       {% for c in commitments %}
       <article class="group rounded-[1.75rem] border border-white/10 bg-white/[0.04] p-7 transition duration-500 hover:-translate-y-1 hover:border-sun-400/40 hover:bg-white/[0.07] sm:p-9" data-reveal style="--d: {{ loop.index0 * 120 }}ms">
         <span class="grid h-14 w-14 place-items-center rounded-2xl bg-sun-400 text-forest-950 transition duration-500 group-hover:-rotate-6">{{ icon(c.icon, "h-6 w-6") }}</span>
-        <h3 class="mt-7 text-2xl font-bold">{{ c.title }}</h3>
-        <p class="mt-3 leading-relaxed text-white/70">{{ c.text }}</p>
+        <h3 class="mt-7 text-2xl font-bold">{{ _(c.title) }}</h3>
+        <p class="mt-3 leading-relaxed text-white/70">{{ _(c.text) }}</p>
       </article>
       {% endfor %}
     </div>
@@ -56,22 +53,21 @@
   <div class="container-site">
     <div class="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
       <div class="max-w-2xl" data-reveal>
-        <p class="eyebrow">Our team</p>
-        <h2 id="team-title" class="section-title mt-5">The people behind your system.</h2>
+        <p class="eyebrow">{{ _("Our team") }}</p>
+        <h2 id="team-title" class="section-title mt-5">{{ _("The people behind your system.") }}</h2>
       </div>
-      <p class="section-lead max-w-md" data-reveal style="--d: 120ms">Solar, civil and electrical know-how working together on every project.</p>
+      <p class="section-lead max-w-md" data-reveal style="--d: 120ms">{{ _("Solar, civil and electrical know-how working together on every project.") }}</p>
     </div>
     <ul class="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
       {% for m in team %}
       <li class="group relative overflow-hidden rounded-[1.75rem] bg-white p-7 shadow-sm ring-1 ring-forest-900/5 transition duration-500 hover:-translate-y-1 hover:shadow-soft sm:p-8" data-reveal style="--d: {{ loop.index0 * 120 }}ms">
         <span class="pointer-events-none absolute -right-10 -top-10 h-32 w-32 rounded-full bg-sun-400/0 blur-2xl transition duration-700 group-hover:bg-sun-400/40" aria-hidden="true"></span>
-        <span class="grid h-16 w-16 place-items-center rounded-2xl bg-forest-900 font-display text-xl font-extrabold text-sun-400" aria-hidden="true">{{ m.name.split(" ") | map("first") | join }}</span>
-        <h3 class="mt-6 text-xl font-bold text-forest-900">{{ m.name }}</h3>
-        <p class="mt-1 font-medium text-solar-600">{{ m.role }}</p>
+        <span class="grid h-16 w-16 place-items-center rounded-2xl bg-forest-900 font-display text-xl font-extrabold text-sun-400" aria-hidden="true">{{ _(m.name).split(" ") | map("first") | join }}</span>
+        <h3 class="mt-6 text-xl font-bold text-forest-900">{{ _(m.name) }}</h3>
+        <p class="mt-1 font-medium text-solar-600">{{ _(m.role) }}</p>
       </li>
       {% endfor %}
     </ul>
-    <div class="mt-8">{{ placeholder("Team names and roles are taken from the business flyer. Confirm spellings and roles, and add photographs if you would like them shown.") }}</div>
   </div>
 </section>
 
@@ -80,11 +76,11 @@
     <div class="grain relative isolate overflow-hidden rounded-[2.5rem] bg-forest-950 px-6 py-14 text-white sm:px-12 sm:py-20" data-reveal="zoom">
       <div class="pointer-events-none absolute -right-32 -top-32 -z-10 h-[30rem] w-[30rem] sun-rays" aria-hidden="true"></div>
       <div class="pointer-events-none absolute -right-10 -top-10 -z-10 h-72 w-72 rounded-full sun-orb mix-blend-screen" aria-hidden="true"></div>
-      <h2 id="about-cta-title" class="max-w-2xl font-display text-3xl font-extrabold leading-tight sm:text-5xl">Let's talk about your energy needs.</h2>
-      <p class="mt-4 max-w-xl text-white/70">Call, WhatsApp or send an enquiry. We'll help you understand whether solar is right for you.</p>
+      <h2 id="about-cta-title" class="max-w-2xl font-display text-3xl font-extrabold leading-tight sm:text-5xl">{{ _("Let's talk about your energy needs.") }}</h2>
+      <p class="mt-4 max-w-xl text-white/70">{{ _("Call, WhatsApp or send an enquiry. We'll help you understand whether solar is right for you.") }}</p>
       <div class="mt-8 flex flex-col gap-3 sm:flex-row">
-        <a href="{{ url_for('contact') }}#enquiry" class="btn btn-sun">Request a Free Consultation {{ icon("arrow-right", "btn-arrow") }}</a>
-        <a href="tel:{{ business.phone_tel }}" class="btn btn-glass">{{ icon("phone", "h-4 w-4") }} Call {{ business.phone_display }}</a>
+        <a href="{{ url_for('contact') }}#enquiry" class="btn btn-sun">{{ _("Request a Free Consultation") }} {{ icon("arrow-right", "btn-arrow") }}</a>
+        <a href="tel:{{ business.phone_tel }}" class="btn btn-glass">{{ icon("phone", "h-4 w-4") }} {{ _("Call") }} {{ business.phone_display }}</a>
       </div>
     </div>
   </div>

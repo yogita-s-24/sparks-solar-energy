@@ -29,8 +29,8 @@ module.exports = {
         charcoal: "#17211C",
       },
       fontFamily: {
-        display: ["Manrope", "ui-sans-serif", "system-ui", "sans-serif"],
-        sans: ["Inter", "ui-sans-serif", "system-ui", "sans-serif"],
+        display: ["Manrope", "Mukta", "ui-sans-serif", "system-ui", "sans-serif"],
+        sans: ["Inter", "Mukta", "ui-sans-serif", "system-ui", "sans-serif"],
       },
       maxWidth: {
         site: "80rem",

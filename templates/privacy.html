@@ -1,33 +1,33 @@
 {% extends "base.html" %}
 {% from "components/page_hero.html" import page_hero %}
 
-{% block title %}Privacy Note | {{ business.name }}{% endblock %}
-{% block meta_description %}How SPARKS SOLAR ENERGY uses the details you share through the website enquiry form.{% endblock %}
+{% block title %}{{ _("Privacy Note") }} | {{ business.name }}{% endblock %}
+{% block meta_description %}{{ _("How SPARKS SOLAR ENERGY uses the details you share through the website enquiry form.") }}{% endblock %}
 
 {% block content %}
-{{ page_hero("Privacy", "Privacy Note", "How we handle the details you share with us through this website.", "images/stock/panel-texture.webp", crumb="Privacy") }}
+{{ page_hero(_("Privacy"), _("Privacy Note"), _("How we handle the details you share with us through this website."), "images/stock/panel-texture.webp", crumb=_("Privacy")) }}
 
 <section class="bg-cream pb-24 pt-6">
   <div class="container-site max-w-3xl space-y-8 text-lg leading-relaxed text-charcoal/80">
     <div>
-      <h2 class="font-display text-2xl font-bold text-forest-900">What we collect</h2>
-      <p class="mt-3">When you send an enquiry, we collect the details you enter: your name, phone number, optional email address, property type, location, optional monthly electricity bill and your message.</p>
+      <h2 class="font-display text-2xl font-bold text-forest-900">{{ _("What we collect") }}</h2>
+      <p class="mt-3">{{ _("When you send an enquiry, we collect the details you enter: your name, phone number, optional email address, property type, location, optional monthly electricity bill and your message.") }}</p>
     </div>
     <div>
-      <h2 class="font-display text-2xl font-bold text-forest-900">How we use it</h2>
-      <p class="mt-3">We use these details only to respond to your enquiry and discuss solar solutions with you. We do not sell your information or share it for marketing by others.</p>
+      <h2 class="font-display text-2xl font-bold text-forest-900">{{ _("How we use it") }}</h2>
+      <p class="mt-3">{{ _("We use these details only to respond to your enquiry and discuss solar solutions with you. We do not sell your information or share it for marketing by others.") }}</p>
     </div>
     <div>
-      <h2 class="font-display text-2xl font-bold text-forest-900">How it is stored</h2>
-      <p class="mt-3">Enquiries are stored securely on our web server and may also be sent to our business email so we can respond. Access is limited to our team.</p>
+      <h2 class="font-display text-2xl font-bold text-forest-900">{{ _("How it is stored") }}</h2>
+      <p class="mt-3">{{ _("Enquiries are stored securely on our web server and may also be sent to our business email so we can respond. Access is limited to our team.") }}</p>
     </div>
     <div>
-      <h2 class="font-display text-2xl font-bold text-forest-900">Your choices</h2>
-      <p class="mt-3">To ask us to update or delete your details, call <a class="font-semibold text-forest-900 underline underline-offset-4" href="tel:{{ business.phone_tel }}">{{ business.phone_display }}</a>.</p>
+      <h2 class="font-display text-2xl font-bold text-forest-900">{{ _("Your choices") }}</h2>
+      <p class="mt-3">{{ _("To ask us to update or delete your details, call") }} <a class="font-semibold text-forest-900 underline underline-offset-4" href="tel:{{ business.phone_tel }}">{{ business.phone_display }}</a>.</p>
     </div>
     <div>
-      <h2 class="font-display text-2xl font-bold text-forest-900">Third-party services</h2>
-      <p class="mt-3">This website loads fonts from Google Fonts. WhatsApp and Google Maps links take you to those services, which have their own privacy policies.</p>
+      <h2 class="font-display text-2xl font-bold text-forest-900">{{ _("Third-party services") }}</h2>
+      <p class="mt-3">{{ _("This website loads fonts from Google Fonts. WhatsApp and Google Maps links take you to those services, which have their own privacy policies.") }}</p>
     </div>
   </div>
 </section>

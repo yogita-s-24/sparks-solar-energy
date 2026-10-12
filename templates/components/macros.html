@@ -4,7 +4,7 @@
 {%- endmacro %}
 
 {# Full SPARKS SOLAR ENERGY logo (black background removed). #}
-{% macro brand(class="brand-logo h-14 lg:h-16") -%}
+{% macro brand(class="brand-logo h-11 lg:h-12") -%}
 <img src="{{ url_for('static', filename='images/brand/sparks-logo-nav.webp') }}" alt="SPARKS SOLAR ENERGY" width="286" height="240"
      class="{{ class }} w-auto transition-[height,transform] duration-500 hover:scale-[1.03]">
 {%- endmacro %}
@@ -20,13 +20,4 @@
 {# Link that pre-selects a property type in the nearest enquiry form #}
 {% macro enquire_link(type, text, class="") -%}
 <a href="{{ url_for('contact', type=type) }}#enquiry" data-enquire="{{ type }}" class="{{ class }}">{{ text }}</a>
-{%- endmacro %}
-
-{# Visible only while SHOW_PLACEHOLDERS is on: marks details still to be confirmed #}
-{% macro placeholder(text) -%}
-{% if show_placeholders %}
-<div class="rounded-2xl border-2 border-dashed border-sun-500/70 bg-sun-100/70 px-5 py-4 text-sm text-forest-900">
-  <p class="flex items-start gap-2"><strong class="shrink-0 uppercase tracking-wider text-[0.7rem] mt-0.5 rounded bg-sun-400 px-1.5 py-0.5">To confirm</strong><span>{{ text }}</span></p>
-</div>
-{% endif %}
 {%- endmacro %}
