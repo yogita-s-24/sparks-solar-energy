@@ -508,9 +508,183 @@ html:lang(mr) .reveal-line {
   }
 }
 
-/* Marquee band */
+/* Marquee band (pauses while hovered) */
 .marquee {
   animation: marquee 45s linear infinite;
+}
+.marquee-band:hover .marquee {
+  animation-play-state: paused;
+}
+
+/* ---------------------------------------------------------------------
+   Extra motion (effects.js)
+   --------------------------------------------------------------------- */
+
+/* Scroll progress bar */
+.scroll-progress {
+  position: fixed;
+  inset: 0 0 auto 0;
+  z-index: 60;
+  height: 3px;
+  background: linear-gradient(90deg, #63c74d, #ffd166 60%, #ffdc85);
+  box-shadow: 0 0 12px rgba(255, 209, 102, 0.7);
+  transform: scaleX(0);
+  transform-origin: left;
+  pointer-events: none;
+}
+
+/* Back-to-top button with a ring that fills as you scroll */
+.back-to-top {
+  position: fixed;
+  left: 1rem;
+  bottom: max(1rem, env(safe-area-inset-bottom));
+  z-index: 40;
+  display: grid;
+  place-items: center;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 9999px;
+  color: #ffd166;
+  background:
+    radial-gradient(closest-side, #0a2a1d 86%, transparent 87%),
+    conic-gradient(#ffd166 calc(var(--p, 0) * 360deg), rgba(255, 255, 255, 0.18) 0);
+  box-shadow: 0 12px 30px -10px rgba(10, 42, 29, 0.7);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(16px) scale(0.85);
+  transition: opacity 0.35s ease, transform 0.35s cubic-bezier(0.19, 0.8, 0.22, 1), visibility 0s linear 0.35s;
+}
+.back-to-top.is-shown {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+  transition-delay: 0s;
+}
+.back-to-top:hover svg {
+  animation: nudge-up 0.6s ease infinite alternate;
+}
+@media (min-width: 640px) {
+  .back-to-top {
+    left: 1.5rem;
+    bottom: 1.5rem;
+  }
+}
+@keyframes nudge-up {
+  to { transform: translateY(-3px); }
+}
+
+/* Navbar items drop in on page load */
+.nav-drop {
+  animation: nav-drop 0.8s cubic-bezier(0.19, 0.8, 0.22, 1) both;
+  animation-delay: calc(150ms + var(--i, 0) * 70ms);
+}
+@keyframes nav-drop {
+  from { opacity: 0; transform: translate3d(0, -14px, 0); }
+  to { opacity: 1; transform: none; }
+}
+
+/* Eyebrow line draws in with its section */
+.reveal-ready [data-reveal] .eyebrow::before {
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.9s cubic-bezier(0.19, 0.8, 0.22, 1) 0.25s;
+}
+.reveal-ready [data-reveal].is-visible .eyebrow::before {
+  transform: scaleX(1);
+}
+
+/* Headings rise word by word */
+.split-words .word {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+  padding: 0.1em 0 0.14em;
+  margin: -0.1em 0 -0.14em;
+}
+.split-words .word > span {
+  display: inline-block;
+  transform: translate3d(0, 105%, 0);
+  transition: transform 0.9s cubic-bezier(0.19, 0.8, 0.22, 1);
+  transition-delay: calc(120ms + var(--i, 0) * 55ms);
+}
+.split-words.words-in .word > span {
+  transform: none;
+}
+
+/* Images wipe in from the side, then settle from a slight zoom. Triggered by
+   the surrounding [data-reveal] block: a fully clipped element never counts as visible. */
+.reveal-ready [data-wipe] {
+  clip-path: inset(0 100% 0 0);
+  transition: clip-path 1.3s cubic-bezier(0.77, 0, 0.18, 1);
+}
+.reveal-ready .is-visible [data-wipe] {
+  clip-path: inset(0 0 0 0);
+}
+.reveal-ready [data-wipe] img {
+  transform: scale(1.18);
+  transition: transform 1.8s cubic-bezier(0.19, 0.8, 0.22, 1);
+}
+.reveal-ready .is-visible [data-wipe] img {
+  transform: scale(1);
+}
+.reveal-ready .is-visible [data-wipe]:hover img {
+  transform: scale(1.05);
+}
+
+/* Tilting cards with a soft light that follows the pointer */
+.tilt-card.is-tilting,
+.reveal-ready [data-reveal].tilt-card.is-tilting {
+  transition: transform 0.25s ease-out, box-shadow 0.4s ease, background-color 0.4s ease, border-color 0.4s ease;
+  transition-delay: 0s;
+}
+.tilt-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(420px circle at var(--mx, 50%) var(--my, 50%), rgba(255, 220, 133, 0.22), transparent 45%);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+  z-index: 1;
+}
+.tilt-card:hover::after {
+  opacity: 1;
+}
+
+/* Magnetic buttons follow the pointer slightly */
+[data-magnetic] {
+  transition: transform 0.3s cubic-bezier(0.19, 0.8, 0.22, 1), background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Hero: sparks of sunlight drifting upward */
+.spark {
+  position: absolute;
+  bottom: -10px;
+  left: var(--x);
+  width: var(--s);
+  height: var(--s);
+  border-radius: 9999px;
+  background: radial-gradient(circle, #fff4d6 0%, #ffd166 45%, rgba(255, 209, 102, 0) 70%);
+  opacity: 0;
+  animation: spark-rise var(--t, 9s) linear infinite;
+  animation-delay: var(--d, 0s);
+}
+@keyframes spark-rise {
+  0% { opacity: 0; transform: translate3d(0, 0, 0) scale(0.6); }
+  12% { opacity: 0.9; }
+  70% { opacity: 0.6; }
+  100% { opacity: 0; transform: translate3d(var(--drift, 30px), -85vh, 0) scale(1.1); }
+}
+
+/* Icons in rings wiggle when their card is hovered */
+.group:hover .icon-wiggle {
+  animation: wiggle 0.7s ease;
+}
+@keyframes wiggle {
+  0%, 100% { transform: rotate(0); }
+  25% { transform: rotate(-10deg) scale(1.08); }
+  60% { transform: rotate(7deg) scale(1.04); }
 }
 
 /* Gallery */
@@ -578,5 +752,8 @@ html:lang(mr) .reveal-line {
   }
   .marquee {
     animation: none;
+  }
+  .spark {
+    display: none;
   }
 }

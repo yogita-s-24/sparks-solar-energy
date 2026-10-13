@@ -17,23 +17,23 @@
 {%- endmacro %}
 <header id="site-nav" class="site-nav fixed inset-x-0 top-0 z-50">
   <nav class="nav-bar container-site flex h-[4.5rem] items-center justify-between gap-4 lg:h-20" aria-label="{{ _('Main navigation') }}">
-    <a href="{{ url_for('index') }}" class="relative -my-1 shrink-0" aria-label="{{ _('{name} home', name=business.name) }}">{{ brand() }}</a>
+    <a href="{{ url_for('index') }}" class="nav-drop relative -my-1 shrink-0" aria-label="{{ _('{name} home', name=business.name) }}">{{ brand() }}</a>
 
     <ul class="hidden items-center gap-9 lg:flex">
       {% for label, href, endpoint in nav_items %}
-      <li>
+      <li class="nav-drop" style="--i: {{ loop.index }}">
         <a href="{{ href }}" class="nav-link text-[0.95rem] font-medium text-white/80 transition-colors hover:text-white"
            {% if endpoint and request.endpoint == endpoint %}aria-current="page"{% endif %}>{{ label }}</a>
       </li>
       {% endfor %}
     </ul>
 
-    <div class="flex items-center gap-2">
+    <div class="nav-drop flex items-center gap-2" style="--i: 6">
       {{ language_switch() }}
       <a href="tel:{{ business.phone_tel }}" class="hidden h-11 w-11 place-items-center rounded-full text-white/80 ring-1 ring-white/20 transition hover:bg-white/10 hover:text-white md:grid lg:hidden xl:grid" aria-label="{{ _('Call') }} {{ business.phone_display }}">
         {{ icon("phone", "h-[1.1rem] w-[1.1rem]") }}
       </a>
-      <a href="{{ url_for('contact') }}#enquiry" data-enquire="" class="btn btn-sun hidden !min-h-[2.75rem] !px-5 !text-sm sm:inline-flex">
+      <a href="{{ url_for('contact') }}#enquiry" data-enquire="" data-magnetic class="btn btn-sun hidden !min-h-[2.75rem] !px-5 !text-sm sm:inline-flex">
         {{ _("Get Free Consultation") }} {{ icon("arrow-right", "btn-arrow") }}
       </a>
       <button type="button" class="menu-toggle relative grid h-11 w-11 place-items-center rounded-full text-white ring-1 ring-white/25 transition hover:bg-white/10 lg:hidden"

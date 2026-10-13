@@ -14,10 +14,10 @@
       {% for pkg in pricing %}
       {% set dark = not pkg.subsidy %}
       <article class="group relative flex flex-col overflow-hidden rounded-[2rem] p-6 transition duration-500 hover:-translate-y-1 sm:p-8 {{ 'grain bg-forest-900 text-white shadow-soft' if dark else 'bg-white shadow-sm ring-1 ring-forest-900/5 hover:shadow-soft' }}"
-               data-reveal style="--d: {{ loop.index0 * 120 }}ms">
+               data-reveal data-tilt style="--d: {{ loop.index0 * 120 }}ms">
         {% if dark %}<div class="pointer-events-none absolute -right-20 -top-20 h-60 w-60 rounded-full sun-orb opacity-50" aria-hidden="true"></div>{% endif %}
         <div class="relative flex items-start gap-4">
-          <span class="grid h-14 w-14 shrink-0 place-items-center rounded-2xl transition duration-500 group-hover:-rotate-6 {{ 'bg-sun-400 text-forest-950' if dark else 'bg-forest-900 text-sun-400' }}">{{ icon(pkg.icon, "h-6 w-6") }}</span>
+          <span class="grid h-14 w-14 shrink-0 place-items-center rounded-2xl transition duration-500 group-hover:-rotate-6 {{ 'bg-sun-400 text-forest-950' if dark else 'bg-forest-900 text-sun-400' }}">{{ icon(pkg.icon, "icon-wiggle h-6 w-6") }}</span>
           <div>
             <h3 class="text-xl font-bold sm:text-2xl {{ '' if dark else 'text-forest-900' }}">{{ _(pkg.title) }}</h3>
             <p class="mt-1 text-sm leading-relaxed {{ 'text-white/65' if dark else 'text-charcoal/65' }}">{{ _(pkg.summary) }}</p>
@@ -31,7 +31,7 @@
               <span class="inline-block rounded-full px-3 py-1 text-xs font-bold uppercase tracking-[0.14em] {{ ('bg-sun-400 text-forest-950' if dark else 'bg-sun-100 text-forest-900') if tier == 'Premium' else ('bg-white/10 text-white/80' if dark else 'bg-forest-900/5 text-forest-900') }}">{{ _(tier) }}</span>
             </dt>
             <dd class="text-right">
-              <span class="font-display text-3xl font-extrabold tracking-tight {{ '' if dark else 'text-forest-900' }}">₹{{ price | inr }}</span><span class="ml-0.5 text-base font-semibold {{ 'text-white/60' if dark else 'text-charcoal/50' }}">{{ pkg.unit }}</span>
+              <span class="font-display text-3xl font-extrabold tracking-tight {{ '' if dark else 'text-forest-900' }}">₹<span data-count="{{ price }}">{{ price | inr }}</span></span><span class="ml-0.5 text-base font-semibold {{ 'text-white/60' if dark else 'text-charcoal/50' }}">{{ pkg.unit }}</span>
               {% if pkg.subsidy %}<span class="block text-sm font-semibold text-solar-600">{{ _("+ ₹{amount} subsidy", amount=pkg.subsidy | inr) }}</span>{% endif %}
             </dd>
           </div>

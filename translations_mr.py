@@ -41,6 +41,7 @@ MR = {
     "Get a Free Quote": "मोफत कोटेशन मिळवा",
     "Go to home": "मुख्यपृष्ठावर जा",
     "Back to home": "मुख्यपृष्ठावर परत जा",
+    "Back to top": "वर जा",
     "STEP {n}": "पायरी {n}",
     "(optional)": "(ऐच्छिक)",
 

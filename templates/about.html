@@ -39,8 +39,8 @@
     </div>
     <div class="mt-14 grid gap-5 md:grid-cols-3">
       {% for c in commitments %}
-      <article class="group rounded-[1.75rem] border border-white/10 bg-white/[0.04] p-7 transition duration-500 hover:-translate-y-1 hover:border-sun-400/40 hover:bg-white/[0.07] sm:p-9" data-reveal style="--d: {{ loop.index0 * 120 }}ms">
-        <span class="grid h-14 w-14 place-items-center rounded-2xl bg-sun-400 text-forest-950 transition duration-500 group-hover:-rotate-6">{{ icon(c.icon, "h-6 w-6") }}</span>
+      <article data-tilt class="group relative rounded-[1.75rem] border border-white/10 bg-white/[0.04] p-7 transition duration-500 hover:-translate-y-1 hover:border-sun-400/40 hover:bg-white/[0.07] sm:p-9" data-reveal style="--d: {{ loop.index0 * 120 }}ms">
+        <span class="grid h-14 w-14 place-items-center rounded-2xl bg-sun-400 text-forest-950 transition duration-500 group-hover:-rotate-6">{{ icon(c.icon, "icon-wiggle h-6 w-6") }}</span>
         <h3 class="mt-7 text-2xl font-bold">{{ _(c.title) }}</h3>
         <p class="mt-3 leading-relaxed text-white/70">{{ _(c.text) }}</p>
       </article>
@@ -60,7 +60,7 @@
     </div>
     <ul class="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
       {% for m in team %}
-      <li class="group relative overflow-hidden rounded-[1.75rem] bg-white p-7 shadow-sm ring-1 ring-forest-900/5 transition duration-500 hover:-translate-y-1 hover:shadow-soft sm:p-8" data-reveal style="--d: {{ loop.index0 * 120 }}ms">
+      <li data-tilt class="group relative overflow-hidden rounded-[1.75rem] bg-white p-7 shadow-sm ring-1 ring-forest-900/5 transition duration-500 hover:-translate-y-1 hover:shadow-soft sm:p-8" data-reveal style="--d: {{ loop.index0 * 120 }}ms">
         <span class="pointer-events-none absolute -right-10 -top-10 h-32 w-32 rounded-full bg-sun-400/0 blur-2xl transition duration-700 group-hover:bg-sun-400/40" aria-hidden="true"></span>
         <span class="grid h-16 w-16 place-items-center rounded-2xl bg-forest-900 font-display text-xl font-extrabold text-sun-400" aria-hidden="true">{{ _(m.name).split(" ") | map("first") | join }}</span>
         <h3 class="mt-6 text-xl font-bold text-forest-900">{{ _(m.name) }}</h3>
@@ -79,7 +79,7 @@
       <h2 id="about-cta-title" class="max-w-2xl font-display text-3xl font-extrabold leading-tight sm:text-5xl">{{ _("Let's talk about your energy needs.") }}</h2>
       <p class="mt-4 max-w-xl text-white/70">{{ _("Call, WhatsApp or send an enquiry. We'll help you understand whether solar is right for you.") }}</p>
       <div class="mt-8 flex flex-col gap-3 sm:flex-row">
-        <a href="{{ url_for('contact') }}#enquiry" class="btn btn-sun">{{ _("Request a Free Consultation") }} {{ icon("arrow-right", "btn-arrow") }}</a>
+        <a href="{{ url_for('contact') }}#enquiry" data-magnetic class="btn btn-sun">{{ _("Request a Free Consultation") }} {{ icon("arrow-right", "btn-arrow") }}</a>
         <a href="tel:{{ business.phone_tel }}" class="btn btn-glass">{{ icon("phone", "h-4 w-4") }} {{ _("Call") }} {{ business.phone_display }}</a>
       </div>
     </div>

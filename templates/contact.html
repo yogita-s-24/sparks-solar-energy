@@ -24,7 +24,7 @@
         <address class="mt-5 not-italic text-lg leading-relaxed text-white/75">{{ full_address }}</address>
         <a href="{{ business.maps_url }}" target="_blank" rel="noopener" class="btn btn-sun mt-8">{{ icon("map-pin", "h-4 w-4") }} {{ _("Open in Google Maps") }}</a>
       </div>
-      <div class="relative min-h-[16rem]">
+      <div class="relative min-h-[16rem]" data-wipe>
         <img src="{{ url_for('static', filename='images/stock/rural-home-rooftop.webp') }}" alt="{{ _('Rural home with rooftop solar panels surrounded by farmland') }}" loading="lazy" decoding="async" class="absolute inset-0 h-full w-full object-cover">
         <div class="absolute inset-0 bg-gradient-to-r from-forest-900 to-transparent lg:from-forest-900/60"></div>
       </div>

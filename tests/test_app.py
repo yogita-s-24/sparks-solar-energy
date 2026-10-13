@@ -313,8 +313,10 @@ def test_email_alone_is_enough_when_db_fails(mail_app, monkeypatch):
 def test_solutions_page_shows_prices_and_components(client):
     html = client.get("/solutions").get_data(as_text=True)
     assert 'id="pricing"' in html
+    text = re.sub(r"<[^>]+>", "", html)  # prices are wrapped in count-up spans
     for price in ("₹1,02,000", "₹1,12,000", "₹2,30,000", "₹2,50,000", "₹50,000", "₹55,000"):
-        assert price in html, price
+        assert price in text, price
+    assert 'data-count="102000"' in html
     assert "+ ₹78,000 subsidy" in html and "All prices include GST and installation." in html
     assert "pay ₹1,80,000 at installation" in html
     assert "Subsidy available until 31 March 2027" in html
