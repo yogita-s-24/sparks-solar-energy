@@ -734,6 +734,98 @@ html:lang(mr) .reveal-line {
   animation: fade-up 0.5s ease both;
 }
 
+/* ---------------------------------------------------------------------
+   Theme toggle
+   --------------------------------------------------------------------- */
+.theme-toggle svg {
+  grid-area: 1 / 1;
+  transition: opacity 0.35s ease, transform 0.5s cubic-bezier(0.19, 0.8, 0.22, 1);
+}
+.theme-toggle .theme-icon-sun,
+.dark .theme-toggle .theme-icon-moon {
+  opacity: 0;
+  transform: rotate(-90deg) scale(0.5);
+}
+.dark .theme-toggle .theme-icon-sun {
+  opacity: 1;
+  transform: none;
+  color: #ffd166;
+}
+
+/* ---------------------------------------------------------------------
+   Dark mode (html.dark, set by the inline script in base.html)
+   Remaps the light-surface colours in one place rather than adding dark:
+   variants across every template. Dark sections (forest-950/900) already
+   suit both themes and are left alone. :where() keeps each rule at the
+   specificity of the class it replaces, so hover, focus and checked states
+   still win.
+   --------------------------------------------------------------------- */
+.dark {
+  color-scheme: dark;
+}
+:where(.dark) body {
+  background-color: #0b1a13;
+  color: #e6efe8;
+}
+
+/* Surfaces */
+:where(.dark) .bg-cream { background-color: #0b1a13; }
+:where(.dark) .bg-white { background-color: #12261c; }
+:where(.dark) .bg-sun-100 { background-color: rgba(255, 209, 102, 0.14); }
+:where(.dark) .bg-forest-900\/5 { background-color: rgba(255, 255, 255, 0.04); }
+:where(.dark) .bg-forest-900\/10 { background-color: rgba(255, 255, 255, 0.08); }
+:where(.dark) .hover\:bg-cream\/70:hover { background-color: rgba(255, 255, 255, 0.04); }
+
+/* Text */
+:where(.dark) .text-forest-900 { color: #e6efe8; }
+:where(.dark) .text-forest-900\/30 { color: rgba(230, 239, 232, 0.3); }
+:where(.dark) .hover\:text-forest-900:hover { color: #fff; }
+:where(.dark) .text-charcoal\/40 { color: rgba(230, 239, 232, 0.45); }
+:where(.dark) .text-charcoal\/50 { color: rgba(230, 239, 232, 0.55); }
+:where(.dark) .text-charcoal\/55 { color: rgba(230, 239, 232, 0.6); }
+:where(.dark) .text-charcoal\/60 { color: rgba(230, 239, 232, 0.65); }
+:where(.dark) .text-charcoal\/65 { color: rgba(230, 239, 232, 0.7); }
+:where(.dark) .text-charcoal\/70 { color: rgba(230, 239, 232, 0.72); }
+:where(.dark) .text-charcoal\/75 { color: rgba(230, 239, 232, 0.76); }
+:where(.dark) .text-charcoal\/80 { color: rgba(230, 239, 232, 0.82); }
+:where(.dark) .text-solar-600,
+:where(.dark) .hover\:text-solar-600:hover { color: #7fd26b; }
+
+/* Lines */
+:where(.dark) .ring-forest-900\/5 { --tw-ring-color: rgba(255, 255, 255, 0.07); }
+:where(.dark) .border-forest-900\/10 { border-color: rgba(255, 255, 255, 0.1); }
+:where(.dark) .border-forest-900\/15 { border-color: rgba(255, 255, 255, 0.14); }
+:where(.dark) .border-forest-900\/\[0\.07\] { border-color: rgba(255, 255, 255, 0.07); }
+:where(.dark) .hover\:border-forest-900:hover { border-color: rgba(255, 255, 255, 0.5); }
+
+/* Components */
+:where(.dark) .section-title { color: #f1f6f2; }
+:where(.dark) .section-lead { color: rgba(230, 239, 232, 0.72); }
+:where(.dark) .eyebrow:not(.eyebrow-light) { color: #7fd26b; }
+:where(.dark) .icon-ring { background-color: #1c6447; }
+:where(.dark) .btn-forest { background-color: #1c6447; }
+:where(.dark) .btn-forest:hover { background-color: #257a55; }
+:where(.dark) .btn-outline { border-color: rgba(255, 255, 255, 0.25); color: #e6efe8; }
+:where(.dark) .field-label { color: #e6efe8; }
+:where(.dark) .field-input {
+  border-color: rgba(255, 255, 255, 0.14);
+  background-color: #0b1a13;
+  color: #e6efe8;
+}
+:where(.dark) .field-input::placeholder { color: rgba(230, 239, 232, 0.4); }
+:where(.dark) select.field-input {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23E6EFE8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+}
+:where(.dark) .range { background-color: rgba(255, 255, 255, 0.12); }
+:where(.dark) .range::-webkit-slider-thumb { border-color: #12261c; background-color: #ffd166; }
+:where(.dark) .range::-moz-range-thumb { border-color: #12261c; background-color: #ffd166; }
+:where(.dark) .segment span {
+  border-color: rgba(255, 255, 255, 0.14);
+  background-color: #0b1a13;
+  color: #e6efe8;
+}
+:where(.dark) .step-node { background-color: #1c6447; }
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;

@@ -13,6 +13,7 @@ MR = {
     "Skip to content": "मुख्य मजकुराकडे जा",
     "Main navigation": "मुख्य नेव्हिगेशन",
     "Choose language": "भाषा निवडा",
+    "Dark mode": "डार्क मोड",
     "Breadcrumb": "पृष्ठाचा मार्ग",
     "{name} home": "{name} मुख्यपृष्ठ",
     "Home": "मुख्यपृष्ठ",

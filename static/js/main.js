@@ -8,6 +8,39 @@
   setNavState();
   window.addEventListener("scroll", setNavState, { passive: true });
 
+  /* ---- Light / dark theme ---------------------------------------------- */
+  // base.html applies the initial theme; this keeps the toggle in sync and
+  // follows the system setting until the visitor picks a theme themselves.
+  const root = document.documentElement;
+  const themeToggle = document.querySelector("[data-theme-toggle]");
+  const systemDark = window.matchMedia("(prefers-color-scheme: dark)");
+  const savedTheme = () => {
+    try {
+      return localStorage.getItem("theme");
+    } catch (e) {
+      return null;
+    }
+  };
+  const applyTheme = (dark) => {
+    root.classList.toggle("dark", dark);
+    if (themeToggle) themeToggle.setAttribute("aria-pressed", String(dark));
+  };
+  applyTheme(root.classList.contains("dark"));
+  if (themeToggle) {
+    themeToggle.addEventListener("click", () => {
+      const dark = !root.classList.contains("dark");
+      applyTheme(dark);
+      try {
+        localStorage.setItem("theme", dark ? "dark" : "light");
+      } catch (e) {
+        /* storage blocked: the choice lasts for this page only */
+      }
+    });
+  }
+  systemDark.addEventListener("change", (e) => {
+    if (!savedTheme()) applyTheme(e.matches);
+  });
+
   /* ---- Mobile menu ----------------------------------------------------- */
   const toggle = document.querySelector("[data-menu-toggle]");
   const menu = document.querySelector("[data-mobile-menu]");

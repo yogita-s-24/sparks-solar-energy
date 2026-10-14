@@ -4,7 +4,7 @@ const fs = require("fs");
 const path = require("path");
 
 const ICONS = [
-  "sun", "sun-medium", "sunrise", "leaf", "zap", "house", "tractor", "sprout",
+  "sun", "sun-medium", "sunrise", "moon", "leaf", "zap", "house", "tractor", "sprout",
   "building-2", "phone", "map-pin", "arrow-right", "arrow-up-right", "arrow-up", "arrow-down",
   "check", "menu", "x", "chevron-down", "message-circle", "calculator",
   "clipboard-list", "scan-search", "file-text", "wrench", "mail", "instagram",
