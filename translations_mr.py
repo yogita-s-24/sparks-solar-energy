@@ -21,7 +21,7 @@ MR = {
     "Solutions": "सोल्युशन्स",
     "Benefits": "फायदे",
     "Contact": "संपर्क",
-    "Get Free Consultation": "मोफत सल्ला घ्या",
+    "Get Started": "सुरुवात करा",
     "Open menu": "मेनू उघडा",
     "Close menu": "मेनू बंद करा",
     "Call": "कॉल करा",

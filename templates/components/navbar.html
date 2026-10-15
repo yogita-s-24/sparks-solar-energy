@@ -30,16 +30,11 @@
 
     <div class="nav-drop flex items-center gap-2" style="--i: 6">
       {{ language_switch() }}
-      <button type="button" class="theme-toggle grid h-11 w-11 place-items-center rounded-full text-white/80 ring-1 ring-white/20 transition hover:bg-white/10 hover:text-white"
-              aria-pressed="false" aria-label="{{ _('Dark mode') }}" data-theme-toggle>
-        {{ icon("moon", "theme-icon-moon h-[1.1rem] w-[1.1rem]") }}
-        {{ icon("sun", "theme-icon-sun h-[1.1rem] w-[1.1rem]") }}
-      </button>
       <a href="tel:{{ business.phone_tel }}" class="hidden h-11 w-11 place-items-center rounded-full text-white/80 ring-1 ring-white/20 transition hover:bg-white/10 hover:text-white md:grid lg:hidden xl:grid" aria-label="{{ _('Call') }} {{ business.phone_display }}">
         {{ icon("phone", "h-[1.1rem] w-[1.1rem]") }}
       </a>
       <a href="{{ url_for('contact') }}#enquiry" data-enquire="" data-magnetic class="btn btn-sun hidden !min-h-[2.75rem] !px-5 !text-sm sm:inline-flex">
-        {{ _("Get Free Consultation") }} {{ icon("arrow-right", "btn-arrow") }}
+        {{ _("Get Started") }} {{ icon("arrow-right", "btn-arrow") }}
       </a>
       <button type="button" class="menu-toggle relative grid h-11 w-11 place-items-center rounded-full text-white ring-1 ring-white/25 transition hover:bg-white/10 lg:hidden"
               aria-expanded="false" aria-controls="mobile-menu" aria-label="{{ _('Open menu') }}" data-menu-toggle
@@ -49,6 +44,11 @@
           <span class="bar bar-2 block h-[2px] w-5 rounded bg-current"></span>
           <span class="bar bar-3 block h-[2px] w-5 rounded bg-current"></span>
         </span>
+      </button>
+      <button type="button" class="theme-toggle grid h-11 w-11 place-items-center rounded-full text-white/80 ring-1 ring-white/20 transition hover:bg-white/10 hover:text-white"
+              aria-pressed="false" aria-label="{{ _('Dark mode') }}" data-theme-toggle>
+        {{ icon("moon", "theme-icon-moon h-[1.1rem] w-[1.1rem]") }}
+        {{ icon("sun", "theme-icon-sun h-[1.1rem] w-[1.1rem]") }}
       </button>
     </div>
   </nav>
@@ -70,7 +70,7 @@
       {% endfor %}
     </ul>
     <div class="menu-item mt-10 space-y-3" style="--i: 6">
-      <a href="{{ url_for('contact') }}#enquiry" data-enquire="" data-menu-link class="btn btn-sun w-full">{{ _("Get Free Consultation") }} {{ icon("arrow-right", "btn-arrow") }}</a>
+      <a href="{{ url_for('contact') }}#enquiry" data-enquire="" data-menu-link class="btn btn-sun w-full">{{ _("Get Started") }} {{ icon("arrow-right", "btn-arrow") }}</a>
       <a href="tel:{{ business.phone_tel }}" class="btn btn-glass w-full">{{ icon("phone", "h-4 w-4") }} {{ _("Call") }} {{ business.phone_display }}</a>
     </div>
     <p class="menu-item mt-auto pt-10 text-sm text-white/50" style="--i: 7">{{ full_address }}</p>
