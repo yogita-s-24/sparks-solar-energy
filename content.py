@@ -221,9 +221,9 @@ COMMITMENTS = [
 
 # Team as listed on the business flyer. Confirm spellings before launch.
 TEAM = [
-    {"name": "Prasad Gadakh", "role": "Solar Technician"},
-    {"name": "Sanket Chavan", "role": "Civil Engineer"},
-    {"name": "Krushna Dethe", "role": "Electrical Engineer"},
+    {"name": "Prasad Gadakh", "role": "Solar Technician", "icon": "sun"},
+    {"name": "Sanket Chavan", "role": "Civil Engineer", "icon": "construction"},
+    {"name": "Krushna Dethe", "role": "Electrical Engineer", "icon": "zap"},
 ]
 
 FAQS = [

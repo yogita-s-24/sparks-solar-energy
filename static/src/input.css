@@ -825,6 +825,7 @@ html:lang(mr) .reveal-line {
   color: #e6efe8;
 }
 :where(.dark) .step-node { background-color: #1c6447; }
+:where(.dark) .team-avatar { border-color: #12261c; }
 
 @media (prefers-reduced-motion: reduce) {
   html {
