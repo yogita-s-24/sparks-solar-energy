@@ -64,7 +64,7 @@ def test_home_has_key_sections_and_contact_links(client):
         assert anchor in html
     assert 'href="tel:+919356806280"' in html
     assert "https://wa.me/919356806280?text=" in html
-    assert "Demonstration gallery" in html
+    assert "images/projects/" in html
     assert "data-calculator=" in html
 
 
