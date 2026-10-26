@@ -263,25 +263,28 @@ FAQS = [
     },
 ]
 
-# Demonstration gallery. Replace with genuine project photos when available:
-# put files in static/images/projects/ and set "demo": False for each item.
+# Real project photos from static/images/projects/ (converted from the phone
+# originals in images/). Mark any stock photo added here with "demo": True.
 GALLERY = [
-    {"src": "images/stock/neighbourhood-rainbow.webp", "alt": "Homes with rooftop solar panels under a rainbow", "category": "residential", "caption": "Rooftop solar on homes", "size": "wide"},
-    {"src": "images/stock/aerial-commercial.webp", "alt": "Aerial view of solar panels covering a large commercial roof", "category": "commercial", "caption": "Large commercial rooftop", "size": "tall"},
-    {"src": "images/stock/rural-home-rooftop.webp", "alt": "Aerial view of a rural house with solar panels on its roof, surrounded by farmland", "category": "residential", "caption": "Rooftop solar on a rural home", "size": "tall"},
-    {"src": "images/stock/aerial-field.webp", "alt": "Aerial view of solar panels arranged on green grassland", "category": "agricultural", "caption": "Ground-mounted array on open land", "size": "normal"},
-    {"src": "images/stock/commercial-sunset.webp", "alt": "Solar panels in front of a commercial building at sunset", "category": "commercial", "caption": "Commercial site at sunset", "size": "wide"},
-    {"src": "images/stock/panel-grass.webp", "alt": "Long ground-mounted solar panel row on a grass field under blue sky", "category": "agricultural", "caption": "Ground-mounted solar on farmland", "size": "wide"},
-    {"src": "images/stock/pole-mounted-panel.webp", "alt": "Pole-mounted solar panel powering equipment in a rural landscape", "category": "agricultural", "caption": "Stand-alone solar for remote equipment", "size": "normal"},
+    {"src": "images/projects/project-12.webp", "alt": "Finished rooftop solar panels mounted on an elevated steel structure above a terrace", "category": "completed", "caption": "Elevated rooftop solar, completed", "size": "tall"},
+    {"src": "images/projects/project-01.webp", "alt": "Installer on a ladder fixing the steel mounting frame while the team watches", "category": "installation", "caption": "Erecting the mounting frame", "size": "tall"},
+    {"src": "images/projects/project-10.webp", "alt": "Technicians welding the base of a steel support column on a terrace", "category": "installation", "caption": "Welding the structure base", "size": "normal"},
+    {"src": "images/projects/project-03.webp", "alt": "Steel mounting frame for solar panels taking shape on a rooftop", "category": "installation", "caption": "Mounting frame taking shape", "size": "normal"},
+    {"src": "images/projects/project-05.webp", "alt": "Sparks Solar team working under the new mounting frame on a rooftop", "category": "team", "caption": "Our team on site", "size": "normal"},
+    {"src": "images/projects/project-18.webp", "alt": "Two rows of solar panels installed above a house terrace", "category": "completed", "caption": "Panels in place above the terrace", "size": "normal"},
+    {"src": "images/projects/project-17.webp", "alt": "View beneath raised solar panels, leaving the terrace free to use", "category": "completed", "caption": "Terrace space kept free below", "size": "normal"},
+    {"src": "images/projects/project-06.webp", "alt": "Three Sparks Solar team members in uniform on a rooftop site", "category": "team", "caption": "The Sparks Solar team", "size": "normal"},
+    {"src": "images/projects/project-02.webp", "alt": "Installer with welding machine setting up vertical support columns", "category": "installation", "caption": "Setting up support columns", "size": "normal"},
+    {"src": "images/projects/project-19.webp", "alt": "Completed elevated solar structure seen from across the terrace", "category": "completed", "caption": "Completed structure", "size": "normal"},
 ]
 for _item in GALLERY:
-    _item.setdefault("demo", True)
+    _item.setdefault("demo", False)
 
 GALLERY_FILTERS = [
     ("all", "All"),
-    ("residential", "Residential"),
-    ("commercial", "Commercial"),
-    ("agricultural", "Agricultural"),
+    ("completed", "Completed"),
+    ("installation", "Installation"),
+    ("team", "Team"),
 ]
 
 # Credits for the demonstration photographs (Unsplash Licence).
