@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% from "components/macros.html" import icon, section_heading, enquire_link %}
+{% from "components/macros.html" import icon, section_heading, enquire_link, toran, kandil, firework, diya %}
 
 {% block title %}{{ business.name }} | {{ _("Rooftop Solar Installation in Deolali Pravara, Rahuri") }}{% endblock %}
 {% block meta_description %}{{ _("Residential, agricultural and commercial solar energy solutions from SPARKS SOLAR ENERGY, Deolali Pravara (Tal. Rahuri, Dist. Ahilya Nagar). Request a free solar consultation.") }}{% endblock %}
@@ -45,6 +45,11 @@
           </span>
           {{ _("Clean energy. Smarter tomorrow.") }}
         </p>
+        {% if offer_open %}
+        <a href="#diwali-offer" class="fade-in-up ml-1 mt-3 inline-flex items-center gap-2 rounded-full bg-sun-400 px-4 py-2 font-display text-xs font-bold text-forest-950 shadow-glow transition hover:-translate-y-0.5 sm:text-sm" style="--d: 150ms">
+          {{ icon("sparkles", "h-4 w-4") }} {{ _(offer.title) }} · {{ _("Up to ₹{amount} off", amount=offer.discount | inr) }} {{ icon("arrow-down", "h-4 w-4") }}
+        </a>
+        {% endif %}
 
         <h1 id="hero-title" class="mt-6 font-display text-[2.55rem] font-extrabold leading-[1.04] tracking-tight text-white min-[400px]:text-[2.9rem] sm:text-6xl lg:text-[4.6rem] xl:text-[5.1rem]">
           {% set words = _("Turn Sunlight Into Your").split(" ") %}
@@ -148,6 +153,102 @@
     {% endfor %}
   </div>
 </div>
+
+{# ======================================================================
+   DIWALI OFFER (hidden automatically after offer.end_date)
+   ====================================================================== #}
+{% if offer_open %}
+<section id="diwali-offer" class="bg-cream pt-20 sm:pt-28" aria-labelledby="offer-title">
+  <div class="container-site">
+    <div class="grain relative isolate overflow-hidden rounded-[2.5rem] bg-gradient-to-br from-[#4A0E1A] via-[#7A1D12] to-[#2A0B2E] p-6 pt-32 text-white sm:p-10 sm:pt-36 lg:p-12 lg:pt-40" data-reveal="zoom">
+      {# glow and rays #}
+      <div class="pointer-events-none absolute -right-32 -top-32 -z-10 h-[30rem] w-[30rem] sun-rays opacity-50" aria-hidden="true"></div>
+      <div class="pointer-events-none absolute -bottom-24 -left-16 -z-10 h-80 w-80 rounded-full sun-orb opacity-40 mix-blend-screen" aria-hidden="true"></div>
+
+      {{ toran(4) }}
+      {{ kandil("3%", "w-14 sm:w-16 lg:w-20") }}
+      {{ kandil("44%", "hidden w-16 lg:block", "-1.5s") }}
+      {{ kandil("88%", "w-14 sm:w-16 lg:w-20", "-3s") }}
+
+      {# fireworks (फटाके) and rising sparks #}
+      <div class="pointer-events-none absolute inset-0 -z-10" aria-hidden="true">
+        {% for x, y, c1, c2, t, d, size, extra in [
+          ("18%", "22%", "#ffd166", "#ff6b9a", 3.6, 0, 1.8, ""),
+          ("62%", "14%", "#6bd3ff", "#fff4d6", 4.2, 1.3, 2.2, ""),
+          ("82%", "34%", "#ff6b9a", "#ffd166", 3.8, 2.4, 1.7, ""),
+          ("36%", "12%", "#7fd26b", "#ffd166", 4.6, 0.7, 1.5, "hidden sm:block"),
+          ("50%", "42%", "#ff9f43", "#6bd3ff", 4.0, 3.1, 1.9, "hidden sm:block"),
+          ("8%", "58%", "#fff4d6", "#ff9f43", 4.4, 1.9, 1.4, "hidden lg:block"),
+          ("94%", "62%", "#ffd166", "#7fd26b", 3.9, 0.3, 1.5, "hidden lg:block"),
+        ] %}
+        {{ firework(x, y, c1, c2, t, d, size, extra) }}
+        {% endfor %}
+        {% for x, s, t, d, drift in [(6, 5, 9, 0, 10), (18, 4, 11, 2, -10), (33, 6, 10, 4, 15), (52, 4, 12, 1, -15), (71, 5, 9, 3, 10), (88, 6, 11, 5, -10)] %}
+        <span class="spark" style="--x: {{ x }}%; --s: {{ s }}px; --t: {{ t }}s; --d: {{ d }}s; --drift: {{ drift }}px"></span>
+        {% endfor %}
+      </div>
+
+      <div class="grid items-center gap-10 lg:grid-cols-12">
+        <div class="lg:col-span-7">
+          <p class="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-1.5 font-display text-sm font-bold text-sun-200 ring-1 ring-sun-400/40">{{ icon("sparkles", "h-4 w-4 text-sun-400") }} {{ _("Happy Diwali") }} {{ icon("sparkles", "h-4 w-4 text-sun-400") }}</p>
+          <p class="eyebrow eyebrow-light mt-6">{{ _("Diwali special") }} · {{ _("Clean energy | Secure future") }}</p>
+          <h2 id="offer-title" class="mt-5 font-display text-4xl font-extrabold leading-tight drop-shadow-[0_4px_24px_rgba(255,170,60,0.45)] sm:text-6xl">
+            <span class="bg-gradient-to-r from-sun-200 via-sun-400 to-[#ff9f43] bg-clip-text text-transparent">{{ _(offer.title) }}</span>
+          </h2>
+          <p class="mt-4 max-w-xl text-lg leading-relaxed text-white/80">{{ _("Light up your home with solar this Diwali and save more.") }}</p>
+          <div class="mt-8 flex flex-col gap-3 min-[420px]:flex-row">
+            {{ enquire_link("residential", _("Claim the offer"), "btn btn-sun") }}
+            <a href="tel:{{ business.phone_tel }}" class="btn btn-glass">{{ icon("phone", "h-4 w-4") }} {{ _("Call") }} {{ business.phone_display }}</a>
+          </div>
+        </div>
+
+        <div class="relative grid gap-4 sm:grid-cols-2 lg:col-span-5 lg:grid-cols-1">
+          {# rangoli #}
+          <svg class="rangoli-spin pointer-events-none absolute left-1/2 top-1/2 -z-10 -ml-60 -mt-60 h-[30rem] w-[30rem] opacity-30" viewBox="-100 -100 200 200" aria-hidden="true">
+            {% for a in range(0, 360, 30) %}<ellipse cx="0" cy="-62" rx="13" ry="30" fill="#ff6b9a" transform="rotate({{ a }})"/>{% endfor %}
+            {% for a in range(15, 360, 30) %}<ellipse cx="0" cy="-48" rx="9" ry="22" fill="#ffd166" transform="rotate({{ a }})"/>{% endfor %}
+            {% for a in range(0, 360, 45) %}<ellipse cx="0" cy="-28" rx="7" ry="15" fill="#7fd26b" transform="rotate({{ a }})"/>{% endfor %}
+            {% for a in range(0, 360, 20) %}<circle cx="0" cy="-94" r="3" fill="#fff4d6" transform="rotate({{ a }})"/>{% endfor %}
+            <circle r="13" fill="#ff9f43"/><circle r="6" fill="#fff4d6"/>
+          </svg>
+          <div class="relative rounded-[1.75rem] bg-gradient-to-br from-sun-300 to-[#ffb347] p-6 text-forest-950 shadow-glow ring-2 ring-sun-200/60">
+            <span class="absolute right-5 top-5 text-[#c2185b]">{{ icon("sparkles", "h-7 w-7") }}</span>
+            <p class="text-xs font-bold uppercase tracking-[0.18em] text-forest-950/70">{{ _("Diwali discount") }}</p>
+            <p class="mt-1 font-display text-4xl font-extrabold tracking-tight sm:text-5xl">₹<span data-count="{{ offer.discount }}">{{ offer.discount | inr }}</span></p>
+            <p class="mt-1 font-semibold">{{ _("Up to this amount off your system") }}</p>
+          </div>
+          <div class="glass rounded-[1.75rem] p-6">
+            <p class="text-xs font-bold uppercase tracking-[0.18em] text-white/60">{{ _(subsidy.scheme) }}</p>
+            <p class="mt-1 font-display text-4xl font-extrabold tracking-tight sm:text-5xl">₹<span data-count="{{ offer_subsidy }}">{{ offer_subsidy | inr }}</span></p>
+            <p class="mt-1 font-semibold text-solar-400">{{ _("Government subsidy available") }}</p>
+          </div>
+        </div>
+      </div>
+
+      <ul class="mt-10 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
+        {% for f in offer.features %}
+        <li class="flex items-center gap-3 rounded-2xl border border-sun-400/20 bg-white/[0.07] p-4 {{ 'col-span-2 sm:col-span-1' if loop.last else '' }}" data-reveal style="--d: {{ loop.index0 * 90 }}ms">
+          <span class="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-sun-400 text-forest-950">{{ icon(f.icon, "h-5 w-5") }}</span>
+          <span class="font-display text-sm font-bold leading-snug">{{ _(f.title) }}</span>
+        </li>
+        {% endfor %}
+      </ul>
+
+      {# row of glowing diyas #}
+      <div class="pointer-events-none mt-8 flex items-end justify-around" aria-hidden="true">
+        {% for i in range(9) %}
+        {{ diya("w-10 sm:w-12 " ~ ("hidden sm:block" if i in [1, 7] else "") ~ ("hidden lg:block" if i in [3, 5] else ""), (i * 0.17) | round(2)) }}
+        {% endfor %}
+      </div>
+
+      <p class="mt-6 border-t border-white/10 pt-5 text-xs leading-relaxed text-white/55">
+        {{ _("Offer valid until {date}.", date=offer.end_date | date_long) }}
+        {{ _("Discount amount depends on the system chosen. Subsidy is credited only for systems eligible under the scheme. Electricity savings depend on system size and usage.") }}
+      </p>
+    </div>
+  </div>
+</section>
+{% endif %}
 
 {# ======================================================================
    SOLUTIONS

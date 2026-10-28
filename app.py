@@ -105,6 +105,9 @@ def register_template_helpers(app):
             "subsidy": content.SUBSIDY,
             # Deadline notices disappear automatically once the scheme's end date passes.
             "subsidy_open": datetime.now().date() <= content.SUBSIDY["end_date"],
+            "offer": content.OFFER,
+            "offer_open": datetime.now().date() <= content.OFFER["end_date"],
+            "offer_subsidy": max(pkg["subsidy"] for pkg in content.PRICING),
         }
 
     app.jinja_env.filters["inr"] = inr

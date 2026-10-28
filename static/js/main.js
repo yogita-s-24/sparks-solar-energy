@@ -83,6 +83,32 @@
     if (first) window.setTimeout(() => first.focus({ preventScroll: true }), reduceMotion ? 0 : 700);
   });
 
+  /* ---- Diwali offer popup: shown once per browser session --------------- */
+  const offerPopup = document.querySelector("[data-offer-popup]");
+  if (offerPopup && typeof offerPopup.showModal === "function") {
+    let seen = false;
+    try {
+      seen = sessionStorage.getItem("offerSeen") === "1";
+    } catch (e) {
+      /* storage blocked: show it on this page only */
+    }
+    if (!seen && location.hash !== "#diwali-offer") {
+      window.setTimeout(() => {
+        if (document.querySelector("dialog[open]")) return;
+        offerPopup.showModal();
+        try {
+          sessionStorage.setItem("offerSeen", "1");
+        } catch (e) {
+          /* ignore */
+        }
+      }, 1500);
+    }
+    // Close on the X, a click outside the card, or any link inside it.
+    offerPopup.addEventListener("click", (e) => {
+      if (e.target === offerPopup || e.target.closest("[data-offer-close], a")) offerPopup.close();
+    });
+  }
+
   /* ---- Accordions (FAQ + benefits explorer) ---------------------------- */
   const setupAccordion = (itemSelector, openClass) => {
     const items = Array.from(document.querySelectorAll(itemSelector));

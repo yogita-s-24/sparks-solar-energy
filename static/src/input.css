@@ -827,6 +827,242 @@ html:lang(mr) .reveal-line {
 :where(.dark) .step-node { background-color: #1c6447; }
 :where(.dark) .team-avatar { border-color: #12261c; }
 
+/* ---------- Diwali offer: fireworks, lanterns, toran lights, diyas, rangoli ---------- */
+.firework {
+  position: absolute;
+  left: var(--x);
+  top: var(--y);
+  width: 0;
+  height: 0;
+  --c1: #ffd166;
+  --c2: #ff6b9a;
+}
+/* rocket trail shooting up to the burst point */
+.firework::after {
+  content: "";
+  position: absolute;
+  left: -1.5px;
+  top: 0;
+  width: 3px;
+  height: var(--trail, 26px);
+  border-radius: 9999px;
+  background: linear-gradient(to bottom, #fff4d6, rgba(255, 209, 102, 0));
+  opacity: 0;
+  animation: firework-rocket var(--t, 3.6s) ease-out infinite;
+  animation-delay: var(--d, 0s);
+}
+/* burst of sparks */
+.firework::before {
+  content: "";
+  position: absolute;
+  left: -2.5px;
+  top: -2.5px;
+  width: 5px;
+  height: 5px;
+  border-radius: 9999px;
+  background: #fff4d6;
+  opacity: 0;
+  box-shadow:
+    64px 0 0 2px var(--c1), 59.1px 24.5px 0 2px var(--c1), 45.3px 45.3px 0 2px var(--c1),
+    24.5px 59.1px 0 2px var(--c1), 0 64px 0 2px var(--c1), -24.5px 59.1px 0 2px var(--c1),
+    -45.3px 45.3px 0 2px var(--c1), -59.1px 24.5px 0 2px var(--c1), -64px 0 0 2px var(--c1),
+    -59.1px -24.5px 0 2px var(--c1), -45.3px -45.3px 0 2px var(--c1), -24.5px -59.1px 0 2px var(--c1),
+    0 -64px 0 2px var(--c1), 24.5px -59.1px 0 2px var(--c1), 45.3px -45.3px 0 2px var(--c1),
+    59.1px -24.5px 0 2px var(--c1),
+    36.3px 11.2px 0 1px var(--c2), 22.8px 30.4px 0 1px var(--c2), 0.5px 38px 0 1px var(--c2),
+    -21.9px 31.1px 0 1px var(--c2), -36px 12.3px 0 1px var(--c2), -36.3px -11.2px 0 1px var(--c2),
+    -22.8px -30.4px 0 1px var(--c2), -0.5px -38px 0 1px var(--c2), 21.9px -31.1px 0 1px var(--c2),
+    36px -12.3px 0 1px var(--c2);
+  filter: drop-shadow(0 0 6px var(--c1));
+  animation: firework-burst var(--t, 3.6s) ease-out infinite;
+  animation-delay: var(--d, 0s);
+}
+@keyframes firework-rocket {
+  0% { opacity: 0; transform: translateY(var(--rise, 260px)); }
+  5% { opacity: 1; }
+  28% { opacity: 1; transform: translateY(0); }
+  32%, 100% { opacity: 0; transform: translateY(0); }
+}
+@keyframes firework-burst {
+  0%, 28% { opacity: 0; transform: scale(0.05); }
+  32% { opacity: 1; transform: scale(0.25); }
+  60% { opacity: 1; }
+  85%, 100% { opacity: 0; transform: scale(var(--size, 1)) translateY(8px); }
+}
+
+/* hanging akash kandil */
+.kandil {
+  position: absolute;
+  top: 0;
+  transform-origin: 50% 0;
+  animation: kandil-swing 4.5s ease-in-out infinite alternate;
+  animation-delay: var(--d, 0s);
+  filter: drop-shadow(0 10px 24px rgba(255, 170, 60, 0.55));
+}
+@keyframes kandil-swing {
+  from { transform: rotate(-5deg); }
+  to { transform: rotate(5deg); }
+}
+.kandil-glow {
+  animation: diya-glow 2.2s ease-in-out infinite alternate;
+}
+
+/* toran string of lights */
+.toran-bulb {
+  position: absolute;
+  width: 9px;
+  height: 9px;
+  margin-left: -4.5px;
+  border-radius: 9999px;
+  background: var(--c);
+  box-shadow: 0 0 10px 2px var(--c);
+  animation: bulb-twinkle 1.6s ease-in-out infinite alternate;
+  animation-delay: var(--d, 0s);
+}
+@keyframes bulb-twinkle {
+  from { opacity: 0.35; transform: scale(0.8); }
+  to { opacity: 1; transform: scale(1.1); }
+}
+
+/* diya flame flicker */
+.diya-flame {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+  animation: diya-flicker 0.9s ease-in-out infinite alternate;
+  animation-delay: var(--d, 0s);
+}
+@keyframes diya-flicker {
+  0% { transform: scale(1, 1) rotate(-2deg); }
+  50% { transform: scale(0.92, 1.12) rotate(2deg); }
+  100% { transform: scale(1.04, 0.94) rotate(-1deg); }
+}
+.diya-halo {
+  animation: diya-glow 1.8s ease-in-out infinite alternate;
+  animation-delay: var(--d, 0s);
+}
+@keyframes diya-glow {
+  from { opacity: 0.45; }
+  to { opacity: 0.9; }
+}
+
+/* offer announcement strip above the navbar */
+.offer-strip {
+  height: 2.75rem;
+  max-height: 2.75rem;
+  background:
+    radial-gradient(ellipse 30% 140% at 50% 120%, rgba(255, 159, 67, 0.55), transparent 70%),
+    linear-gradient(90deg, #4a0e1a 0%, #8f1d1a 22%, #b3261a 50%, #8f1d1a 78%, #4a0e1a 100%);
+  transition: max-height 0.4s ease, opacity 0.3s ease;
+}
+/* gold hairlines on the top and bottom edges */
+.offer-strip::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  pointer-events: none;
+  background:
+    linear-gradient(90deg, transparent, #ffd166 20%, #fff4d6 50%, #ffd166 80%, transparent) top / 100% 1px no-repeat,
+    linear-gradient(90deg, transparent, #ffd166 20%, #fff4d6 50%, #ffd166 80%, transparent) bottom / 100% 2px no-repeat;
+}
+/* a band of golden light sweeping across */
+.offer-strip::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: linear-gradient(105deg, transparent 35%, rgba(255, 231, 168, 0.4) 50%, transparent 65%);
+  transform: translateX(-100%);
+  animation: strip-shine 5s ease-in-out infinite;
+}
+@keyframes strip-shine {
+  0% { transform: translateX(-100%); }
+  55%, 100% { transform: translateX(100%); }
+}
+.site-nav.is-scrolled .offer-strip {
+  max-height: 0;
+  opacity: 0;
+}
+.offer-strip-badge {
+  background: linear-gradient(90deg, #ffe7a8, #ffd166 55%, #ffb347);
+  clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 50%, calc(100% - 14px) 100%, 0 100%);
+  box-shadow: inset 0 -2px 0 rgba(90, 15, 28, 0.25);
+}
+/* fade the scrolling text in and out at the edges */
+.offer-strip-track {
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 4%, #000 96%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 4%, #000 96%, transparent);
+}
+.offer-strip-title {
+  background: linear-gradient(90deg, #fff4d6, #ffd166, #ff9f43, #ffd166, #fff4d6);
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  font-size: 1rem;
+  font-weight: 800;
+  animation: title-shimmer 3s linear infinite;
+}
+@keyframes title-shimmer {
+  to { background-position: -200% 0; }
+}
+.offer-strip-cta {
+  background: linear-gradient(90deg, #ffe7a8, #ffd166, #ffb347);
+  animation: cta-glow 1.4s ease-in-out infinite alternate;
+}
+@keyframes cta-glow {
+  from { box-shadow: 0 0 0 0 rgba(255, 209, 102, 0.6); }
+  to { box-shadow: 0 0 14px 3px rgba(255, 209, 102, 0.85); }
+}
+.offer-marquee {
+  animation: marquee 40s linear infinite;
+}
+.offer-strip:hover .offer-marquee {
+  animation-play-state: paused;
+}
+
+/* fireworks scaled down to fit inside the strip */
+.firework-mini {
+  --rise: 26px;
+  --trail: 12px;
+}
+.firework-mini::after {
+  width: 2px;
+  left: -1px;
+}
+
+/* offer popup */
+.offer-popup {
+  width: min(32rem, calc(100% - 2rem));
+  max-height: calc(100dvh - 2rem);
+  margin: auto;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  overflow: auto;
+}
+.offer-popup::backdrop {
+  background: rgba(12, 6, 14, 0.7);
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
+}
+.offer-popup[open] {
+  animation: offer-pop 0.5s cubic-bezier(0.19, 0.8, 0.22, 1);
+}
+@keyframes offer-pop {
+  from { opacity: 0; transform: translateY(24px) scale(0.94); }
+}
+
+/* rangoli slowly turning behind the offer amounts */
+.rangoli-spin {
+  animation: rangoli-spin 60s linear infinite;
+}
+@keyframes rangoli-spin {
+  to { transform: rotate(360deg); }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;

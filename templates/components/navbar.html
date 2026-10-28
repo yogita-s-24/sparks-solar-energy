@@ -1,4 +1,4 @@
-{% from "components/macros.html" import icon, brand %}
+{% from "components/macros.html" import icon, brand, firework, diya %}
 {% set nav_items = [
   (_("Home"), url_for("index"), "index"),
   (_("About Us"), url_for("about"), "about"),
@@ -16,6 +16,55 @@
 </div>
 {%- endmacro %}
 <header id="site-nav" class="site-nav fixed inset-x-0 top-0 z-50">
+  {% if offer_open %}
+  {# Diwali offer announcement; collapses once the page is scrolled #}
+  <a href="{{ url_for('index') }}#diwali-offer" class="offer-strip relative isolate flex items-stretch overflow-hidden text-white">
+    {# small fireworks bursting behind the scrolling text #}
+    <span class="pointer-events-none absolute inset-0 -z-10" aria-hidden="true">
+      {% for x, c1, c2, t, d, extra in [
+        ("4%", "#ffd166", "#ff6b9a", 2.6, 0, ""),
+        ("17%", "#6bd3ff", "#fff4d6", 3.1, 1.2, ""),
+        ("31%", "#ff6b9a", "#ffd166", 2.8, 0.5, "hidden sm:block"),
+        ("45%", "#7fd26b", "#ffd166", 3.3, 1.8, ""),
+        ("58%", "#ff9f43", "#6bd3ff", 2.7, 0.9, "hidden sm:block"),
+        ("72%", "#fff4d6", "#ff6b9a", 3.0, 2.2, ""),
+        ("85%", "#ffd166", "#7fd26b", 2.9, 0.3, "hidden md:block"),
+        ("96%", "#6bd3ff", "#ff9f43", 3.2, 1.5, ""),
+      ] %}
+      {{ firework(x, "55%", c1, c2, t, d, 0.5, "firework-mini " ~ extra) }}
+      {% endfor %}
+    </span>
+    <span class="sr-only">{{ _(offer.title) }}: {{ _("Up to ₹{amount} off", amount=offer.discount | inr) }}. {{ _("View offer") }}</span>
+
+    {# fixed greeting badge #}
+    <span class="offer-strip-badge relative z-10 flex shrink-0 items-center gap-1.5 pl-3 pr-6 font-display text-sm font-extrabold text-[#5A0F1C] sm:pl-5" aria-hidden="true">
+      {{ diya("h-7 w-7 -mt-1") }}<span class="hidden sm:inline">{{ _("Happy Diwali") }}</span>
+    </span>
+
+    {# scrolling offer details #}
+    <span class="offer-strip-track relative min-w-0 flex-1 overflow-hidden" aria-hidden="true">
+      <span class="offer-marquee flex h-full w-max items-center font-display text-sm font-bold">
+        {% for _copy in range(4) %}
+        <span class="flex items-center gap-4 whitespace-nowrap pr-4">
+          <span class="offer-strip-title">{{ _(offer.title) }}</span>
+          {{ diya("h-6 w-6 -mt-1", 0.3) }}
+          <span>{{ _("Up to ₹{amount} off", amount=offer.discount | inr) }}</span>
+          {{ diya("h-6 w-6 -mt-1", 0.6) }}
+          <span>{{ _("₹{amount} government subsidy", amount=offer_subsidy | inr) }}</span>
+          {{ diya("h-6 w-6 -mt-1", 0.9) }}
+          <span>{{ _("Easy EMI") }} · {{ _("Loan facility") }} · {{ _("25-year warranty") }}</span>
+          {{ diya("h-6 w-6 -mt-1", 1.2) }}
+        </span>
+        {% endfor %}
+      </span>
+    </span>
+
+    {# fixed call to action #}
+    <span class="relative z-10 flex shrink-0 items-center pl-2 pr-2 sm:pr-4" aria-hidden="true">
+      <span class="offer-strip-cta inline-flex items-center gap-1 rounded-full px-3 py-1 font-display text-xs font-extrabold text-[#5A0F1C] sm:px-4 sm:text-sm">{{ _("View offer") }} {{ icon("arrow-right", "h-3.5 w-3.5") }}</span>
+    </span>
+  </a>
+  {% endif %}
   <nav class="nav-bar container-site flex h-[4.5rem] items-center justify-between gap-4 lg:h-20" aria-label="{{ _('Main navigation') }}">
     <a href="{{ url_for('index') }}" class="nav-drop relative -my-1 shrink-0" aria-label="{{ _('{name} home', name=business.name) }}">{{ brand() }}</a>
 

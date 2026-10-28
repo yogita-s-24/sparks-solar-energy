@@ -17,6 +17,66 @@
 </div>
 {%- endmacro %}
 
+{# ---- Diwali decorations (styles in input.css) ---- #}
+{# Gradients used by the lanterns and diyas; rendered once per page in base.html #}
+{% macro festive_paints() -%}
+<svg class="absolute h-0 w-0" aria-hidden="true" focusable="false">
+  <defs>
+    <radialGradient id="kandil-body" cx="50%" cy="45%" r="60%"><stop offset="0" stop-color="#fff1b8"/><stop offset="0.45" stop-color="#ff8a3d"/><stop offset="1" stop-color="#c2185b"/></radialGradient>
+    <radialGradient id="warm-halo"><stop offset="0" stop-color="#ffd166" stop-opacity="0.75"/><stop offset="1" stop-color="#ffd166" stop-opacity="0"/></radialGradient>
+    <linearGradient id="kandil-tail" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffd166"/><stop offset="1" stop-color="#ff6b9a" stop-opacity="0.2"/></linearGradient>
+    <linearGradient id="diya-flame" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff4d6"/><stop offset="0.5" stop-color="#ffd166"/><stop offset="1" stop-color="#ff6a00"/></linearGradient>
+    <linearGradient id="diya-bowl" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e2733a"/><stop offset="1" stop-color="#8a2e12"/></linearGradient>
+  </defs>
+</svg>
+{%- endmacro %}
+
+{# Toran: a string of twinkling lights sagging in `scallops` loops across the top of its container #}
+{% macro toran(scallops=4) -%}
+{% set per = 6 %}
+<div class="pointer-events-none absolute inset-x-0 top-0 h-10" aria-hidden="true">
+  <svg class="absolute inset-0 h-10 w-full" viewBox="0 0 {{ scallops * 100 }} 40" preserveAspectRatio="none">
+    <path d="M0 6{% for s in range(scallops) %} Q{{ s * 100 + 50 }} 62 {{ s * 100 + 100 }} 6{% endfor %}" fill="none" stroke="#ffd166" stroke-opacity="0.45" stroke-width="1.5" vector-effect="non-scaling-stroke"/>
+  </svg>
+  {% set bulb_colors = ["#ffd166", "#ff6b9a", "#7fd26b", "#6bd3ff", "#ff9f43"] %}
+  {% set last = scallops * per %}
+  {% for i in range(last + 1) %}
+  {% set t = (i % per) / per %}
+  <span class="toran-bulb" style="left: {{ (i / last * 100) | round(2) }}%; top: {{ (6 + 112 * t * (1 - t) - 4.5) | round(1) }}px; --c: {{ bulb_colors[i % 5] }}; --d: {{ (i % 4) * 0.4 }}s"></span>
+  {% endfor %}
+</div>
+{%- endmacro %}
+
+{# Hanging akash kandil (lantern) #}
+{% macro kandil(left, class="w-14", delay="0s") -%}
+<svg class="kandil pointer-events-none {{ class }}" style="left: {{ left }}; --d: {{ delay }}" viewBox="0 0 80 170" aria-hidden="true">
+  <line x1="40" y1="0" x2="40" y2="34" stroke="#ffd166" stroke-opacity="0.7" stroke-width="1.5"/>
+  <circle class="kandil-glow" cx="40" cy="76" r="40" fill="url(#warm-halo)"/>
+  <path d="M22 96 L14 150 M31 108 L28 162 M40 118 V168 M49 108 L52 162 M58 96 L66 150" stroke="url(#kandil-tail)" stroke-width="3" stroke-linecap="round"/>
+  <path d="M40 34 L72 70 L40 118 L8 70 Z" fill="url(#kandil-body)" stroke="#ffd166" stroke-width="2" stroke-linejoin="round"/>
+  <path d="M8 70 H72 M40 34 V118" stroke="#ffd166" stroke-opacity="0.6" stroke-width="1.5"/>
+  <path d="M24 52 L40 70 L56 52 M24 88 L40 70 L56 88" stroke="#fff4d6" stroke-opacity="0.55" fill="none"/>
+  <rect x="33" y="30" width="14" height="6" rx="2" fill="#ffd166"/>
+</svg>
+{%- endmacro %}
+
+{# Diya (oil lamp) with a flickering flame #}
+{% macro diya(class="w-10", delay=0) -%}
+<svg class="{{ class }}" style="--d: {{ delay }}s" viewBox="0 0 60 56" aria-hidden="true">
+  <circle class="diya-halo" cx="30" cy="22" r="22" fill="url(#warm-halo)"/>
+  <path class="diya-flame" d="M30 6 C36 16 37 24 30 31 C23 24 24 16 30 6 Z" fill="url(#diya-flame)"/>
+  <ellipse cx="30" cy="26" rx="2.5" ry="4" fill="#fff4d6"/>
+  <path d="M5 33 Q30 29 55 33 Q51 52 30 52 Q9 52 5 33 Z" fill="url(#diya-bowl)"/>
+  <ellipse cx="30" cy="33" rx="25" ry="4" fill="#ffb347"/>
+  <circle cx="18" cy="42" r="1.6" fill="#ffd166"/><circle cx="30" cy="45" r="1.6" fill="#ffd166"/><circle cx="42" cy="42" r="1.6" fill="#ffd166"/>
+</svg>
+{%- endmacro %}
+
+{# Firework rocket and burst (फटाके) #}
+{% macro firework(x, y, c1, c2, t, d, size=1, class="") -%}
+<span class="firework {{ class }}" style="--x: {{ x }}; --y: {{ y }}; --c1: {{ c1 }}; --c2: {{ c2 }}; --t: {{ t }}s; --d: {{ d }}s; --size: {{ size }}"></span>
+{%- endmacro %}
+
 {# Link that pre-selects a property type in the nearest enquiry form #}
 {% macro enquire_link(type, text, class="") -%}
 <a href="{{ url_for('contact', type=type) }}#enquiry" data-enquire="{{ type }}" class="{{ class }}">{{ text }}</a>
