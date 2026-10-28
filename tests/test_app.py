@@ -344,6 +344,24 @@ def test_subsidy_deadline_notice_hides_after_end_date(client, monkeypatch):
     assert "is still accepting applications" in html
 
 
+
+def test_diwali_offer_shows_until_end_date(client, monkeypatch):
+    from datetime import date
+    import content
+
+    monkeypatch.setitem(content.OFFER, "end_date", date(2999, 1, 1))
+    html = client.get("/").get_data(as_text=True)
+    assert 'id="diwali-offer"' in html and "Diwali Dhamaka Offer" in html and "15,000" in html
+    assert "offer-strip" in html and "data-offer-popup" in html
+    # the announcement strip shows on every page; the popup stays off the enquiry page
+    contact = client.get("/contact").get_data(as_text=True)
+    assert "offer-strip" in contact and "data-offer-popup" not in contact
+
+    monkeypatch.setitem(content.OFFER, "end_date", date(2000, 1, 1))
+    html = client.get("/").get_data(as_text=True)
+    assert "diwali-offer" not in html and "Diwali Dhamaka Offer" not in html
+    assert "offer-strip" not in html and "data-offer-popup" not in html
+
 # --------------------------------------------------------------------------
 # English / Marathi
 # --------------------------------------------------------------------------

@@ -195,6 +195,21 @@ SUBSIDY = {
     ],
 }
 
+# Seasonal offer from the business's Diwali flyer. The offer section and hero
+# badge disappear automatically once end_date passes.
+OFFER = {
+    "title": "Diwali Dhamaka Offer",
+    "discount": 15000,
+    "end_date": date(2026, 11, 30),
+    "features": [
+        {"icon": "lightbulb", "title": "Zero electricity bill"},
+        {"icon": "badge-indian-rupee", "title": "Government subsidy available"},
+        {"icon": "calculator", "title": "Easy EMI"},
+        {"icon": "landmark", "title": "Loan facility"},
+        {"icon": "shield-check", "title": "25-year warranty"},
+    ],
+}
+
 SUBSIDY_STEPS = [
     {"icon": "wallet", "title": "Pay at installation", "text": "You pay the package price plus the applicable government subsidy amount."},
     {"icon": "file-text", "title": "Subsidy is processed", "text": "The subsidy claim is processed under the government scheme for eligible systems."},
