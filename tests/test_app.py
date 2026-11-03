@@ -314,7 +314,7 @@ def test_solutions_page_shows_prices_and_components(client):
     html = client.get("/solutions").get_data(as_text=True)
     assert 'id="pricing"' in html
     text = re.sub(r"<[^>]+>", "", html)  # prices are wrapped in count-up spans
-    for price in ("₹1,02,000", "₹1,12,000", "₹2,30,000", "₹2,50,000", "₹50,000", "₹55,000"):
+    for price in ("₹1,02,000", "₹1,12,000", "₹2,30,000", "₹2,50,000", "₹40,000", "₹55,000"):
         assert price in text, price
     assert 'data-count="102000"' in html
     assert "+ ₹78,000 subsidy" in html and "All prices include GST and installation." in html
@@ -330,7 +330,7 @@ def test_solutions_page_shows_prices_and_components(client):
 def test_home_pricing_preview_shows_starting_prices(client):
     html = client.get("/").get_data(as_text=True)
     assert "Know the price before you begin." in html
-    assert "₹1,02,000" in html and "₹2,30,000" in html and "₹50,000" in html
+    assert "₹1,02,000" in html and "₹2,30,000" in html and "₹40,000" in html
     assert "/solutions#pricing" in html
 
 
