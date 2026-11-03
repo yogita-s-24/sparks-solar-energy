@@ -177,7 +177,7 @@ PRICING = [
         "summary": "For shops, offices and industries. Priced per kW of installed capacity.",
         "unit": "/kW",
         "subsidy": 0,
-        "tiers": [("Standard", 50000), ("Premium", 55000)],
+        "tiers": [("Standard", 40000), ("Premium", 55000)],
     },
 ]
 
@@ -264,7 +264,7 @@ FAQS = [
     },
     {
         "q": "How much does a solar system cost?",
-        "a": "Our 3 kW on-grid system is ₹1,02,000 (Standard) or ₹1,12,000 (Premium), and our 3 kW hybrid system is ₹2,30,000 (Standard) or ₹2,50,000 (Premium). For these 3 kW systems you also pay the ₹78,000 government subsidy amount at installation, which is credited back once approved for eligible households, so your final cost is the package price. Commercial systems are ₹50,000 (Standard) or ₹55,000 (Premium) per kW. All prices include GST and installation. We confirm your exact quotation after a site survey.",
+        "a": "Our 3 kW on-grid system is ₹1,02,000 (Standard) or ₹1,12,000 (Premium), and our 3 kW hybrid system is ₹2,30,000 (Standard) or ₹2,50,000 (Premium). For these 3 kW systems you also pay the ₹78,000 government subsidy amount at installation, which is credited back once approved for eligible households, so your final cost is the package price. Commercial systems are ₹40,000 (Standard) or ₹55,000 (Premium) per kW. All prices include GST and installation. We confirm your exact quotation after a site survey.",
         "links": [("See pricing and components", "/solutions#pricing")],
     },
     {
